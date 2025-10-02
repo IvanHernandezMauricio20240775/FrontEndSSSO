@@ -384,9 +384,12 @@
 .custom-register-btn:hover {
     background-color: #1a8b8c;
     border-color: #1a8b8c;
+}
 
-.extintor-image-cell{ width:160px; min-width:160px; text-align:center; }
-/* Imagen en tabla */
+.extintor-image-cell{ 
+  width:160px; min-width:160px; text-align:center; 
+}
+
 .extintor-image{
   width:140px; height:90px; object-fit:cover; object-position:center;
   border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,.08); display:inline-block;
@@ -397,7 +400,6 @@
   .extintor-image{ width:100px; height:70px; }
 }
 
-}
 /* Animación de entrada para el modal (fondo) */
 @keyframes fadeIn {
     from { opacity: 0; }
