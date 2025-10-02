@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="css/SideBar.css">
+    <link rel="stylesheet" href="css/MisSanciones.css">
+</head>
+
+<body>
+
+      <!-- SIDE BAR -->
+    <div class="sidebar">
+        <div class="nav flex-column">
+            <div style="display: flex; justify-content: center; align-items: center; margin: 20px;">
+                <span class="Image_Logo">
+
+                    <img src="img/WhatsApp_Image_2025-05-12_at_9.32.07_PM-removebg-preview.png" alt="Logo ">
+
+                </span>
+            </div>
+
+
+            <a href="index.html" class="nav-link ">
+                <span class="icon">
+                    <img src="img/Home-Icon.png" alt="">
+                </span>
+                <span class="description">
+                    Inicio
+                </span>
+            </a>
+
+            <a href="Report.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/Report-Icon.png" alt="">
+                </span>
+                <span class="description">
+                    Reportes
+                </span>
+            </a>
+
+            <a href="Accidentes.html" class="nav-link ">
+                <span class="icon">
+                    <img src="img/accidentes-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Accidentes
+                </span>
+            </a>
+
+            <a href="Capacitaciones.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/Capacitaciones.png" alt="">
+                </span>
+                <span class="description">
+                    Capacitaciones
+                </span>
+            </a>
+
+            <a href="Simulacrum.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/simulacros-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Simulacros
+                </span>
+            </a>
+
+            <a href="Inspection.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/inspecciones-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Inspecciones
+                </span>
+            </a>
+
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#Implements" aria-expanded="false"
+                aria-controls="Implements">
+                <!--Seccion-->
+                <span class="icon">
+                    <img src="img/Implementos-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Implementos
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+                <!--Apartados-->
+                <div class="Implements collapse" id="Implements">
+                    <a href="Extintores.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/extintor.png" alt="">
+                        </span>
+                        <span class="description">
+                            Extintores
+                        </span>
+                    </a>
+
+                    <a href="SmokeDetector.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Detector de Humo.png" alt="">
+                        </span>
+                        <span class="description">
+                            Detector <br>
+                            de Humo
+                        </span>
+                    </a>
+
+                    <a href="EmergencyAlarm.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Alarma de Emergencia.png" alt="">
+                        </span>
+                        <span class="description">
+                            Alarmas de
+                            <br> Emergencia
+                        </span>
+                    </a>
+                </div>
+            </a>
+
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#Maintenance" aria-expanded="false"
+                aria-controls="Maintenance">
+
+                <span class="icon">
+                    <img src="img/Manteniminetos-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Mantenimiento
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+
+                <div class="Maintenance collapse" id="Maintenance">
+
+                    <a href="GeneralMaintenance.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Mantenimientos generales.png" alt="">
+                        </span>
+                        <span class="description">
+                            General
+                        </span>
+                    </a>
+
+                    <a href="#" class="nav-link">
+                        <span class="icon">
+                            <img src="img/extintor.png" alt="">
+                        </span>
+                        <span class="description">
+                            Extintores
+                        </span>
+                    </a>
+
+                    <a href="#" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Detector de Humo.png" alt="">
+                        </span>
+                        <span class="description">
+                            Detector <br>
+                            de Humo
+                        </span>
+                    </a>
+
+                </div>
+            </a>
+
+
+
+            <!--SideBar con Dropdown-->
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#User" aria-expanded="false"
+                aria-controls="User">
+                <!--Seccion-->
+                <span class="icon">
+                    <img src="img/Personal-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Personal
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+                <!--Apartados-->
+                <div class="User collapse" id="User">
+                    <a href="Employee.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Empelados-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Empleados
+                        </span>
+                    </a>
+
+                    <a href="#" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Invitados-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Invitados
+                        </span>
+                    </a>
+                    <div class="lineDropDown">
+
+                    </div>
+                </div>
+            </a>
+
+
+            <!--SideBar con Dropdown-->
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#OperativeGroup"
+                aria-expanded="false" aria-controls="OperativeGroup">
+                <!--Seccion-->
+                <span class="icon">
+                    <img src="img/Personal-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Grupos <br> Operativos
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+                <!--Apartados-->
+                <div class="OperativeGroup collapse" id="OperativeGroup">
+                    <a href="Brigades.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/brigadas-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Brigadas
+                        </span>
+                    </a>
+
+                    <a href="ComiteSSO.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Comite SSO-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Comite SSO
+                        </span>
+                    </a>
+
+                    <div class="lineDropDown">
+
+                    </div>
+                </div>
+            </a>
+
+
+
+            <a href="Zone.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/zonas-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Zonas
+                </span>
+            </a>
+
+
+            <!--SideBar con Dropdown-->
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#Security" aria-expanded="false"
+                aria-controls="Security">
+                <!--Seccion-->
+                <span class="icon">
+                    <img src="img/MarcosDeSeguridad-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Marcos de <br> Seguridad
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+                <!--Apartados-->
+                <div class="Security collapse" id="Security">
+                    <a href="Protocol.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/protocolos-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Protocolos
+                        </span>
+                    </a>
+
+                    <a href="Lineamientos.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/protocolos-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Lineamientos
+                        </span>
+                    </a>
+                    <div class="lineDropDown">
+
+                    </div>
+                </div>
+            </a>
+
+
+
+            <a href="Departamentos.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/DepartamentosPersonal.png" alt="">
+                </span>
+                <span class="description">
+                    Departamentos
+                </span>
+            </a>
+
+            <a href="CorrectiveActionController.html" class="nav-link ">
+                <span class="icon">
+                    <img src="img/AccionesCorrectivas-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Acciones <br>
+                    Correctivas
+                </span>
+            </a>
+
+            <a href="PlanPreventivoAnual.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/AccionesCorrectivas-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Acciones <br>
+                    Preventivas
+                </span>
+            </a>
+
+
+        </div>
+    </div>
+
+    <div class="sidebar-overlay"></div>
+    
+
+
+    <main class="main-content animate__animated animate__fadeIn animate__delay-10ms">
+
+        
+        <section>
+            <div class="topbar">
+                <a href="index.html" style="text-decoration: none; color: black;"><h2>x</h2></a>
+                
+                <div class="toggle">
+                    
+                </div>
+
+                <div class="ActionsUser">
+
+                
+
+                    <div class="ObservationIcon">
+                        <a href="MisSanciones.html">
+                            <img src="img/Sanciones-icon.png" alt="SanconesIcono">
+                        </a>
+                    </div>
+                    <div class="notificationIcon">
+                        <a href="notification.html">
+                            <img src="img/Notificacionn-icon.png" alt="icono">
+                        </a>
+                    </div>
+
+
+                </div>
+                
+                <div class="user-info">
+                    <div class="name-details">
+                        <span class="first-name">IVÁN ELISEO</span>
+                        <span class="last-name">HERNÁNDEZ MAURICIO</span>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="user">
+                    <a href="perfil.html" style="text-decoration: none;"><img
+                            src="img/Captura de pantalla 2025-05-24 230248.png" alt=""></a>
+                </div>
+            </div>
+        </section>
+
+        <div class="container-sanciones">
+
+            <section id="Welcome">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-40">
+                        <h1 id="Titulo">Sanciones Asignadas</h1>
+                    </div>
+                </div>
+            </section>
+
+            <div class="container my-4">
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="buscador" placeholder="Buscar...">
+                </div>
+
+
+                <div class="container my-5">
+
+                    <div class="accordion accordion-flush" id="accordionSanciones">
+
+                        <!-- Sanciones Graves -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingGrave">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseGrave" aria-expanded="false"
+                                    aria-controls="flush-collapseGrave">
+                                    <span class="badge-circle grave"></span>
+                                    <strong>Sanciones graves</strong>
+                                </button>
+                            </h2>
+
+                            <div id="flush-collapseGrave" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingGrave" data-bs-parent="#accordionSanciones">
+                                <div class="accordion-body">
+                                    <ul class="list-group">
+
+                                        <!-- Sanción 1 -->
+
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingGraveOne">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseGraveOne"
+                                                    aria-expanded="false" aria-controls="collapseGraveOne">
+                                                    <span class="badge-circle grave"></span> <strong>No cumplir normas
+                                                        sobre
+                                                        el uso obligatorio de EPI en tareas de riesgo
+                                                        medio-alto.</strong>
+                                                </button>
+                                            </h2>
+                                            <div id="collapseGraveOne" class="accordion-collapse collapse"
+                                                aria-labelledby="headingGraveOne"
+                                                data-bs-parent="#accordionGraveSanciones">
+                                                <div class="accordion-body">
+                                                    <div class="row text-center">
+                                                        <div class="col-md-4 mb-3">
+                                                            <div class="detalle-box">
+                                                                <div><i
+                                                                        class="bi bi-calendar-event detalle-icono"></i><strong>Asignado
+                                                                        el: </strong></div>
+                                                                <div>miércoles 4 de junio del 2025 a las 11:20 AM</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 mb-3">
+                                                            <div class="detalle-box">
+                                                                <div><i class="bi bi-person detalle-icono"></i><strong>Asignado
+                                                                        por: </strong></div>
+                                                                <div>Fernando Josué Acosta</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 mb-3">
+                                                            <div class="detalle-box">
+                                                                <div><i class="bi bi-geo-alt detalle-icono"></i><strong>Ubicación:
+                                                                    </strong>
+                                                                </div>
+                                                                <div>Laboratorios</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <h6 class="mt-3">Observación: </h6>
+                                                    <div class="observacion">
+                                                        Se observo que en el laboratorio de ECA no se cumplen las normas
+                                                        sobre el uso de EPI en tareas de alto-medio riesgo en el área de
+                                                        trabajo, favor cumplir con las normas establecidas para evitar
+                                                        posibles accidentes.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Sanción 2 -->
+
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingGraveTwo">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseGraveTwo"
+                                                    aria-expanded="false" aria-controls="collapseGraveTwo">
+                                                    <span class="badge-circle grave"></span> <strong>No acatar las
+                                                        indicaciones cuando sucede un sismo.</strong>
+                                                </button>
+                                            </h2>
+                                            <div id="collapseGraveTwo" class="accordion-collapse collapse"
+                                                aria-labelledby="headingGraveTwo"
+                                                data-bs-parent="#accordionGraveTwoSanciones">
+                                                <div class="accordion-body">
+                                                    <div class="row text-center">
+                                                        <div class="col-md-4 mb-3">
+                                                            <div class="detalle-box">
+                                                                <div><i
+                                                                        class="bi bi-calendar-event detalle-icono"></i><strong>Asignado
+                                                                        el: </strong></div>
+                                                                <div>miércoles 30 de junio del 2025 a las 1:20 PM</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 mb-3">
+                                                            <div class="detalle-box">
+                                                                <div><i class="bi bi-person detalle-icono"></i><strong>Asignado
+                                                                        por: </strong></div>
+                                                                <div>Fernando Josué Acosta</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 mb-3">
+                                                            <div class="detalle-box">
+                                                                <div><i class="bi bi-geo-alt detalle-icono"></i><strong>Ubicación:
+                                                                    </strong>
+                                                                </div>
+                                                                <div>Aulas</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <h6 class="mt-3">Observación: </h6>
+                                                    <div class="observacion">
+                                                        Se observo que no se salió de su área de trabajo cuando sucedió
+                                                        un
+                                                        sismo, por favor hacer caso a las medidas de seguridad
+                                                        aprendidas en
+                                                        las capacitaciones del trabajo.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sanciones Leves -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingLeves">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseLeves" aria-expanded="false"
+                                    aria-controls="flush-collapseLeves">
+                                    <span class="badge-circle leve"></span>
+                                    <strong>Sanciones leves</strong>
+                                </button>
+                            </h2>
+
+                            <div id="flush-collapseLeves" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingLeves" data-bs-parent="#accordionSanciones">
+                                <div class="accordion-body">
+                                    <ul class="list-group">
+
+                                        <!-- Sanción 1 -->
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingLeveOne">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseLeveOne"
+                                                    aria-expanded="false" aria-controls="collapseLeveOne">
+                                                    <span class="badge-circle leve"></span> <strong>Falta de
+                                                        señalización
+                                                        adecuada en zonas de bajo riesgo.</strong>
+                                                </button>
+                                            </h2>
+                                            <div id="collapseLeveOne" class="accordion-collapse collapse"
+                                                aria-labelledby="headingLeveOne"
+                                                data-bs-parent="#accordionLeveOneSanciones">
+                                                <div class="accordion-body">
+                                                    <div class="row text-center">
+                                                        <div class="col-md-4 mb-3">
+                                                            <div class="detalle-box">
+                                                                <div><i
+                                                                        class="bi bi-calendar-event detalle-icono"></i><strong>Asignado
+                                                                        el: </strong></div>
+                                                                <div>miércoles 16 de junio del 2025 a las 12:20 PM</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 mb-3">
+                                                            <div class="detalle-box">
+                                                                <div><i class="bi bi-person detalle-icono"></i><strong>Asignado
+                                                                        por: </strong></div>
+                                                                <div>Fernando Josué Acosta</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 mb-3">
+                                                            <div class="detalle-box">
+                                                                <div><i class="bi bi-geo-alt detalle-icono"></i><strong>Ubicación:
+                                                                    </strong>
+                                                                </div>
+                                                                <div>Laboratorios</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <h6 class="mt-3">Observación: </h6>
+                                                    <div class="observacion">
+                                                        Se observo que en el laboratorio de ECA no se tienen todas las
+                                                        señalizaciones correspondientes, favor colocar las
+                                                        señalizaciones
+                                                        faltantes.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Sanción 2 -->
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingLeveTwo">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseLeveTwo"
+                                                    aria-expanded="false" aria-controls="collapseLeveTwo">
+                                                    <span class="badge-circle leve"></span> <strong>No entregar al
+                                                        trabajador la información básica sobre riesgos
+                                                        laborales.</strong>
+                                                </button>
+                                            </h2>
+                                            <div id="collapseLeveTwo" class="accordion-collapse collapse"
+                                                aria-labelledby="headingLeveTwo"
+                                                data-bs-parent="#accordionLeveTwoSanciones">
+                                                <div class="accordion-body">
+                                                    <div class="row text-center">
+                                                        <div class="col-md-4 mb-3">
+                                                            <div class="detalle-box">
+                                                                <div><i
+                                                                        class="bi bi-calendar-event detalle-icono"></i><strong>Asignado
+                                                                        el: </strong></div>
+                                                                <div>miércoles 1 de junio del 2025 a las 2:30 AM</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 mb-3">
+                                                            <div class="detalle-box">
+                                                                <div><i class="bi bi-person detalle-icono"></i><strong>Asignado
+                                                                        por: </strong></div>
+                                                                <div>Fernando Josué Acosta</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 mb-3">
+                                                            <div class="detalle-box">
+                                                                <div><i class="bi bi-geo-alt detalle-icono"></i><strong>Ubicación:
+                                                                    </strong>
+                                                                </div>
+                                                                <div>Laboratorios</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <h6 class="mt-3">Observación: </h6>
+                                                    <div class="observacion">
+                                                        Se observo que no se entrego la información básica sobre los
+                                                        riesgos
+                                                        laborales que existen en el área de trabajo, favor informar
+                                                        sobre
+                                                        los riesgos en esa área de trabajo para evitar posibles
+                                                        accidentes.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

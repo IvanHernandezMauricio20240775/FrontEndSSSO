@@ -1,0 +1,133 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0; /*Elimina los margenes del navegador*/
+    padding: 0; /*Elimina el padding del navegador*/
+    background-color: #fff;
+    display: flex; /*Se activa flexbox*/
+    flex-direction: column; /*Esto organiza los elementos en columna*/
+    min-height: 100vh;
+}
+
+/*Codigo para la línea decorativa de abajo del título "Sección de Brigadas"*/
+.section-header{
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/*Línea abajo del texto*/
+.header-underline{
+    width: 300px;
+    height: 3px;
+    background-color: #115756;
+    margin: 0 auto;
+    border-radius: 2px;
+}
+
+/*Contenedor para el botón "Nueva Brigada"*/
+.new-brigade-button-container {
+    text-align: right;
+    padding: 40px;
+    margin-bottom: 10px;
+}
+
+/*Estilos para el botón de nueva brigada*/
+.new-brigade-button{
+    background-color: #209F84;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    font-size: 1em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+}
+
+.new-brigade-button .plus-icon{
+    font-size: 1em;
+    margin-right: 8px;
+}
+
+/*Fin*/
+
+/*Estilo de la tarjeta*/
+
+.brigade-card-custom{
+    background-color: #F0FFEF; /*Color de fondo de la tarjeta*/
+    border-radius: 20px; /*Bordes de la tarjeta*/
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /*Sombra suave de la tarjeta*/
+    padding-bottom: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /*Oculta cualquier contenido que se desborde de la tarjeta*/
+    height: 100%; /*Asegura que las tarjetas que estan  en la misma fila esten a la misma altura*/
+    border: 1px solid #32A090;
+}
+
+/*Contenedor de la parte superior de la imagen (donde esta la imagen)*/
+.card-image-wrapper{
+    position: relative; /*Sirve para posicionar la imagen*/
+    width: 100%;
+    height: 180px; /*Altura de la imagen*/
+    background-color: #32A090;
+    overflow: hidden;
+    border-radius: 5px 5px 0 0; 
+}
+
+/*Estilos para la imagen dentro del area superior de la imagen*/
+.card-image-wrapper img {
+    width: 100%; /*Ocupa todo el ancho*/
+    height: 100%; /*Ocupa todo el alto*/    
+    object-fit: cover; /*Esto ayuda a que la imagen no se distorsione*/
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.card-image-wrapper::after{
+    content: '';
+    position: absolute;
+    bottom: -80px; /*La profundidad de la curva*/
+    left: -10%;
+    width: 120%;
+    height: 120px; /*Sirve para la pronunciación de la curva*/
+    background-color: #ffffff;
+    border-radius: 50% 50% 0 0;
+    z-index: 1;
+} 
+
+.card.body-custom{
+    padding: 20px;
+}
+
+.card-body-custom h3{
+    color: black;
+}
+
+.card-body-custom p{
+    color: black;
+    font-size: 1em;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    padding: 0 15px;
+}
+
+.view-more-button-custom{
+    background-color: #C6F0E9; /*Color de fondo del botón*/
+    color: #263432; /*Color del texto*/
+    padding: 10px 25px;
+    border: 1px solid #115756;
+    border-radius: 25px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.view-more-button-custom:hover{
+    background-color: #209F84;
+    color: #fbfffec0;
+}

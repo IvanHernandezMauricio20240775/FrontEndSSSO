@@ -1,0 +1,201 @@
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+*{
+    font-family: 'Poppins', sans-serif;
+}
+.wrapper{
+    background: #ececec;
+    padding: 0 20px 0 20px;
+}
+.main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.side-image{
+    background: #20A2A0;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 10px 0 0 10px;
+    position: relative;
+}
+.row{
+  width:  900px;
+  height:550px;
+  border-radius: 10px;
+  background: #fff;
+  padding: 0px;
+  box-shadow: 5px 5px 10px 1px rgba(0,0,0,0.2);
+}
+.text{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.text p{
+    color: #fff;
+    font-size: 15px; 
+}
+.text h1{
+    color: #fff;
+    font-size: 40px; 
+}
+
+.right{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.input-box{
+  width: 330px;
+  box-sizing: border-box;
+}
+img{
+    width: 345px;
+    position: absolute;
+    top: 30px;
+    left: 30px;
+}
+.input-box header{
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 45px;
+}
+.input-field{
+    display: flex; /* Usar flexbox para una alineación más fácil */
+    align-items: center; /* Alinear elementos verticalmente al centro */
+    position: relative;
+    padding: 0 10px 0 10px;
+    margin-bottom: 20px; /* Agregar margen inferior aquí en lugar de en el input */
+}
+
+/* Estilo para los íconos */
+.input-field i {
+    position: absolute;
+    right: 10px;/* Posicionar el ícono a la izquierda */
+    color: #20A2A0; /* Color de ejemplo para el ícono */
+    font-size: 18px; /* Ajustar el tamaño del ícono según sea necesario */
+}
+
+.input{
+    height: 45px;
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(155, 239, 245, 0.2);
+    outline: none;
+    margin-bottom: 20px;
+    color: #40414a;
+}
+.input-box .input-field label{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    pointer-events: none;
+    transition: .5s;
+}
+.input-field input:focus ~ label
+   {
+    top: -10px;
+    font-size: 13px;
+    color: #20A2A0;
+  }
+  .input-field input:valid ~ label
+  {
+   top: -10px;
+   font-size: 13px;
+   color: #20A2A0;
+ }
+ .input-field .input:focus, .input-field .input:valid{
+    border-bottom: 1px solid #20A2A0;
+ }
+  
+ .btn a{
+    text-decoration: none;
+    color: white;
+ }
+ .btn a:hover{
+    text-decoration: none;
+    color: white;
+ }
+
+ .btn {
+    position: relative;
+    width: 100%;
+    height: 45px;
+    background: transparent;
+    border: 2px solid #20A2A0;
+    outline: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 600;
+    z-index: 1;
+    overflow: hidden;
+ }
+
+ .btn::before {
+   content: '';
+   position: absolute;
+   top: -100%;
+   left: 0;
+   width: 100%;
+   height: 300%;
+   background: linear-gradient(#1d2e39, #20A2A0, #1d2e39, #0ef);
+   z-index: -1;
+   transition: .5s;
+ }
+
+ .btn:hover::before {
+   top: 0;
+ }
+
+ .signin{
+    text-align: center;
+    font-size: small;
+    margin-top: 25px;
+}
+span a{
+    text-decoration: none;
+    font-weight: 700;
+    color: #20A2A0;
+    transition: .5s;
+}
+span a:hover{
+    text-decoration: underline;
+    color: #0E7F7D;
+}
+@media only screen and (max-width: 768px){
+    .side-image{
+        border-radius: 10px 10px 0 0;
+    }
+    img{
+        width: 120px;
+        position: absolute;
+        top: 20px;
+        left:37%;
+    }
+    .text{
+        position: absolute;
+        top: 70%;
+        text-align: center;
+        margin-top: 55px;
+    }
+    .text p, i{
+        font-size: 16px;
+    }
+     .text h1{
+        font-size: 17px;
+    }
+    .row{
+        max-width:420px;
+        width: 100%;
+    }
+}
+header{
+    color: rgba(60, 175, 169, 0.937);
+    font-size: 30px; 
+}

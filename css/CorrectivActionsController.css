@@ -1,0 +1,81 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+:root{
+  --brand-1:#169b87;
+  --brand-2:#138c79;
+  --stroke:#e5e7eb;
+  --ink:#222;
+}
+
+
+/* Board */
+.board{
+  display:grid;
+  gap:1.5rem;
+}
+.grid-4{ grid-template-columns: repeat(4,minmax(0,1fr)); }
+@media (max-width:1200px){ .grid-4{ grid-template-columns: repeat(2,1fr);} }
+@media (max-width:640px){ .grid-4{ grid-template-columns: 1fr; } }
+
+.kanban-col{
+  background:#fff; border:1px solid var(--stroke); border-radius:12px; padding:1rem;
+  box-shadow:0 2px 10px rgba(16,24,40,.04);
+}
+.kanban-title{
+  font-size:1.05rem; letter-spacing:.3px; margin:0 0 .75rem 0;
+  padding-bottom:.4rem; border-bottom:2px solid #eef1f3;
+}
+.kanban-list{ display:flex; gap:.75rem; flex-direction:column; min-height:80px; }
+
+/* Tarjeta plan */
+.card-plan{
+  border:1px solid #dfe3e8; border-radius:12px; background:#fff;
+  transition:transform .15s ease, box-shadow .15s ease; cursor:pointer;
+}
+.card-plan:hover{ transform:translateY(-2px); box-shadow:0 6px 18px rgba(16,24,40,.08); }
+.card-plan .left-bar{
+  width:6px; border-radius:12px 0 0 12px; background:#94a3b8;
+}
+.card-plan .content{ padding:.9rem 1rem; }
+.card-plan .title{ font-weight:700; }
+.card-plan .meta{ font-size:.86rem; color:#667085; }
+
+/* Colores por estado */
+.state-nuevo   .left-bar{ background:#179a8a; }
+.state-proceso .left-bar{ background:#caa300; }
+.state-verif   .left-bar{ background:#8854d0; }
+.state-comp    .left-bar{ background:#16a34a; }
+
+/* Chips de acciones */
+.chips{ display:flex; flex-wrap:wrap; gap:.5rem; }
+.chip{
+  display:inline-flex; align-items:center; gap:.4rem;
+  padding:.4rem .6rem; border-radius:999px; border:1px solid var(--stroke); background:#fff;
+  font-size:.9rem;
+}
+.chip .remove{ cursor:pointer; }
+.dept-grid{
+  display:grid; gap:.75rem; grid-template-columns: repeat(5, minmax(0,1fr));
+}
+@media (max-width:992px){ .dept-grid{ grid-template-columns: repeat(3, 1fr);} }
+@media (max-width:576px){ .dept-grid{ grid-template-columns: repeat(2, 1fr);} }
+
+.dept-card{
+  border:1px solid var(--stroke); border-radius:12px; padding:1rem; text-align:center; cursor:pointer;
+}
+.dept-card.active{ outline:3px solid var(--brand-1); border-color:var(--brand-2); }
+
+.form-check-description{
+  margin-left: 2.05rem; /* alinea bajo el checkbox */
+}
+
+/* listados dentro de modales */
+.list-actions{ display:flex; flex-direction:column; gap:.75rem; }
+.action-item{
+  border:1px solid #e9ecef; border-radius:10px; padding:.75rem .9rem; background:#fff;
+}

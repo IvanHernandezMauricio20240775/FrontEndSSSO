@@ -1,0 +1,591 @@
+#Titulo {
+    text-align: start;
+    /* Alinea el texto del título al inicio (izquierda) */
+    /* Si quieres que el título esté centrado, usarías text-align: center; */
+    margin-bottom: 8px;
+    /* Espacio entre el título y el contenido de abajo */
+    color: #333;
+    /* Color del texto del título (gris oscuro) */
+
+    /* ----- Esto es lo que añade la línea debajo del título ----- */
+    border-bottom: 1.5px solid #ccc;
+    /* 1.5px de grosor, estilo sólido, color gris claro */
+    padding-bottom: 10px;
+    /* Espacio entre el texto del título y la línea */
+    display: inline-block;
+    /* Permite que la línea se ajuste al ancho del texto */
+    width: 40%;
+    /* La línea ocupará el 40% del ancho de su contenedor padre */
+}
+
+/* Estilos para los enlaces dentro de elementos con el ID 'button-card' */
+#button-card a {
+    text-decoration: none;
+    /* Elimina el subrayado predeterminado de los enlaces */
+    color: black;
+    /* Establece el color del texto del enlace en negro */
+}
+
+/* Estilos para el contenedor de las tarjetas del Dashboard */
+#Card-Dashboard {
+    margin-top: 40px;
+    /* Margen superior para separar del contenido de arriba */
+    flex-direction: row;
+    /* Organiza los elementos internos en una fila (usando flexbox) */
+    justify-content: center;
+    /* Centra los elementos horizontalmente dentro del contenedor */
+    align-items: center;
+    /* Centra los elementos verticalmente dentro del contenedor */
+    margin-right: 20px;
+    /* Margen a la derecha */
+}
+
+/* Colores para las tarjetas KPI (Key Performance Indicator) */
+.green-light {
+    background-color: rgb(91, 177, 157)
+}
+
+/* Verde claro */
+.green-medium {
+    background-color: rgb(126, 206, 189)
+}
+
+/* Verde medio */
+.green-light-alt {
+    background-color: rgba(32, 162, 160, 1)
+}
+
+/* Verde claro alternativo */
+.red-light {
+    background-color: rgba(14, 127, 125, 0.7)
+}
+
+/* Rojo claro (curiosamente, es un tono verdoso/azulado con transparencia) */
+
+/* Contenedor para gráficos (Chart.js) */
+.chart-container {
+    position: relative;
+    /* Importante para que Chart.js calcule bien el tamaño */
+    width: 80%;
+    /* Ocupa el 80% del ancho de su padre (ej. 'card-body') */
+    max-width: 700px;
+    /* No más de 700px de ancho */
+    height: 350px;
+    /* Altura fija de 350px */
+    margin: auto;
+    /* Centra el contenedor si su ancho es menor al 100% */
+    /* border: 1px solid #ddd;  Para ver el límite del contenedor mientras desarrollas */
+}
+
+/* Estilos para los íconos dentro de tarjetas */
+.card .icon {
+    width: 100px;
+    /* Ancho del icono */
+    height: 100px;
+    /* Altura del icono */
+    border-radius: 50%;
+    /* Hace que el icono sea circular */
+    object-fit: cover;
+    /* Asegura que la imagen cubra el área sin distorsionarse */
+}
+
+/* Centrado de la imagen dentro del icono */
+.icon .card-img {
+    display: flex;
+    /* Utiliza flexbox para el centrado */
+    justify-content: center;
+    /* Centra horizontalmente */
+    align-items: center;
+    /* Centra verticalmente */
+}
+
+/* Estilos generales para el calendario */
+.calendar {
+    width: 18rem;
+    /* Ancho del calendario (igual que otras tarjetas) */
+    height: 22rem;
+    /* Altura del calendario (igual que otras tarjetas) */
+    background: #ffffff;
+    /* Fondo blanco */
+    margin: 0 auto;
+    /* Centra el calendario horizontalmente */
+    padding: 0.75rem;
+    /* Espaciado interno moderado */
+    border-radius: 12px;
+    /* Bordes redondeados */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    /* Sombra suave */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Fuente del texto */
+    display: flex;
+    /* Utiliza flexbox */
+    flex-direction: column;
+    /* Organiza los elementos internos en una columna */
+    box-sizing: border-box;
+    /* Muy importante para que el padding no aumente el tamaño */
+    overflow: hidden;
+    /* Previene que algo se desborde visualmente */
+}
+
+/* Cuerpo del calendario, permite desplazamiento si el contenido es demasiado largo */
+#calendarBody {
+    flex: 1;
+    /* Permite que este elemento crezca y ocupe el espacio disponible */
+    overflow: auto;
+    /* Agrega barras de desplazamiento si el contenido es mayor que el contenedor */
+    scrollbar-width: none;
+    /* Oculta la barra de desplazamiento en Firefox */
+    -ms-overflow-style: none;
+    /* Oculta la barra de desplazamiento en Internet Explorer/Edge */
+}
+
+/* Animación de entrada para el contenedor del calendario */
+.calendar-container {
+    animation: fadeInUp 0.8s ease;
+    /* Aplica la animación 'fadeInUp' */
+}
+
+#incidentesPeligroChart {
+    width: 100%;
+    height: 100%;
+    /* Llenará el chart-container */
+}
+
+/* Definición de la animación 'fadeInUp' */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        /* Empieza transparente */
+        transform: translateY(30px);
+        /* Empieza 30px abajo */
+    }
+
+    to {
+        opacity: 1;
+        /* Termina completamente visible */
+        transform: translateY(0);
+        /* Termina en su posición original */
+    }
+}
+
+/* (Duplicado, pero mantiene la funcionalidad de desplazamiento para el cuerpo del calendario) */
+#calendarBody {
+    flex: 1;
+    overflow-y: auto;
+    /* Desplazamiento vertical si la tabla se pasa */
+}
+
+/* Encabezado del calendario (Mes y botones de navegación) */
+.calendar-header {
+    display: flex;
+    /* Utiliza flexbox para organizar los elementos */
+    justify-content: center;
+    /* Centra horizontalmente */
+    align-items: center;
+    /* Centra verticalmente */
+    background-color: #B2DFDB;
+    /* Color de fondo del encabezado */
+    border-top-left-radius: 10px;
+    /* Bordes superiores redondeados */
+    border-top-right-radius: 10px;
+    /* Bordes superiores redondeados */
+    padding: 12px 15px;
+    /* Espaciado interno */
+    margin-bottom: 10px;
+    /* Espacio debajo del encabezado */
+}
+
+/* Botones de navegación (anterior/siguiente mes) en el encabezado del calendario */
+.calendar-header button {
+    background: #007bff;
+    /* Color de fondo del botón (azul) */
+    display: flex;
+    /* Utiliza flexbox para centrar el icono/texto dentro del botón */
+    align-items: center;
+    /* Centra verticalmente */
+    justify-content: center;
+    /* Centra horizontalmente */
+    border: none;
+    /* Sin borde */
+    padding: 10px;
+    /* Espaciado interno */
+    width: 40px;
+    /* Ancho del botón */
+    height: 40px;
+    /* Altura del botón (para hacerlo circular con border-radius: 50%) */
+    border-radius: 50%;
+    /* Hace el botón circular */
+    cursor: pointer;
+    /* Cambia el cursor a una mano al pasar por encima */
+    transition: 0.3s ease, transform 0.2s ease;
+    /* Transición suave para cambios de color y escala */
+    color: #fff;
+    /* Color del icono/texto del botón (blanco) */
+}
+
+/* Efecto hover para los botones del encabezado del calendario */
+.calendar-header button:hover {
+    background: #0056b3;
+    /* Cambia el color de fondo al pasar el ratón */
+    transform: scale(1.1);
+    /* Agranda ligeramente el botón al pasar el ratón */
+}
+
+/* Transición para los SVG dentro de los botones del encabezado */
+.calendar-header svg {
+    transition: transform 0.3s ease;
+    /* Transición suave para la escala del SVG */
+}
+
+/* Efecto hover para el SVG dentro de los botones del encabezado */
+.calendar-header button:hover svg {
+    transform: scale(1.2);
+    /* Agranda ligeramente el SVG al pasar el ratón por el botón */
+}
+
+/* Título del mes/año en el encabezado del calendario */
+.calendar-header h2 {
+    margin: 0;
+    /* Sin margen */
+    font-size: 20px;
+    /* Tamaño de fuente */
+    flex-grow: 1;
+    /* Permite que el título ocupe el espacio disponible */
+    text-align: center;
+    /* Centra el texto */
+    color: #004d40;
+    /* Color del texto (verde oscuro) */
+}
+
+/* Tabla del calendario (días de la semana y números de día) */
+table {
+    width: 100%;
+    /* Ocupa todo el ancho disponible */
+    border-collapse: collapse;
+    /* Elimina el espacio entre las celdas de la tabla */
+    text-align: center;
+    /* Centra el texto en las celdas */
+    font-size: 14px;
+    /* Tamaño de fuente */
+    color: #333;
+    /* Color del texto */
+}
+
+/* Celdas de encabezado (días de la semana) y celdas de datos (números de día) */
+th,
+td {
+    padding: 10px;
+    /* Espaciado interno */
+    width: 13.28%;
+    /* Ancho de cada celda (aproximadamente 1/7 para 7 días) */
+}
+
+/* Celdas de datos (números de día) */
+td {
+    cursor: pointer;
+    /* Cambia el cursor a una mano */
+    transition: 0.3s ease;
+    /* Transición suave para el efecto hover */
+}
+
+/* Efecto hover para las celdas de día */
+td:hover {
+    background-color: #e0f2f1;
+    /* Cambia el color de fondo al pasar el ratón */
+    border-radius: 50%;
+    /* Hace que la celda se redondee al pasar el ratón */
+    width: 15px;
+    /* Ancho al hacer hover (aunque el padding mantendrá el tamaño visible) */
+    height: 15px;
+    /* Altura al hacer hover */
+}
+
+/* (Duplicado de la regla th, td, pero con un width ligeramente diferente) */
+th,
+td {
+    width: 14.2%;
+    /* Ancho de cada celda (casi 1/7 para 7 días) */
+    padding: 10px;
+}
+
+/* Estilos para las celdas de encabezado (días de la semana) */
+th {
+    color: rgba(14, 127, 125, 1);
+    /* Color del texto (verde azulado) */
+    font-weight: normal;
+    /* Grosor de fuente normal */
+}
+
+/* Estilos para las celdas de datos (números de día) */
+td {
+    cursor: pointer;
+    /* Cambia el cursor a una mano */
+    transition: background 0.3s;
+    /* Transición suave para el cambio de fondo */
+}
+
+/* Efecto hover para las celdas de día */
+td:hover {
+    background: #eee;
+    /* Cambia el color de fondo a gris claro al pasar el ratón */
+}
+
+/* Estilo para el día actual */
+.today {
+    background: rgb(140, 140, 236);
+    /* Fondo azul claro */
+    color: white;
+    /* Texto blanco */
+    border-radius: 50%;
+    /* Hace la celda circular */
+}
+
+/* Estilo para días importantes */
+.important {
+    background: #f8d466;
+    /* Fondo amarillo */
+    color: black;
+    /* Texto negro */
+    border-radius: 50%;
+    /* Hace la celda circular */
+    width: 30px;
+    /* Ancho de la celda */
+    height: 30px;
+    /* Altura de la celda */
+}
+
+.kpi-card,
+.chart-card,
+.calendar-card,
+.table-card {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    height: 100%;
+    /* Asegura que las tarjetas tengan la misma altura dentro de su fila */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.kpi-card:hover,
+.chart-card:hover,
+.calendar-card:hover,
+.table-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.kpi-card .kpi-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #00897B;
+    /* Color principal */
+}
+
+.kpi-card .kpi-label {
+    font-size: 1rem;
+    color: #666;
+    margin-top: 5px;
+}
+
+.kpi-card.bg-green {
+    background-color: #D1F2EB;
+}
+
+/* Un verde más claro para fondo */
+.kpi-card.bg-orange {
+    background-color: #D5F5E3;
+}
+
+/* Naranja claro */
+.kpi-card.bg-blue {
+    background-color: #E8F8F5;
+}
+
+/* Azul claro */
+
+
+
+/* Media Queries para responsividad */
+@media (max-width: 575.98px) {
+    .main-content {
+        padding: 10px;
+    }
+
+    .topbar {
+        /* Aquí está el cambio clave: Usar flexbox y controlar el flujo */
+        display: flex;
+        /* Asegura que la topbar use flexbox */
+        flex-wrap: nowrap;
+        /* Intenta mantener los elementos en una sola línea */
+        justify-content: space-between;
+        /* Distribuye los elementos en los extremos */
+        align-items: center;
+        /* Centra los elementos verticalmente */
+        padding: 8px 10px;
+
+    }
+
+    /* Ocultar el nombre completo y el divisor para ahorrar espacio */
+    .topbar .user-info {
+        display: none;
+        /* Oculta el nombre completo en teléfonos pequeños */
+        /* order: 3; y width: 100%; ya no son necesarios si lo ocultamos */
+        margin-top: 0;
+        /* Asegurarse de que no haya margen extra */
+    }
+
+    .topbar .divider {
+        display: none;
+        /* Mantén este para ocultar el divisor */
+    }
+
+    /* Asegúrate de que los elementos de acción y el usuario estén en línea */
+    .topbar .ActionsUser,
+    .topbar .user {
+        display: flex;
+        /* Asegura que estos contenedores usen flexbox */
+        align-items: center;
+        /* Centra verticalmente los ítems dentro de ellos */
+        /* Puedes agregar un gap si necesitas espacio entre los íconos: gap: 5px; */
+    }
+
+    .topbar .ActionsUser {
+        order: 2;
+        margin-left: 80%;
+    }
+
+
+
+    .topbar .user img {
+        width: 35px;
+        /* Reduce el tamaño de la foto de perfil */
+        height: 35px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    /* Ajustar el tamaño de los iconos dentro de ActionsUser */
+    .topbar .ActionsUser img,
+    .topbar .ActionsUser svg {
+        width: 25px;
+        /* Reduce el tamaño de los iconos (AI, Sanciones, Notificaciones) */
+        height: 25px;
+        margin: 0 5px;
+        /* Pequeño margen entre iconos */
+    }
+
+    /* Ajuste para el botón AI para que no se vea tan grande */
+    .topbar .ActionsUser .elegant-ai-button {
+        padding: 5px 8px;
+        /* Reduce el padding del botón AI */
+        font-size: 0.8rem;
+        /* Reduce el tamaño del texto AI */
+    }
+
+
+    /* ... (resto de tus estilos para max-width: 575.98px) ... */
+
+    .chart-container {
+        height: 300px !important;
+    }
+}
+
+/* Dispositivos pequeños (teléfonos en horizontal, 576px y más) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .main-content {
+        padding: 15px;
+    }
+
+    .topbar {
+        display: flex;
+        justify-content: space-between;
+        /* Mantener los elementos separados */
+        align-items: center;
+        padding: 10px 15px;
+        flex-wrap: nowrap;
+        /* Evita que se envuelvan a menos que sea absolutamente necesario */
+    }
+
+    /* Puedes mostrar el nombre pero en una versión más corta si es necesario */
+    .topbar .user-info {
+        display: block;
+        /* Ocultamos el nombre en el tamaño más pequeño, aquí podemos decidir mostrarlo */
+        margin-right: 10px;
+        /* Ajusta el margen derecho */
+    }
+
+    .topbar .user-info .name-details .last-name {
+        display: none;
+        /* Ocultar el apellido para ahorrar espacio */
+    }
+
+    .topbar .user-info .name-details .first-name {
+        font-size: 0.9rem;
+        /* Reducir el tamaño de la fuente */
+    }
+
+    .topbar .user img {
+        width: 40px;
+        /* Ajusta el tamaño de la foto de perfil para esta resolución */
+        height: 40px;
+    }
+
+    .topbar .ActionsUser img,
+    .topbar .ActionsUser svg {
+        width: 30px;
+        /* Ajusta el tamaño de los iconos */
+        height: 30px;
+        margin: 0 8px;
+        /* Ajusta el margen */
+    }
+
+    /* ... (resto de tus estilos para 576px - 767.98px) ... */
+}
+
+/* Dispositivos medianos (tabletas, 768px y más) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .main-content {
+        padding: 20px;
+    }
+
+    .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        /* Aquí el user-info y user deberían verse bien, no es necesario ocultarlos */
+    }
+
+    .topbar .user-info {
+        display: block;
+        /* Asegúrate de que el user-info esté visible */
+    }
+
+    .topbar .user-info .name-details .last-name {
+        display: inline;
+        /* Mostrar el apellido de nuevo */
+    }
+
+    .topbar .user-info .name-details .first-name {
+        font-size: inherit;
+        /* Vuelve al tamaño de fuente predeterminado */
+    }
+
+    .col-md-6 {
+        width: 50%;
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
+    .cardinf {
+        width: 100%;
+    }
+
+    .chart-container {
+        height: 300px !important;
+    }
+}

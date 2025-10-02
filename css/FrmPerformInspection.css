@@ -1,0 +1,153 @@
+body{
+    font-family: Montserrat;
+}
+:root {
+    /* Colores base de tu diseño original */
+    --primary-teal: #36b0a0; /* El verde azulado principal de las líneas y botones */
+    --light-teal: #e0f2f0;   /* Un verde azulado muy claro para fondos sutiles */
+    --dark-gray-text: #333;  /* Texto principal */
+    --medium-gray-text: #666; /* Texto secundario */
+    --border-color: #ddd;    /* Color de borde general */
+    --white: #fff;
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-medium: rgba(0, 0, 0, 0.05); /* Sombra más suave para widgets */
+}
+
+.container {
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px var(--shadow-light);
+    padding: 30px;
+    max-width: 900px; /* Ancho máximo para el formulario */
+    width: 100%;
+    box-sizing: border-box;
+}
+.inspections-scroll-container {
+    max-height: 600px; /* Ajusta esta altura máxima según tus necesidades */
+    overflow-y: scroll; /* Habilita el scroll vertical */
+    padding-right: 15px; /* Espacio para que el contenido no quede pegado al borde derecho del scroll invisible */
+    box-sizing: border-box; /* Importante para que el padding no añada anchura extra */
+}
+
+/* Ocultar la barra de scroll para Webkit (Chrome, Safari, Edge) */
+.inspections-scroll-container::-webkit-scrollbar {
+    width: 0;
+    background: transparent; /* Oculta el fondo de la barra de scroll */
+}
+
+/* Ocultar la barra de scroll para Firefox */
+.inspections-scroll-container {
+    scrollbar-width: none; /* Oculta la barra de scroll */
+}
+
+/* ---------------------------------------------------- */
+
+
+.inspections-grid {
+    display: grid;
+    /* Ajusta el número de columnas según el tamaño de la pantalla */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px; /* Espacio entre los widgets */
+    /* Removimos el overflow de aquí, ahora lo maneja inspections-scroll-container */
+}
+
+.inspection-widget {
+    background-color: var(--white);
+    border: 1px solid var(--light-teal); /* Borde sutil del color de tu app */
+    border-radius: 10px;
+    overflow: hidden; /* Asegura que no se desborde el contenido */
+    box-shadow: 0 2px 8px var(--shadow-medium); /* Sombra más suave */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column; /* Para que header y body estén apilados */
+}
+
+.inspection-widget:hover {
+    transform: translateY(-5px); /* Pequeño efecto al pasar el ratón */
+    box-shadow: 0 6px 15px var(--shadow-light);
+}
+
+.widget-header {
+    background-color: var(--light-teal); /* Fondo suave para el encabezado del widget */
+    padding: 15px;
+    border-bottom: 1px solid var(--primary-teal); /* Línea más oscura debajo del encabezado */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centra el tipo de inspección */
+}
+
+.inspection-type {
+    font-weight: bold;
+    color: var(--dark-gray-text);
+    font-size: 1.1em;
+}
+
+/* Colores específicos para el icono/texto del tipo de inspección */
+.inspection-type.type-extintor {
+    color: #e44d26; /* Rojo/Naranja para extintor */
+}
+.inspection-type.type-detector {
+    color: #4CAF50; /* Verde para detector */
+}
+.inspection-type.type-espacio-laboral {
+    color: #2196F3; /* Azul para espacio laboral */
+}
+
+
+.widget-body {
+    padding: 20px;
+    flex-grow: 1; /* Permite que el cuerpo ocupe el espacio restante */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Empuja el botón hacia abajo */
+}
+
+.widget-body p {
+    margin: 8px 0;
+    color: var(--medium-gray-text);
+    font-size: 0.95em;
+}
+
+.widget-body p strong {
+    color: var(--dark-gray-text);
+}
+
+.start-inspection-btn {
+    background-color: var(--primary-teal);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    padding: 12px 20px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    width: 100%; /* Botón de ancho completo */
+    margin-top: 20px; /* Espacio superior para separar de los detalles */
+}
+
+.start-inspection-btn:hover {
+    background-color: #2a8e80; /* Un tono más oscuro de teal al pasar el ratón */
+    transform: translateY(-2px); /* Pequeño levantamiento al pasar el ratón */
+}
+
+.start-inspection-btn:active {
+    transform: translateY(0);
+    background-color: #1e6b60; /* Un tono aún más oscuro al hacer clic */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .inspections-grid {
+        grid-template-columns: 1fr; /* Una columna en pantallas pequeñas */
+    }
+    .container {
+        padding: 20px;
+    }
+    header h1 {
+        font-size: 1.8em;
+    }
+    h2 {
+        font-size: 1.3em;
+    }
+}

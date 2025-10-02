@@ -1,0 +1,124 @@
+/* Botón corporativo */
+.btn-brand {
+    background: #209F84;
+    color: #fff;
+    border-radius: 999px;
+    padding: .6rem 1.2rem;
+    border: 0
+}
+
+.btn-brand:hover {
+    background: #1a7e6b;
+    color: #fff
+}
+
+/* Campo pill */
+.search-pill {
+    border-radius: 999px
+}
+
+/* Preview grande del modal */
+.drop-preview.big {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #f3f4f6;
+    border: 2px dashed #ced4da;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden
+}
+
+.drop-preview.big img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover
+}
+
+/* Tarjeta ubicación */
+.location-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 16px;
+    padding: 12px;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .05);
+    transition: .2s
+}
+
+.location-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .08)
+}
+
+.location-thumb {
+    width: 100%;
+    aspect-ratio: 16/11;
+    border-radius: 12px;
+    object-fit: cover;
+    background: #f5f5f5
+}
+
+.location-title {
+    font-weight: 600;
+    margin: .5rem 0 0
+}
+
+/* Menú 3 puntos */
+.card-dots {
+    position: absolute;
+    top: 8px;
+    right: 8px
+}
+
+#openFormLocationBtn {
+    position: fixed;
+    right: calc(24px + env(safe-area-inset-right));
+    bottom: calc(24px + env(safe-area-inset-bottom));
+    width: 64px;
+    height: 64px;
+    border-radius: 999px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+    /* por encima del grid */
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .18), 0 6px 6px rgba(0, 0, 0, .12);
+    transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
+    /* oculta el texto "Nueva Ubicación" y deja solo el ícono */
+    font-size: 0;
+}
+
+#openFormLocationBtn i {
+    font-size: 1.5rem;
+    margin: 0;
+    /* quita el espacio del me-2 */
+}
+
+#openFormLocationBtn:hover {
+    background: #1a7e6b;
+    transform: translateY(-2px);
+}
+
+#openFormLocationBtn:active {
+    transform: translateY(0);
+}
+
+#openFormLocationBtn:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(32, 159, 132, .25), 0 10px 24px rgba(0, 0, 0, .18);
+}
+
+/* tamaño cómodo en móviles */
+@media (max-width: 576px) {
+    #openFormLocationBtn {
+        width: 56px;
+        height: 56px;
+    }
+
+    #openFormLocationBtn i {
+        font-size: 1.35rem;
+    }
+}

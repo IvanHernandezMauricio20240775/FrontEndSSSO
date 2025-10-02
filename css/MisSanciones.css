@@ -1,0 +1,59 @@
+  body {
+      background-color: #ffffff;
+    }
+
+    header {
+      background-color: #ff7043;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    .periodo {
+      background: #ffc4b3;
+      color: #d84315;
+      padding: 5px 15px;
+      border-radius: 15px;
+      font-size: 14px;
+      display: inline-block;
+      margin-top: 8px;
+    }
+
+    .badge-circle {
+      width: 10px;
+      height: 10px;
+      display: inline-block;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+
+    .grave {
+      background-color: red;
+    }
+
+    .leve {
+      background-color: orange;
+    }
+
+    .detalle-icono {
+      font-size: 1.3rem;
+      margin-right: 8px;
+      color: #4bb4ad;
+    }
+
+    .detalle-box {
+      background-color: #e3fde9;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .observacion {
+      font-size: 0.9rem;
+      color: #444;
+      background-color: #f1f1f1;
+      padding: 10px;
+      border-left: 4px solid #ccc;
+      border-radius: 4px;
+    }
+    

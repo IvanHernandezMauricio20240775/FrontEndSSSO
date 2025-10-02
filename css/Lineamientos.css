@@ -1,0 +1,241 @@
+#Titulo {
+  text-align: start;
+  /* Si quieres que el título esté centrado */
+  margin-bottom: 8px;
+  /* Espacio entre el título y el contenido de abajo */
+  color: #333;
+  /* Color del texto del título */
+
+  /* ----- Esto es lo que añade la línea ----- */
+  border-bottom: 1.5px solid #ccc;
+  /* 1px de grosor, estilo sólido, color gris claro */
+  padding-bottom: 10px;
+  /* Espacio entre el texto del título y la línea */
+  display: inline-block;
+  width: 40%;
+}
+
+.container-fluid {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Cards Area Section */
+#CardsArea {
+    margin-bottom: 2.5rem; /* Equivalent to Bootstrap's mb-4 or mb-5 */
+    margin-top: 2rem;
+}
+
+.cardsContainer {
+    /* No custom flex properties here, let Bootstrap's .row and .col handle grid layout */
+    /* If you're using .row g-x, you don't need a direct gap on cardsContainer */
+    /* This class might not even be strictly necessary if you're just using .row and .col directly */
+    display: flex; /* Keep flex for potential internal alignment if not using specific col classes */
+    flex-wrap: wrap; /* Allow cards to wrap */
+    justify-content: center; /* Center the cards if there aren't enough to fill a row */
+    /* If your .row has g-x, remove direct gap here */
+    /* gap: 1.25rem; */ /* Keep this if you're NOT using Bootstrap's g-x on the row */
+    padding: 0;
+}
+
+.card {
+    background-color: var(--color-white);
+    border-radius: 0.625rem; /* 10px */
+    box-shadow: 0 0.25rem 0.9375rem rgba(0, 0, 0, 0.1); /* 0 4px 15px */
+    padding: 1.5625rem; /* 25px */
+    /* Removed text-align: center; as flexbox will handle centering content */
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid var(--color-border);
+
+    /* --- Key changes for square cards and centering content --- */
+    aspect-ratio: 1 / 1; /* Makes the card square based on its width */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertically center content */
+    align-items: center; /* Horizontally center content */
+    text-align: center; /* Ensure text inside is also centered */
+    /* --------------------------------------------------------- */
+
+    /* No explicit width/flex-basis here, let Bootstrap's col classes on the parent handle it */
+}
+
+.card:hover {
+    transform: translateY(-0.5rem); /* -8px */
+    box-shadow: 0 0.5rem 1.5625rem rgba(0, 0, 0, 0.15); /* 0 8px 25px */
+    background-color: rgb(38, 192, 189);
+}
+
+.card:hover .cardName h3{
+    color: white;
+}
+
+.card.active {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.1875rem rgba(40, 167, 69, 0.3); /* 0 0 0 3px */
+    background-color: #e6ffe6; /* Light green background for active state */
+}
+
+.cardImageLogo {
+    margin-bottom: 0.9375rem; /* 15px */
+}
+
+.cardImageLogo img {
+    width: 3.75rem; /* 60px */
+    height: 3.75rem; /* 60px */
+    object-fit: contain;
+    /* This filter assumes your icons are dark and need to be tinted green */
+    filter: invert(40%) sepia(90%) saturate(600%) hue-rotate(90deg) brightness(90%) contrast(80%);
+}
+
+.card.active .cardImageLogo img {
+    /* This filter makes icons white when the card is active, assuming they were originally dark */
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+}
+
+.cardName h3 {
+    margin: 0;
+    color: #343a40;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.card.active .cardName h3 {
+    color: rgba(14, 127, 125, 0.7);
+}
+
+.lineamientos-display {
+    text-align: left;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 30px;
+    margin-top: 30px;
+    border: 1px solid #e0e0e0;
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.lineamientos-display h2 {
+    color: #007bff;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    font-weight: 500;
+    text-align: center;
+}
+
+.lineamientos-display h3 {
+    color: #0C8266;
+    border-bottom: 2px #20c997;
+    padding-bottom: 10px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    display: flex;
+    align-items: center;
+}
+
+.lineamientos-display h3 i {
+    margin-left: 10px;
+    color:#007bff;
+    font-size: 0.9em;
+}
+
+.lineamientos-display ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lineamientos-display ul li {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    font-size: 1.1em;
+    line-height: 1.5;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease-in-out;
+}
+
+.lineamientos-display ul li:hover {
+    transform: translateX(5px);
+}
+
+.lineamientos-display ul li i {
+    color: #0C8266;
+    font-size: 1.2em;
+    margin-top: 2px;
+}
+
+.specific-lineaments {
+    display: none; /* Oculto por defecto */
+}
+
+/* Actions Section - Modified for Bootstrap buttons */
+.Actions {
+    margin-top: 3rem; /* 50px */
+    margin-bottom: 3rem; /* 50px */
+    text-align: center; /* Center the row itself */
+}
+
+.ActionsContainer {
+    /* With Bootstrap's .row and .col, this class might become redundant for layout. */
+    /* It can be kept for specific styling if needed, but its display:flex might conflict if not managed carefully */
+    /* If you're using .row g-3 around the col-*, you likely don't need this to be a flex container. */
+    display: flex; /* Keep flex for now for consistency, but if layout breaks, remove or adjust */
+    flex-wrap: wrap; /* Allow wrapping */
+    justify-content: center; /* Center items within this container */
+    gap: 1.25rem; /* 20px spacing between buttons if .g-x is not on the row */
+    padding: 0;
+}
+
+.Actions .button {
+    
+    max-width: 350px; 
+    width: 100%; 
+}
+
+/* Specific styling for the buttons to match the image */
+.Actions .button button {
+    border: none;
+    border-radius: 0.5rem; /* 8px */
+    padding: 0.9375rem 1.875rem; /* 15px 30px */
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    width: 100%; /* Make button fill its container */
+    display: flex; /* Use flexbox to center icon and text */
+    align-items: center; /* Vertically align icon and text */
+    justify-content: center; /* Horizontally center icon and text */
+    gap: 0.5rem; /* Space between icon and text */
+}
+.Actions .button a{
+    text-decoration: none;
+}
+
+/* Override Bootstrap's btn-primary/btn-info if you want custom colors */
+.Actions .button button:first-of-type { /* Style for "Registrar Nuevo Lineamiento" */
+    background-color: #28a745;
+    box-shadow: 0 0.25rem 0.625rem rgba(40, 167, 69, 0.2); /* Green shadow */
+}
+
+.Actions .button button:first-of-type:hover {
+    background-color: #28a745;
+    transform: translateY(-0.1875rem);
+    box-shadow: 0 0.375rem 0.9375rem rgba(40, 167, 69, 0.3);
+}
+
+.Actions .button button:last-of-type { /* Style for "Gestionar Áreas" */
+    background-color: #3bb38f;
+    box-shadow: 0 0.25rem 0.625rem rgba(59, 179, 143, 0.2); /* Teal shadow */
+}
+
+.Actions .button button:last-of-type:hover {
+    background-color: #339e7c;
+    transform: translateY(-0.1875rem);
+    box-shadow: 0 0.375rem 0.9375rem rgba(59, 179, 143, 0.3);
+}

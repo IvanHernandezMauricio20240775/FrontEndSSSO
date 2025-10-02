@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mantenimientos Generales</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="css/SideBar.css">
+
+    <link rel="stylesheet" href="css/GeneralMaintenance.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- SIDE BAR -->
+    <div class="sidebar">
+        <div class="nav flex-column">
+            <div style="display: flex; justify-content: center; align-items: center; margin: 20px;">
+                <span class="Image_Logo">
+
+                    <img src="img/WhatsApp_Image_2025-05-12_at_9.32.07_PM-removebg-preview.png" alt="Logo ">
+
+                </span>
+            </div>
+
+
+            <a href="index.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/Home-Icon.png" alt="">
+                </span>
+                <span class="description">
+                    Inicio
+                </span>
+            </a>
+
+            <a href="Report.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/Report-Icon.png" alt="">
+                </span>
+                <span class="description">
+                    Reportes
+                </span>
+            </a>
+
+            <a href="Accidentes.html" class="nav-link ">
+                <span class="icon">
+                    <img src="img/accidentes-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Accidentes
+                </span>
+            </a>
+
+            <a href="Capacitaciones.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/Capacitaciones.png" alt="">
+                </span>
+                <span class="description">
+                    Capacitaciones
+                </span>
+            </a>
+
+            <a href="Simulacrum.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/simulacros-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Simulacros
+                </span>
+            </a>
+
+            <a href="Inspection.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/inspecciones-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Inspecciones
+                </span>
+            </a>
+
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#Implements" aria-expanded="false"
+                aria-controls="Implements">
+                <!--Seccion-->
+                <span class="icon">
+                    <img src="img/Implementos-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Implementos
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+                <!--Apartados-->
+                <div class="Implements collapse" id="Implements">
+                    <a href="Extintores.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/extintor.png" alt="">
+                        </span>
+                        <span class="description">
+                            Extintores
+                        </span>
+                    </a>
+
+                    <a href="SmokeDetector.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Detector de Humo.png" alt="">
+                        </span>
+                        <span class="description">
+                            Detector <br>
+                            de Humo
+                        </span>
+                    </a>
+
+                    <a href="EmergencyAlarm.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Alarma de Emergencia.png" alt="">
+                        </span>
+                        <span class="description">
+                            Alarmas de
+                            <br> Emergencia
+                        </span>
+                    </a>
+                </div>
+            </a>
+
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#Maintenance" aria-expanded="false"
+                aria-controls="Maintenance">
+
+                <span class="icon">
+                    <img src="img/Manteniminetos-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Mantenimiento
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+
+                <div class="Maintenance collapse" id="Maintenance">
+
+                    <a href="GeneralMaintenance.html" class="nav-link active">
+                        <span class="icon">
+                            <img src="img/Mantenimientos generales.png" alt="">
+                        </span>
+                        <span class="description">
+                            General
+                        </span>
+                    </a>
+
+
+
+                </div>
+            </a>
+
+
+
+            <!--SideBar con Dropdown-->
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#User" aria-expanded="false"
+                aria-controls="User">
+                <!--Seccion-->
+                <span class="icon">
+                    <img src="img/Personal-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Personal
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+                <!--Apartados-->
+                <div class="User collapse" id="User">
+                    <a href="Employee.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Empelados-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Empleados
+                        </span>
+                    </a>
+
+                    <a href="#" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Invitados-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Invitados
+                        </span>
+                    </a>
+                    <div class="lineDropDown">
+
+                    </div>
+                </div>
+            </a>
+
+
+            <!--SideBar con Dropdown-->
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#OperativeGroup"
+                aria-expanded="false" aria-controls="OperativeGroup">
+                <!--Seccion-->
+                <span class="icon">
+                    <img src="img/Personal-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Grupos <br> Operativos
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+                <!--Apartados-->
+                <div class="OperativeGroup collapse" id="OperativeGroup">
+                    <a href="Brigades.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/brigadas-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Brigadas
+                        </span>
+                    </a>
+
+                    <a href="ComiteSSO.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Comite SSO-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Comite SSO
+                        </span>
+                    </a>
+
+                    <div class="lineDropDown">
+
+                    </div>
+                </div>
+            </a>
+
+
+
+            <a href="Zone.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/zonas-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Zonas
+                </span>
+            </a>
+
+
+            <!--SideBar con Dropdown-->
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#Security" aria-expanded="false"
+                aria-controls="Security">
+                <!--Seccion-->
+                <span class="icon">
+                    <img src="img/MarcosDeSeguridad-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Marcos de <br> Seguridad
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+                <!--Apartados-->
+                <div class="Security collapse" id="Security">
+                    <a href="Protocol.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/protocolos-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Protocolos
+                        </span>
+                    </a>
+
+                    <a href="Lineamientos.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/protocolos-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Lineamientos
+                        </span>
+                    </a>
+                    <div class="lineDropDown">
+
+                    </div>
+                </div>
+            </a>
+
+
+
+            <a href="Departamentos.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/DepartamentosPersonal.png" alt="">
+                </span>
+                <span class="description">
+                    Departamentos
+                </span>
+            </a>
+
+            <a href="CorrectiveActionController.html" class="nav-link ">
+                <span class="icon">
+                    <img src="img/AccionesCorrectivas-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Acciones <br>
+                    Correctivas
+                </span>
+            </a>
+
+            <a href="PlanPreventivoAnual.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/AccionesCorrectivas-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Acciones <br>
+                    Preventivas
+                </span>
+            </a>
+
+
+        </div>
+    </div>
+
+    <div class="sidebar-overlay"></div>
+
+
+
+    <main class="main-content animate__animated animate__fadeIn animate__delay-10ms">
+
+        <section>
+            <div class="topbar d-flex justify-content-between align-items-center px-3 py-1 flex-wrap">
+
+                <div class="d-md-none">
+                    <button id="Button_Togle" class="btn p-0">
+                        <ion-icon name="menu-outline" style="font-size: 2.5rem;"></ion-icon>
+                    </button>
+                </div>
+
+                <!-- Sección derecha: iconos + nombre + foto -->
+                <div class="d-flex align-items-center gap-3 order-md-1 ms-auto">
+
+                    <!-- Iconos más cerca -->
+                    <a href="MisSanciones.html" class="text-dark">
+                        <img src="img/Sanciones-icon.png" alt="Sanciones" width="22">
+                    </a>
+                    <a href="notification.html" class="text-dark">
+                        <img src="img/Notificacionn-icon.png" alt="Notificación" width="22">
+                    </a>
+
+                    <div class="dropdown d-flex align-items-center gap-2">
+                        <div class="text-end d-none d-sm-block">
+                            <div class="fw-bold text-dark small">IVÁN ELISEO</div>
+                            <div class="text-muted small">HERNÁNDEZ MAURICIO</div>
+                        </div>
+                        <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="img/Captura de pantalla 2025-05-24 230248.png" alt="User" width="40" height="40"
+                                class="rounded-circle border border-success border-2">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end mt-2">
+                            <li><a class="dropdown-item" href="perfil.html"><i class="bi bi-person me-2"></i> Perfil</a>
+                            </li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i> Configuración</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right me-2"></i>
+                                    Cerrar sesión</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <div class="container">
+
+            <section id="Welcome">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3 id="Titulo">Manteniminetos Generales</h3>
+                    </div>
+                </div>
+            </section>
+
+            <section id="Statistics">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="accordion" id="AcordionStatics">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Mis Estadísticas
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse " aria-labelledby="headingOne"
+                                    data-bs-parent="#AcordionStatics">
+                                    <div class="accordion-body">
+                                        <div class="GraphicSecction">
+                                            <!-- Contenedor para la Gráfica de Líneas -->
+                                            <div class="chart-wrapper">
+                                                <canvas id="tiempoResolucionChart"></canvas>
+                                            </div>
+
+                                            <!-- Contenedor para la Gráfica de Barras -->
+                                            <div class="chart-wrapper">
+                                                <canvas id="mantenimientosChart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna para "Total de Mantenimientos" (Tarjetas de Datos) -->
+                    <div class="col-12 col-md-6">
+                        <div class="accordion" id="AcordionTotalMantenimientos">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                        Total de Mantenimientos
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse " aria-labelledby="headingTwo"
+                                    data-bs-parent="#AcordionTotalMantenimientos">
+                                    <div class="accordion-body">
+                                        <div class="total-mantenimientos-cards">
+                                            <!-- Tarjeta para Mantenimientos Realizados -->
+                                            <div class="data-card">
+                                                <div class="icon-wrapper">
+                                                    <!-- Icono de verificación (check-circle) -->
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="lucide lucide-check-circle">
+                                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                                        <path d="m9 11 3 3L22 4" />
+                                                    </svg>
+                                                </div>
+                                                <div class="text-content">
+                                                    <p class="label">Mantenimientos Realizados:</p>
+                                                    <p class="value">120</p>
+                                                </div>
+                                            </div>
+
+                                            <!-- Tarjeta para Mantenimientos Pendientes -->
+                                            <div class="data-card">
+                                                <div class="icon-wrapper orange">
+                                                    <!-- Icono de reloj de arena (hourglass) -->
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="lucide lucide-hourglass">
+                                                        <path d="M5 22h14" />
+                                                        <path d="M5 2h14" />
+                                                        <path
+                                                            d="M17 22v-4.172a2 2 0 0 0-.59-1.41L12 12l-4.41-4.41A2 2 0 0 0 7 6.172V2" />
+                                                        <path
+                                                            d="M7 2v4.172a2 2 0 0 0 .59 1.41L12 12l4.41 4.41a2 2 0 0 0 .59 1.41V22" />
+                                                    </svg>
+                                                </div>
+                                                <div class="text-content">
+                                                    <p class="label">Mantenimientos Pendientes:</p>
+                                                    <p class="value">8</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </section>
+
+            <section id="Options">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-40">
+                        <div class="SectionOptions">
+                            <div class="OptionsDGV">
+                                <button type="button" id="AllOptions">
+                                    <p>Todos Mis Mantenimientos</p>
+                                </button>
+                                <button type="button" id="PendingMaintenance">
+                                    <p> Pendientes</p>
+                                </button>
+                                <button type="button" id="CompleteMaintenance">
+                                    <p> Completados</p>
+                                </button>
+                            </div>
+
+                            <input type="text" placeholder="Buscar..." id="Search">
+                            <button id="openFormBtn" type="button">
+                                <p>Realizar Mantenimiento</p>
+                            </button>
+                            <button id="asignFormBtn" type="button">
+                                <p>Asignar Mantenimiento</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="DataMaintence">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="TableZone">
+                            <div class="table-responsive rounded-4 shadow-sm">
+                                <table
+                                    class="table align-middle table-borderless table-hover animate__animated animate__fadeIn"
+                                    id="TableDiv">
+                                    <thead class="text-uppercase" style="font-size: 0.85rem;">
+                                        <tr>
+                                            <th scope="col" class="px-3">#ID</th>
+                                            <th scope="col" class="px-3">Tipo</th>
+                                            <th scope="col" class="px-3">Ubicacion</th>
+                                            <th scope="col" class="px-3">Encargado</th>
+                                            <th scope="col" class="px-3">Estado</th>
+                                            <th scope="col" class="px-3">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="MaintenanceTableBody" class="animate__animated animate__fadeIn">
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center mt-4">
+                            <nav aria-label="Paginación de zonas">
+                                <ul class="pagination pagination-rounded">
+                                    <li class="page-item" id="prevPageBtn">
+                                        <a class="page-link" href="#" aria-label="Anterior">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <div id="paginationNumbers" class="d-flex"></div>
+                                    <li class="page-item" id="nextPageBtn">
+                                        <a class="page-link" href="#" aria-label="Siguiente">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div id="modal-form" class="modal fade" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg"> <!-- modal-lg para hacerlo un poco más ancho -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Asignar Mantenimiento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <form id="maintenance-form">
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="assignment-code">Código:</label>
+              <input class="form-control" type="text" id="assignment-code" name="assignment-code" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="start-date">Fecha de Inicio:</label>
+              <input class="form-control" type="date" id="start-date" name="start-date" required>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label" for="maintenance-type">Tipo de Mantenimiento:</label>
+              <select class="form-select" id="maintenance-type" name="maintenance-type" required></select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="location">Ubicación:</label>
+              <select class="form-select" id="location" name="location" required></select>
+            </div>
+          </div>
+
+          <hr class="my-3">
+
+          <h6 class="mb-3">Empleado Encargado</h6>
+          <div class="mb-3 text-center">
+            <input class="form-control form-control-sm mx-auto" style="max-width:480px" type="text" id="employee-search-input" placeholder="Buscar Empleado">
+          </div>
+
+          <div class="employee-cards-container">
+            <div id="employee-cards" class="d-flex gap-3 empleados-scroll-container">
+              <!-- tarjetas generadas por JS -->
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary-custom">Asignar Inspección</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Mantenimientos del Miembro -->
+<div class="modal fade" id="modalMemberMaintenances" tabindex="-1">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content bg-light shadow-lg rounded-4 border-0">
+      <div class="modal-header text-black">
+        <h5 class="modal-title">Mantenimientos Asignados</h5>
+        <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div id="maintenancesContainer" class="row g-4"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalDetailMaintenance" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content bg-light shadow rounded-4">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title">Detalle del Mantenimiento</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <form id="formDetailMaintenance">
+        <div class="modal-body row g-3">
+          <input type="hidden" id="inputIdAssignMaintenance">
+
+          <div class="col-md-6">
+            <label class="form-label">Nombre</label>
+            <input type="text" id="inputNameDetail" class="form-control" required>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Tiempo Total (HH:MM:SS)</label>
+            <input type="text" id="inputTotalTime" class="form-control" placeholder="00:00:00" required>
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label">Descripción</label>
+            <textarea id="inputDescriptionDetail" class="form-control" rows="3"></textarea>
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label">Actividad</label>
+            <input type="text" id="inputActivityDetail" class="form-control" required>
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label">Imagen (URL)</label>
+            <input type="url" id="inputImgDetail" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Guardar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="module" src="Js/Controller/MaintenanceController.js"></script>
+    <script type="module" src="Js/Controller/MembersBrigadeController.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--Scirpts de IonIcons-->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!--Script-->
+    <script src="Js/SideBarScript.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
+
+    <script src="Js/GeneralMaintenace.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,380 @@
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 200px;
+    padding-top: 20px;
+    background-color: #20A2A0;
+    transition: width 0.3s;
+    overflow-y: auto;
+    scrollbar-width: none;        /* Firefox */
+    -ms-overflow-style: none;     
+}
+
+.sidebar::-webkit-scrollbar {
+    display: none;                /* Chrome, Safari */
+}
+
+.sidebar .Image_Logo{
+    width: 100px;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.sidebar .nav-link{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 20px;
+    color: white;
+ position: relative;
+}
+
+.sidebar .description{
+    font-size: 18px;
+}
+
+.sidebar .nav-link:hover{
+    background-color: white;
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+    color: black;
+}
+.sidebar .nav-link:hover::before{
+    content: "";
+    position: absolute;
+    right: 0px;
+    top: -50px;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border-radius: 50px;
+    box-shadow: 35px 35px 0 10px white;
+    pointer-events: none;
+}
+
+.sidebar .nav-link:hover::after{
+    content: "";
+    position: absolute;
+    right: 0px;
+    bottom: -50px;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border-radius: 50px;
+    box-shadow: 35px -35px 0 10px white;
+    pointer-events: none;
+}
+
+.sidebar .nav-link.active { /* Ahora apunta a elementos con ambas clases */
+    background-color: white;
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+    margin-left: 0px;
+}
+
+.sidebar .nav-link.active::before { /* También actualizado */
+    content: "";
+    position: absolute;
+    right: 0px;
+    top: -50px;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border-radius: 50px;
+    box-shadow: 35px 35px 0 10px white;
+    pointer-events: none;
+}
+
+.sidebar .nav-link.active::after { /* También actualizado */
+    content: "";
+    position: absolute;
+    right: 0px;
+    bottom: -50px;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border-radius: 50px;
+    box-shadow: 35px -35px 0 10px white;
+    pointer-events: none;
+}
+
+.sidebar .nav-link.active .description,
+.sidebar .nav-link.active span.icon { 
+    color: black;
+}
+
+
+
+
+/* Ajustar margen del main-content */
+.main-content {
+    margin-left: 200px;
+    padding: 20px;
+    background-color: white;
+}
+
+.topbar{
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.toggle{
+    position: relative;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    cursor: pointer;    
+}
+
+.user-info {
+    display: flex; /* Mantiene flex para que el name-details esté al lado de otros elementos si los hubiera */
+    align-items: center; /* Centra verticalmente el bloque de texto */
+    margin-left: auto; /* Empuja este elemento y los siguientes a la derecha */
+    padding-right: 8px; /* Reducido para acercar el texto a la línea */
+}
+
+/* Estilos para el bloque de Nombre y Apellido */
+.user-info .name-details {
+    text-align: right; /* Alinea el texto a la derecha dentro de su contenedor */
+    line-height: 1.1; /* Reduce el espaciado entre líneas para hacerlo más compacto */
+    white-space: nowrap; /* Evita saltos de línea indeseados dentro de los spans si hay espacio */
+}
+
+.user-info .name-details .first-name,
+.user-info .name-details .last-name {
+    display: block; /* IMPORTANTE: Hace que cada span ocupe su propia línea */
+    font-size: 1.1em; /* Ajusta según el tamaño deseado */
+    font-weight: 600; /* Un poco más de negrita */
+    color: #333; /* Color oscuro */
+    text-transform: uppercase;
+}
+
+/* NUEVOS ESTILOS: Para la línea divisoria */
+.divider {
+    width: 1px; /* Ancho de la línea (muy delgada) */
+    height: 30px; /* Altura de la línea */
+    background-color: black; /* Color de la línea (un gris claro) */
+    margin-right: 15px; /* Espacio después del divisor */
+}
+
+
+
+.user{
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.user img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    object-fit: cover;
+}
+
+
+#Implements .description{
+    font-size: 15px;
+    color: black;
+}
+
+
+
+#Card-Dashboard{
+  margin-top: 40px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.circular-progress{
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+    margin: auto;
+    background: linear-gradient(
+       #fff 50%,
+       rgba(#fff,0.2) 50%
+    );
+    position: relative;
+    transform: rotate(90deg);
+    &::before{
+        content: "HTML5";
+        width: 12rem;
+        height: 12rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #111 content-box;
+        border-radius: 50%;
+        padding: 0.5em;
+        box-sizing: border-box;
+        font-size: 2rem;
+        color: #fff;
+        text-align: center;
+        line-height: 8rem;
+    }
+    &::after{
+        content: "60";
+        width: 12rem;
+        height: 12rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 50%;
+        background: linear-gradient(
+            transparent 50%,
+            #111 50%
+        );
+        transform: scale(1.1);
+    }
+}
+
+.skil{
+    width: 160px;
+    height: 160px;
+    position: relative;
+}
+
+.outer{
+    height: 160px;
+    width: 160px;
+    padding: 20px;
+    box-shadow: 6px 6px 10px -1px rgba(0, 0, 0, 0.15),
+    -6px -6px 10px -1px rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+}
+.inner{
+    height: 120px;
+    width: 120px;
+    box-shadow: inset 4px 4px 6px -1px rgba(0, 0, 0, 0.2),
+    inset -4px -4px 6px -1px rgba(255, 255, 255, 0.7),
+    -0.5px -0.5px 0px rgba(255, 255, 255, 1),
+    0.5px 0.5px 0px rgba(0, 0, 0, 0.15),
+    0px 12px 10px -10px rgba(0, 0, 0, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#number{
+    font-weight: 600;
+    color: #555;
+}
+
+circle{
+    fill: none;
+    stroke: url(#GradientColor);
+    stroke-width: 20px;
+    stroke-dasharray: 450;
+    stroke-dashoffset: 450;
+    animation: anim 2s linear forwards;
+}
+
+svg{
+    position: absolute;
+    top: 0;
+    left: 0;    
+}
+.card-title{
+    font-size: 25px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card-text{
+    font-size: 15px;
+}
+#button-card{
+    background-color: #32A090;
+    box-shadow: 1px 1px 1px;
+    width: 150px;
+    height: 20px;
+    font-size: 15px;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#button-card:hover{
+    background-color: #209F84;
+    color: white;
+}
+
+
+.chart-container {
+    position: relative; /* Importante para que Chart.js calcule bien el tamaño */
+    width: 80%; /* Ejemplo: ocupa el 80% del ancho de su padre (la card-body) */
+    max-width: 700px; /* Ejemplo: no más de 700px de ancho */
+    height: 350px; /* Ejemplo: una altura fija de 350px */
+    margin: auto; /* Centra el contenedor si su ancho es menor al 100% */
+    /* border: 1px solid #ddd;  Para ver el límite del contenedor mientras desarrollas */
+}
+
+.card .icon{
+ width: 100px;
+ height: 100px;
+ border-radius: 50%;
+ object-fit: cover;
+}
+
+.icon .card-img{
+ display: flex;
+ justify-content: center;
+ align-items: center;
+}
+
+@keyframes anim{
+    100%{
+        stroke-dashoffset: 157.5;
+    }
+}
+@media (max-width: 480px){
+ .sidebar{
+    width: 70px;
+ }
+ .sidebar .description{
+    display: none;
+ }
+
+ .sidebar .nav-link{
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+ }
+
+ .main-content{
+    margin-left: 60px;
+    
+ }
+ .sidebar .Image_Logo{
+    width: 50px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-size: cover;
+}
+
+}

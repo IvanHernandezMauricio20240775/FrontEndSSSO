@@ -1,0 +1,701 @@
+#Titulo {
+    text-align: start;
+    /* Si quieres que el título esté centrado */
+    margin-bottom: 8px;
+    /* Espacio entre el título y el contenido de abajo */
+    color: #333;
+    /* Color del texto del título */
+
+    /* ----- Esto es lo que añade la línea ----- */
+    border-bottom: 2.5px solid #ccc;
+    /* 1px de grosor, estilo sólido, color gris claro */
+    padding-bottom: 10px;
+    /* Espacio entre el texto del título y la línea */
+    display: inline-block;
+    /* Opcional: si quieres que la línea se ajuste al ancho del texto */
+    width: 40%;
+}
+
+.SectionOptions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#AllOptions {
+    border: 0;
+    background-color: white;
+    padding-top: 20px;
+    padding-bottom: 5px;
+    position: relative;
+    transition: all 0.3s ease;
+    flex-grow: 1;
+}
+
+#ActionOptions {
+    border: 0;
+    background-color: white;
+    padding-top: 20px;
+    padding-bottom: 5px;
+    position: relative;
+    transition: all 0.3s ease;
+    flex-grow: 1;
+}
+
+#ConditionOptions {
+    border: 0;
+    background-color: white;
+    padding-top: 20px;
+    padding-bottom: 5px;
+    position: relative;
+    transition: all 0.3s ease;
+    flex-grow: 1;
+}
+
+#AllOptions p,
+#ActionOptions p,
+#ConditionOptions p {
+    margin: 0;
+    /* Elimina el margen por defecto del párrafo dentro del botón */
+    padding-bottom: 5px;
+    /* Espacio entre el texto y la barra */
+}
+
+
+/* Estilo para la barra cuando la opción está seleccionada */
+#AllOptions.selected-option,
+#ActionOptions.selected-option,
+#ConditionOptions.selected-option {
+    color: #209F84;
+    /* Ejemplo: texto verde para el botón seleccionado */
+    font-weight: bold;
+}
+
+#AllOptions.selected-option::after,
+#ActionOptions.selected-option::after,
+#ConditionOptions.selected-option::after {
+    content: '';
+    /* Contenido vacío para el pseudo-elemento */
+    position: absolute;
+    bottom: 0;
+    /* Posiciona la barra en la parte inferior del botón */
+    left: 10%;
+    /* Empieza la barra un poco desde la izquierda */
+    right: 10%;
+    /* Termina la barra un poco antes del final derecho */
+    height: 3px;
+    /* Grosor de la barra */
+    background-color: #209F84;
+    /* Color de la barra (el verde de tu botón Add) */
+    border-radius: 2px;
+    /* Bordes ligeramente redondeados para la barra */
+    animation: slideInBar 0.3s forwards;
+    /* Animación para que aparezca suavemente */
+}
+
+/* Animación para la barra */
+@keyframes slideInBar {
+    from {
+        transform: scaleX(0);
+        /* Empieza con ancho cero */
+    }
+
+    to {
+        transform: scaleX(1);
+        /* Termina con ancho completo */
+    }
+}
+
+#Search {
+    margin-top: 35px;
+    height: 30px;
+    width: 20%;
+    border-radius: 10px;
+    border: 2px solid gray;
+    margin-left: 10px;
+}
+
+#openFormBtn {
+    margin-left: 10px;
+    border: 2px solid #209F84;
+    background-color: white;
+    height: 35px;
+    margin-top: 32px;
+    width: 20%;
+    text-align: center;
+    border-radius: 15px;
+    color: black;
+}
+
+#openFormBtn:hover {
+    background: #209F84;
+    border: 2px solid whitesmoke;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.modal {
+  display: none;
+  /* Oculto por defecto */
+  position: fixed;
+  /* Fijo en la pantalla */
+  z-index: 1000;
+  /* Asegura que esté por encima de todo */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  /* Permite scroll si el contenido es grande */
+  background-color: rgba(0, 0, 0, 0.6);
+  /* Fondo oscuro semi-transparente */
+  display: flex;
+  /* Para centrar el contenido */
+  justify-content: center;
+  /* Centrado horizontal */
+  align-items: center;
+  /* Centrado vertical */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  /* Ancho del contenido del modal */
+  max-width: 700px;
+  /* Ancho máximo para mejor visualización */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+  position: relative;
+  /* Necesario para posicionar el botón de cerrar */
+  border-radius: 8px;
+}
+
+/* Animación para que el modal aparezca desde arriba */
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0
+  }
+
+  to {
+    top: 0;
+    opacity: 1
+  }
+}
+
+/* Botón de cerrar */
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Clase para deshabilitar el fondo (la aplicaremos al <body>) */
+.no-scroll {
+  overflow: hidden;
+  /* Evita el scroll del fondo */
+}
+
+
+@media (min-width: 768px) {
+  .chart-wrapper {
+
+    flex-basis: calc(50% - 10px);
+  }
+}
+
+
+.SectionOptions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#AllOptions {
+  border: 0;
+  background-color: white;
+  padding-top: 20px;
+  padding-bottom: 5px;
+  position: relative;
+  transition: all 0.3s ease;
+  flex-grow: 1;
+}
+
+#ActionOptions {
+  border: 0;
+  background-color: white;
+  padding-top: 20px;
+  padding-bottom: 5px;
+  position: relative;
+  transition: all 0.3s ease;
+  flex-grow: 1;
+}
+
+#ConditionOptions {
+  border: 0;
+  background-color: white;
+  padding-top: 20px;
+  padding-bottom: 5px;
+  position: relative;
+  transition: all 0.3s ease;
+  flex-grow: 1;
+}
+
+#AllOptions p,
+#ActionOptions p,
+#ConditionOptions p {
+  margin: 0;
+  /* Elimina el margen por defecto del párrafo dentro del botón */
+  padding-bottom: 5px;
+  /* Espacio entre el texto y la barra */
+}
+
+
+/* Estilo para la barra cuando la opción está seleccionada */
+#AllOptions.selected-option,
+#ActionOptions.selected-option,
+#ConditionOptions.selected-option {
+  color: #209F84;
+  /* Ejemplo: texto verde para el botón seleccionado */
+  font-weight: bold;
+}
+
+#AllOptions.selected-option::after,
+#ActionOptions.selected-option::after,
+#ConditionOptions.selected-option::after {
+  content: '';
+  /* Contenido vacío para el pseudo-elemento */
+  position: absolute;
+  bottom: 0;
+  /* Posiciona la barra en la parte inferior del botón */
+  left: 10%;
+  /* Empieza la barra un poco desde la izquierda */
+  right: 10%;
+  /* Termina la barra un poco antes del final derecho */
+  height: 3px;
+  /* Grosor de la barra */
+  background-color: #209F84;
+  /* Color de la barra (el verde de tu botón Add) */
+  border-radius: 2px;
+  /* Bordes ligeramente redondeados para la barra */
+  animation: slideInBar 0.3s forwards;
+  /* Animación para que aparezca suavemente */
+}
+
+#Search {
+  margin-top: 20px;
+  height: 30px;
+  width: 20%;
+  border-radius: 10px;
+  border: 2px solid gray;
+}
+
+#openFormBtn {
+  margin-left: 10px;
+  border: 2px solid #209F84;
+  background-color: white;
+  height: 35px;
+  margin-top: 17px;
+  width: 20%;
+  text-align: center;
+  border-radius: 15px;
+  color: black;
+}
+
+#openFormBtn:hover {
+  background: #209F84;
+  border: 2px solid whitesmoke;
+  color: white;
+  transform: translateY(-2px);
+}
+
+
+#table {
+  width: 100%;
+  border-collapse: separate;
+  /* ¡Crucial! Permite bordes redondeados y espacio entre filas */
+  border-spacing: 0 15px;
+  /* Espacio vertical de 15px entre cada fila (panel) */
+  margin-top: 20px;
+}
+
+/*Codigo de el apartado de la tabla*/
+#table thead th {
+  background-color: #0C8266;
+  /* Color de fondo azul vibrante para el encabezado */
+  color: white;
+  padding: 15px;
+  text-align: center;
+  border-bottom: none;
+  /* Elimina el borde inferior del encabezado */
+  position: sticky;
+  /* Hace que el encabezado se mantenga visible al hacer scroll */
+  top: 0;
+  z-index: 10;
+}
+
+#table thead tr th:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+#table thead tr th:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+/* Estilos para cada fila (tr) del tbody, que actuará como un panel individual */
+#table tbody tr {
+  background-color: #ffffff;
+  /* Fondo blanco para el panel */
+  border: 2px solid #28a745;
+  /* Borde del panel: 2px de grosor, color verde */
+  border-radius: 10px;
+  /* Bordes redondeados para cada panel */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Sombra suave para darle profundidad */
+  transition: all 0.3s ease;
+  /* Transición suave para efectos hover */
+}
+
+/* Efecto hover para las filas (paneles) */
+#table tbody tr:hover {
+  border-color: #0056b3;
+  /* Cambia el color del borde a un azul más oscuro al pasar el ratón */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  /* Sombra más pronunciada */
+  transform: translateY(-2px);
+  /* Un ligero movimiento hacia arriba */
+}
+
+/* Estilos para cada celda (td) dentro de una fila de panel */
+#table tbody tr td {
+  padding: 15px;
+  text-align: left;
+  color: #495057;
+  border: none;
+  /* Asegura que las celdas no tengan sus propios bordes */
+}
+
+/* Bordes redondeados para la primera y última celda de cada fila de panel */
+#table tbody tr td:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+
+}
+
+#table tbody tr td:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+
+}
+
+#table tbody button {
+  border-radius: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: whitesmoke;
+  border: 2px solid #a2feb8;
+  ;
+}
+
+#table tbody button:hover {
+  background-color: white;
+  color: black;
+  border: 2px solid #28a745;
+  ;
+  transform: translateY(-1.5px);
+}
+
+/* Estilos para el modal */
+.modal {
+    display: none; /* Esto asegura que esté oculto al cargar la página */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    /* ELIMINA 'display: flex;' de aquí */
+    justify-content: center; /* Estos solo se aplicarán cuando JavaScript lo cambie a flex */
+    align-items: center;   /* Estos solo se aplicarán cuando JavaScript lo cambie a flex */
+}
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 700px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+  position: relative;
+  /* Necesario para posicionar el botón de cerrar */
+  border-radius: 8px;
+}
+
+/* Animación para que el modal aparezca desde arriba */
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0
+  }
+
+  to {
+    top: 0;
+    opacity: 1
+  }
+}
+
+/* Botón de cerrar */
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: #209F84;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Clase para deshabilitar el fondo (la aplicaremos al <body>) */
+.no-scroll {
+  overflow: hidden;
+  /* Evita el scroll del fondo */
+}
+
+.disabled-overlay {
+  pointer-events: none;
+  /* Deshabilita interacciones con el fondo */
+  opacity: 0.5;
+  /* Opcional: Oscurece un poco el fondo */
+}
+
+
+
+@media (max-width: 575.98px) {
+  .main-content {
+    /* Ajustar el padding y margen para pantallas muy pequeñas */
+    margin-left: 0 !important;
+    /* Eliminar margen del sidebar en móviles */
+    padding: 10px;
+  }
+
+   body.sidebar-collapsed .main-content {
+    margin-left: 0 !important;
+    /* Asegurar que no haya margen del sidebar colapsado tampoco */
+  }
+
+  .GraphicSecction {
+    flex-direction: column;
+    /* Apilar las gráficas en columna */
+    align-items: center;
+    /* Centrar las gráficas cuando están apiladas */
+    gap: 20px;
+    padding: 0 10px;
+  }
+
+  .chart-wrapper {
+    width: 100%;
+    /* Ocupar todo el ancho disponible */
+    max-width: 350px;
+    /* Limitar el ancho máximo incluso en móviles */
+    margin: 0 auto;
+    /* Centrar */
+  }
+
+  .SectionOptions {
+    flex-direction: column;
+    /* Apilar todos los elementos en columna */
+    align-items: stretch;
+    /* Estirar los elementos para que ocupen todo el ancho */
+    gap: 10px;
+    /* Espacio entre los elementos apilados */
+    padding: 0 10px;
+  }
+
+  .OptionsDGV {
+    flex-direction: column;
+    /* Apilar los botones de pestaña */
+    align-items: stretch;
+    margin-right: 0;
+    /* Eliminar margen a la derecha */
+    width: 100%;
+    /* Ocupar todo el ancho disponible */
+  }
+
+  #AllOptions,
+  #ActionOptions,
+  #ConditionOptions {
+    width: 100%;
+    /* Botones de pestaña ocupan todo el ancho */
+    padding-top: 15px;
+    padding-bottom: 5px;
+    font-size: 0.9rem;
+    /* Un poco más pequeño si es necesario */
+  }
+
+  #AllOptions.selected-option::after,
+  #ActionOptions.selected-option::after,
+  #ConditionOptions.selected-option::after {
+    left: 5%;
+    right: 5%;
+  }
+
+/* Animación para la barra */
+@keyframes slideInBar {
+  from {
+    transform: scaleX(0);
+    /* Empieza con ancho cero */
+  }
+
+  to {
+    transform: scaleX(1);
+    /* Termina con ancho completo */
+  }
+}
+
+  #Search {
+    width: 100%;
+    /* Campo de búsqueda ocupa todo el ancho */
+    margin-top: 10px;
+    /* Ajustar margen superior */
+    margin-left: 0;
+    /* Eliminar margen izquierdo */
+  }
+
+  #Add {
+    width: 100%;
+    /* Botón Registrar ocupa todo el ancho */
+    margin-left: 0;
+    /* Eliminar margen izquierdo */
+    margin-top: 10px;
+    /* Ajustar margen superior */
+  }
+
+  /* Tabla: Asegurar que se haga scroll horizontalmente si no cabe */
+  #table {
+    padding: 0 10px;
+  }
+
+  #table thead th,
+  #table tbody tr td {
+    font-size: 0.85rem;
+    /* Reducir tamaño de fuente de la tabla */
+    padding: 10px;
+    /* Reducir padding de la tabla */
+  }
+}
+
+/* Tablets y computadoras pequeñas (576px a 991px - medium devices en Bootstrap) */
+@media (min-width: 576px) and (max-width: 991.98px) {
+  .main-content {
+    padding: 15px;
+  }
+}
+
+.SectionOptions {
+    flex-wrap: wrap;
+    /* Permitir que los elementos se envuelvan si no caben en una línea */
+    justify-content: space-between;
+    padding: 0 10px;
+  }
+
+  .OptionsDGV {
+    flex-grow: 1;
+    /* Permite que los botones de pestaña ocupen más espacio */
+    flex-basis: auto;
+    /* Ocupan lo que necesitan */
+    margin-right: 15px;
+  }
+
+  #Search {
+    flex-grow: 1;
+    min-width: 180px;
+    margin-top: 5;
+    /* Restablecer margin-top */
+  }
+
+  #Add {
+    flex-grow: 1;
+    min-width: 150px;
+    margin-top: 0;
+    /* Restablecer margin-top */
+  }
+
+  /* Si los botones de opción se envuelven, ajusta su distribución */
+  .OptionsDGV button {
+    flex-basis: calc(33.33% - 10px);
+    /* Intenta que sean 3 columnas si caben */
+  }
+
+/* Laptops y Desktops (992px en adelante - large devices en Bootstrap) */
+@media (min-width: 992px) {
+  .chart-wrapper {
+    /* Vuelve a la configuración de desktop */
+    flex-basis: calc(50% - 10px);
+    /* Asegura dos columnas */
+    max-width: 550px;
+    /* Limita su ancho */
+  }
+
+  .SectionOptions {
+    flex-direction: row;
+    /* Asegura que estén en fila */
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .OptionsDGV {
+    flex-direction: row;
+    margin-right: 10px;
+    flex-grow: 0;
+    /* No crece para dejar espacio al Search y Add */
+  }
+
+  #Search,
+  #Add {
+    flex-grow: 0;
+    /* No crecen */
+    width: auto;
+    /* Vuelve a su ancho natural o definido */
+  }
+
+  #Search {
+    width: 20%;
+    /* Ancho original deseado */
+    min-width: 180px;
+  }
+
+  #Add {
+    width: 20%;
+    /* Ancho original deseado */
+    min-width: 150px;
+  }
+}
+

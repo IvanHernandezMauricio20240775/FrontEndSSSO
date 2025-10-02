@@ -1,0 +1,452 @@
+#table {
+    width: 100%;
+    border-collapse: separate;
+    /* ¡Crucial! Permite bordes redondeados y espacio entre filas */
+    border-spacing: 0 15px;
+    /* Espacio vertical de 15px entre cada fila (panel) */
+    margin-top: 20px;
+}
+
+.table thead th {
+    background-color: #0C8266;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    border-bottom: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.table tbody td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.table thead tr th:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.table thead tr th:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s ease-in-out;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.table tbody td {
+    padding: 1rem 1rem;
+    color: #444;
+}
+
+.pagination .page-item .page-link {
+    border: none;
+    border-radius: 0.5rem;
+    margin: 0 0.2rem;
+    color: #6c757d;
+    background-color: transparent;
+    transition: background-color 0.2s ease;
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: #12bb94;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #0C8266;
+    color: white;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.35em 0.8em;
+    border-radius: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    text-align: center;
+}
+
+
+
+.SectionOptions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#AllOptions {
+  border: 0;
+  background-color: white;
+  padding-top: 20px;
+  padding-bottom: 5px;
+  position: relative;
+  transition: all 0.3s ease;
+  flex-grow: 1;
+}
+
+#ActiveEmployee {
+  border: 0;
+  background-color: white;
+  padding-top: 20px;
+  padding-bottom: 5px;
+  position: relative;
+  transition: all 0.3s ease;
+  flex-grow: 1;
+}
+
+#DesactiveEmployee {
+  border: 0;
+  background-color: white;
+  padding-top: 20px;
+  padding-bottom: 5px;
+  position: relative;
+  transition: all 0.3s ease;
+  flex-grow: 1;
+}
+
+#AllOptions p,
+#ActiveEmployee p,
+#DesactiveEmployee p {
+  margin: 0;
+  /* Elimina el margen por defecto del párrafo dentro del botón */
+  padding-bottom: 5px;
+  /* Espacio entre el texto y la barra */
+}
+
+
+/* Estilo para la barra cuando la opción está seleccionada */
+#AllOptions.selected-option,
+#ActiveEmployee.selected-option,
+#DesactiveEmployee.selected-option {
+  color: #209F84;
+  /* Ejemplo: texto verde para el botón seleccionado */
+  font-weight: bold;
+}
+
+#AllOptions.selected-option::after,
+#ActiveEmployee.selected-option::after,
+#DesactiveEmployee.selected-option::after {
+  content: '';
+  /* Contenido vacío para el pseudo-elemento */
+  position: absolute;
+  bottom: 0;
+  /* Posiciona la barra en la parte inferior del botón */
+  left: 10%;
+  /* Empieza la barra un poco desde la izquierda */
+  right: 10%;
+  /* Termina la barra un poco antes del final derecho */
+  height: 3px;
+  /* Grosor de la barra */
+  background-color: #209F84;
+  /* Color de la barra (el verde de tu botón Add) */
+  border-radius: 2px;
+  /* Bordes ligeramente redondeados para la barra */
+  animation: slideInBar 0.3s forwards;
+  /* Animación para que aparezca suavemente */
+}
+
+/* Animación para la barra */
+@keyframes slideInBar {
+  from {
+    transform: scaleX(0);
+    /* Empieza con ancho cero */
+  }
+
+  to {
+    transform: scaleX(1);
+    /* Termina con ancho completo */
+  }
+}
+
+#Search {
+  margin-top: 20px;
+  height: 30px;
+  width: 20%;
+  border-radius: 10px;
+  border: 2px solid gray;
+}
+
+#openFormBtn {
+  margin-left: 10px;
+  border: 2px solid #209F84;
+  background-color: white;
+  height: 35px;
+  margin-top: 17px;
+  width: 20%;
+  text-align: center;
+  border-radius: 15px;
+  color: black;
+}
+
+#openFormBtn:hover {
+  background: #209F84;
+  border: 2px solid whitesmoke;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.photo-box{
+  width: 100%;
+  height: 220px;                 /* un poco más alta para que respire */
+  border: 2px solid #dadada;
+  border-radius: 12px;
+  background: #f5f7f9;           /* fondo claro para “letterbox” */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;                    /* sin padding para que el contain funcione perfecto */
+}
+
+.photo-box img{
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;                   /* que ocupe el ancho disponible */
+  height: 100%;                  /* y alto de la caja */
+  object-fit: contain;           /* ← muestra toda la imagen */
+  object-position: center center;
+  display: block;
+}
+
+.btn-upload-image{
+  background-color: #209F84;
+  color: #fff;
+  border-radius: 12px;
+  border: none;
+  padding: .6rem 1rem;
+  font-weight: 600;
+}
+.btn-upload-image:hover{
+  filter: brightness(0.95);
+}
+
+.extintor-image-cell{
+  width: 72px;                   /* columna angosta y consistente */
+}
+
+.extintor-image{
+  width: 48px;                   /* tamaño fijo de miniatura */
+  height: 48px;
+  border-radius: 10px;           /* si las quieres redondas: 50% */
+  object-fit: cover;             /* recorta para “avatar” prolijo */
+  object-position: center center;
+  background: #f0f2f4;           /* por si la imagen tarda */
+  box-shadow: 0 0 0 1px rgba(0,0,0,.05) inset;
+}
+
+.table tbody td{
+  position: static;              /* en lugar de sticky */
+}
+
+.employee-modal{
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.modal-header.modal-header-custom{
+  border-bottom: 4px solid rgba(32,159,132,1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding: 1rem 1rem .75rem;
+}
+
+.modal-header.modal-header-custom .modal-title{
+  font-weight: 800;
+  letter-spacing: .5px;
+}
+
+/* Numeración de páginas dentro del <ul> */
+#paginationNumbers .page-item .page-link {
+  border: none;
+  border-radius: 0.5rem;
+  margin: 0 0.2rem;
+  color: #6c757d;
+  background-color: transparent;
+  transition: background-color 0.2s ease;
+}
+#paginationNumbers .page-item .page-link:hover { background-color: #12bb94; }
+#paginationNumbers .page-item.active .page-link { background-color: #0C8266; color: #fff; }
+
+
+
+@media (max-width: 575.98px) {
+
+  .SectionOptions {
+    flex-direction: column;
+    /* Apilar todos los elementos en columna */
+    align-items: stretch;
+    /* Estirar los elementos para que ocupen todo el ancho */
+    gap: 10px;
+    /* Espacio entre los elementos apilados */
+    padding: 0 10px;
+  }
+
+  .OptionsDGV {
+    flex-direction: column;
+    /* Apilar los botones de pestaña */
+    align-items: stretch;
+    margin-right: 0;
+    /* Eliminar margen a la derecha */
+    width: 100%;
+    /* Ocupar todo el ancho disponible */
+  }
+
+  #AllOptions,
+  #ActiveEmployee,
+  #DesactiveEmployee {
+    width: 100%;
+    /* Botones de pestaña ocupan todo el ancho */
+    padding-top: 15px;
+    padding-bottom: 5px;
+    font-size: 0.9rem;
+    /* Un poco más pequeño si es necesario */
+  }
+
+  #AllOptions.selected-option::after,
+  #ActiveEmployee.selected-option::after,
+  #DesactiveEmployee.selected-option::after {
+    left: 5%;
+    right: 5%;
+  }
+
+
+  #Search {
+    width: 100%;
+    /* Campo de búsqueda ocupa todo el ancho */
+    margin-top: 10px;
+    /* Ajustar margen superior */
+    margin-left: 0;
+    /* Eliminar margen izquierdo */
+  }
+
+  #openFormBtn {
+    width: 100%;
+    /* Botón Registrar ocupa todo el ancho */
+    margin-left: 0;
+    /* Eliminar margen izquierdo */
+    margin-top: 10px;
+    /* Ajustar margen superior */
+  }
+
+
+
+  #table thead th,
+  #table tbody tr td {
+    font-size: 0.85rem;
+    /* Reducir tamaño de fuente de la tabla */
+    padding: 10px;
+    /* Reducir padding de la tabla */
+  }
+
+  .table-responsive-wrapper {
+    overflow-x: auto; /* Apply overflow to the wrapper */
+    -webkit-overflow-scrolling: touch; /* For smoother scrolling on iOS */
+    width: 100%; /* Ensure it takes up the full width of its parent column */
+}
+
+#table {
+    /* Optional: Ensure table content doesn't wrap unnecessarily */
+    white-space: nowrap; /* Keeps content on a single line, making the table wider */
+    width: auto; /* Allow table to be naturally wide based on content */
+
+}
+
+}
+
+
+
+/* Tablets y computadoras pequeñas (576px a 991px - medium devices en Bootstrap) */
+@media (min-width: 576px) and (max-width: 991.98px) {
+
+
+  .SectionOptions {
+    flex-wrap: wrap;
+    /* Permitir que los elementos se envuelvan si no caben en una línea */
+    justify-content: space-between;
+    padding: 0 10px;
+  }
+
+  .OptionsDGV {
+    flex-grow: 1;
+    /* Permite que los botones de pestaña ocupen más espacio */
+    flex-basis: auto;
+    /* Ocupan lo que necesitan */
+    margin-right: 15px;
+  }
+
+  #Search {
+    flex-grow: 1;
+    min-width: 180px;
+    margin-top: 0;
+    /* Restablecer margin-top */
+  }
+
+  #openFormBtn {
+    flex-grow: 1;
+    min-width: 150px;
+    margin-top: 0;
+    /* Restablecer margin-top */
+  }
+
+  /* Si los botones de opción se envuelven, ajusta su distribución */
+  .OptionsDGV button {
+    flex-basis: calc(33.33% - 10px);
+    /* Intenta que sean 3 columnas si caben */
+  }
+}
+
+
+
+
+/* Laptops y Desktops (992px en adelante - large devices en Bootstrap) */
+@media (min-width: 992px) {
+  
+
+  .SectionOptions {
+    flex-direction: row;
+    /* Asegura que estén en fila */
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .OptionsDGV {
+    flex-direction: row;
+    margin-right: 10px;
+    flex-grow: 0;
+    /* No crece para dejar espacio al Search y Add */
+  }
+
+  #Search,
+  #Add {
+    flex-grow: 0;
+    /* No crecen */
+    width: auto;
+    /* Vuelve a su ancho natural o definido */
+  }
+
+  #Search {
+    width: 20%;
+    /* Ancho original deseado */
+    min-width: 180px;
+  }
+
+  #openFormBtn {
+    width: 20%;
+    /* Ancho original deseado */
+    min-width: 150px;
+  }
+}

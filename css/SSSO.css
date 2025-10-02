@@ -1,0 +1,311 @@
+/* General */
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+/* Colores de la paleta */
+:root {
+    --primary-color: #007bff;
+    /* Color del botón "Empieza Ahora" */
+    --secondary-color: #009688;
+    /* Color de fondo principal */
+    --text-color-light: #fff;
+    --text-color-dark: #333;
+}
+
+/* Navegación */
+.navbar {
+    background-color: var(--secondary-color);
+    padding: 1rem;
+}
+
+.navbar-brand,
+.nav-link {
+    color: var(--text-color-light) !important;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+
+@keyframes show {
+    from {
+        opacity: 0;
+        scale: 25%;
+    }
+
+    to {
+        opacity: 1;
+        scale: 100%;
+    }
+}
+
+
+
+#Welcome {
+    background-color: hsla(165, 0%, 100%, 1);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 962 962' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"), radial-gradient(circle at 0% 0%, hsla(256, 82%, 77%, 0.35) 3.1210986267166043%, transparent 40%), radial-gradient(circle at 20% 0%, hsla(197, 77%, 74%, 0.35) 3.1210986267166043%, transparent 40%), radial-gradient(circle at 40% 0%, hsla(147, 77%, 74%, 0.35) 3.1210986267166043%, transparent 40%), radial-gradient(circle at 60% 0%, hsla(88, 77%, 74%, 0.35) 3.1210986267166043%, transparent 40%), radial-gradient(circle at 80% 0%, hsla(23, 77%, 74%, 0.35) 3.1210986267166043%, transparent 40%), radial-gradient(circle at 100% 0%, hsla(234.26470588235304, 100%, 50%, 0.35) 3%, transparent 40%);
+    background-blend-mode: overlay, normal, normal, normal, normal, normal, normal;
+}
+
+#Offers {
+    view-timeline-name: --revealing-section;
+    animation: show;
+    animation-fill-mode: both;
+    animation-timeline: --revealing-section;
+    animation-range: entry 25% cover 50%;
+}
+
+#objetivos {
+    view-timeline-name: --revealing-section;
+    animation: show;
+    animation-fill-mode: both;
+    animation-timeline: --revealing-section;
+    animation-range: entry 25% cover 50%;
+}
+
+#contactanos {
+    view-timeline-name: --revealing-section;
+    animation: show;
+    animation-fill-mode: both;
+    animation-timeline: --revealing-section;
+    animation-range: entry 25% cover 50%;
+}
+
+#Welcome .container {
+    max-width: 1700px;
+    margin-top: 0;
+    padding-left: 40px;
+    padding-right: 20px;
+}
+
+
+.top1 {
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    padding: 8px 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    gap: 8px;
+    width: fit-content;
+}
+
+.top1 img {
+    height: 20px;
+    filter: invert(72%) sepia(80%) saturate(1469%) hue-rotate(352deg) brightness(101%) contrast(101%);
+    /* Hace la estrella amarilla */
+}
+
+.top1 h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #333333;
+    margin: 0;
+}
+
+
+.MessageWelcome h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 750;
+    font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+    /* Ajusta el tamaño para ser responsivo */
+    line-height: 1.2;
+    color: #333333;
+    /* Color oscuro */
+    margin: 0;
+}
+
+.MessageWelcome h1 .highlight-text {
+    color: #229E82;
+    /* Verde para palabras clave y botón */
+}
+
+/* Descripción (H5) */
+.description h5 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+    /* Ajusta el tamaño para ser responsivo */
+    line-height: 1.6;
+    color: #666666;
+    /* Gris medio para el texto */
+    margin: 0;
+    max-width: 600px;
+    /* Limita el ancho del texto para mejor legibilidad */
+}
+
+/* Contenedor de la Imagen y la Forma de Fondo */
+.imgContainer {
+    position: relative;
+    width: 100%;
+    /* No poner max-width aquí, dejar que la columna de Bootstrap lo controle */
+    margin: 40px auto;
+    /* Margen superior/inferior para móviles */
+    aspect-ratio: 1 / 1;
+    /* Mantener proporción cuadrada o similar para el fondo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ImagenWelcome {
+    width: 70%;
+    /* Tamaño de la imagen dentro de su contenedor (ajusta según la imagen) */
+    height: auto;
+    display: block;
+    border-radius: 15px;
+    /* Bordes redondeados para la imagen si aplica */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    /* Sombra para la imagen */
+    position: relative;
+    z-index: 3;
+    /* Asegura que la imagen esté sobre la figura */
+}
+
+.figurafondo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 100%;
+    background-color: #209F84;
+    border-radius: 40% 60% 50% 50% / 60% 40% 60% 40%;
+    z-index: 1;
+}
+
+
+/* Botón "Empieza Ahora" */
+.Start .btn-outline-success {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 520;
+    font-size: 1.1rem;
+    padding: 12px 30px;
+    border-radius: 30px;
+    border-color: #3EB489;
+    border: 2px solid;
+    color: #3EB489;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.Start .btn-outline-success:hover {
+    background-color: #3EB489;
+    color: #FFFFFF;
+}
+
+.Start .btn-outline-success svg {
+    fill: #3EB489;
+    transition: fill 0.3s ease;
+}
+
+.Start .btn-outline-success:hover svg {
+    fill: #FFFFFF;
+}
+
+.BTNStartNav:hover {
+    transform: translateY(-2px);
+    background-color: #1b836a;
+    ;
+}
+
+.btn-primary {
+    background-color: white;
+    border-color: #209F84;
+    color: #115756;
+    width: 250px;
+    height: 50px;
+}
+
+.btn-primary:hover {
+    background-color: #209F84;
+    border-color: #209F84;
+    color: white;
+}
+
+
+
+/* Sección Qué Ofrecemos? */
+.offer-section {
+    background-color: #209F84;
+    /* Color de fondo gris claro */
+}
+
+.offer-section h2 {
+    color: white;
+    font-weight: bold;
+}
+
+.offer-section .card {
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.card-text {
+    font-size: 14px;
+    font-weight: lighter;
+}
+
+.offer-section .card:hover {
+    transform: translateY(-10px);
+}
+
+/* Sección Por qué Elegirnos? */
+.why-us-section {
+    background-color: var(--text-color-light);
+}
+
+.why-us-section h2 {
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+.why-us-section p {
+    color: #6c757d;
+}
+
+/* Sección de Contacto */
+.contact-section {
+    background-color: #f8f9fa;
+}
+
+.contact-section h2 {
+    color: var(--secondary-color);
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-contact {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.contact-form {
+    max-width: 600px;
+    margin: auto;
+}
+
+/* Pie de página */
+.footer-section {
+    background-color: var(--secondary-color);
+    color: var(--text-color-light);
+}
+
+.footer-section a {
+    color: var(--text-color-light);
+    text-decoration: none;
+}
+
+.social-icons img {
+    width: 30px;
+    height: 30px;
+}

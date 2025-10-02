@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planes Preventivos</title>
+    <link rel="stylesheet" href="css/SideBar.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <link rel="stylesheet" href="css/AccionesPreventivasVersion.css">
+</head>
+
+<body>
+   <!-- SIDE BAR -->
+    <div class="sidebar">
+        <div class="nav flex-column">
+            <div style="display: flex; justify-content: center; align-items: center; margin: 20px;">
+                <span class="Image_Logo">
+
+                    <img src="img/WhatsApp_Image_2025-05-12_at_9.32.07_PM-removebg-preview.png" alt="Logo ">
+
+                </span>
+            </div>
+
+
+            <a href="index.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/Home-Icon.png" alt="">
+                </span>
+                <span class="description">
+                    Inicio
+                </span>
+            </a>
+
+            <a href="Report.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/Report-Icon.png" alt="">
+                </span>
+                <span class="description">
+                    Reportes
+                </span>
+            </a>
+
+            <a href="Accidentes.html" class="nav-link ">
+                <span class="icon">
+                    <img src="img/accidentes-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Accidentes
+                </span>
+            </a>
+
+            <a href="Capacitaciones.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/Capacitaciones.png" alt="">
+                </span>
+                <span class="description">
+                    Capacitaciones
+                </span>
+            </a>
+
+            <a href="Simulacrum.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/simulacros-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Simulacros
+                </span>
+            </a>
+
+            <a href="Inspection.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/inspecciones-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Inspecciones
+                </span>
+            </a>
+
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#Implements" aria-expanded="false"
+                aria-controls="Implements">
+                <!--Seccion-->
+                <span class="icon">
+                    <img src="img/Implementos-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Implementos
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+                <!--Apartados-->
+                <div class="Implements collapse" id="Implements">
+                    <a href="Extintores.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/extintor.png" alt="">
+                        </span>
+                        <span class="description">
+                            Extintores
+                        </span>
+                    </a>
+
+                    <a href="SmokeDetector.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Detector de Humo.png" alt="">
+                        </span>
+                        <span class="description">
+                            Detector <br>
+                            de Humo
+                        </span>
+                    </a>
+
+                    <a href="EmergencyAlarm.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Alarma de Emergencia.png" alt="">
+                        </span>
+                        <span class="description">
+                            Alarmas de
+                            <br> Emergencia
+                        </span>
+                    </a>
+                </div>
+            </a>
+
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#Maintenance" aria-expanded="false"
+                aria-controls="Maintenance">
+
+                <span class="icon">
+                    <img src="img/Manteniminetos-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Mantenimiento
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+
+                <div class="Maintenance collapse" id="Maintenance">
+
+                    <a href="GeneralMaintenance.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Mantenimientos generales.png" alt="">
+                        </span>
+                        <span class="description">
+                            General
+                        </span>
+                    </a>
+
+                    <a href="#" class="nav-link">
+                        <span class="icon">
+                            <img src="img/extintor.png" alt="">
+                        </span>
+                        <span class="description">
+                            Extintores
+                        </span>
+                    </a>
+
+                    <a href="#" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Detector de Humo.png" alt="">
+                        </span>
+                        <span class="description">
+                            Detector <br>
+                            de Humo
+                        </span>
+                    </a>
+
+                </div>
+            </a>
+
+
+
+            <!--SideBar con Dropdown-->
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#User" aria-expanded="false"
+                aria-controls="User">
+                <!--Seccion-->
+                <span class="icon">
+                    <img src="img/Personal-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Personal
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+                <!--Apartados-->
+                <div class="User collapse" id="User">
+                    <a href="Employee.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Empelados-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Empleados
+                        </span>
+                    </a>
+
+                    <a href="#" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Invitados-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Invitados
+                        </span>
+                    </a>
+                    <div class="lineDropDown">
+
+                    </div>
+                </div>
+            </a>
+
+
+            <!--SideBar con Dropdown-->
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#OperativeGroup"
+                aria-expanded="false" aria-controls="OperativeGroup">
+                <!--Seccion-->
+                <span class="icon">
+                    <img src="img/Personal-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Grupos <br> Operativos
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+                <!--Apartados-->
+                <div class="OperativeGroup collapse" id="OperativeGroup">
+                    <a href="Brigades.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/brigadas-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Brigadas
+                        </span>
+                    </a>
+
+                    <a href="ComiteSSO.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Comite SSO-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Comite SSO
+                        </span>
+                    </a>
+
+                    <div class="lineDropDown">
+
+                    </div>
+                </div>
+            </a>
+
+
+
+            <a href="Zone.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/zonas-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Zonas
+                </span>
+            </a>
+
+
+            <!--SideBar con Dropdown-->
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#Security" aria-expanded="false"
+                aria-controls="Security">
+                <!--Seccion-->
+                <span class="icon">
+                    <img src="img/MarcosDeSeguridad-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Marcos de <br> Seguridad
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+                <!--Apartados-->
+                <div class="Security collapse" id="Security">
+                    <a href="Protocol.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/protocolos-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Protocolos
+                        </span>
+                    </a>
+
+                    <a href="Lineamientos.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/protocolos-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Lineamientos
+                        </span>
+                    </a>
+                    <div class="lineDropDown">
+
+                    </div>
+                </div>
+            </a>
+
+
+
+            <a href="Departamentos.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/DepartamentosPersonal.png" alt="">
+                </span>
+                <span class="description">
+                    Departamentos
+                </span>
+            </a>
+
+            <a href="CorrectiveActionController.html" class="nav-link ">
+                <span class="icon">
+                    <img src="img/AccionesCorrectivas-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Acciones <br>
+                    Correctivas
+                </span>
+            </a>
+
+            <a href="PlanPreventivoAnual.html" class="nav-link active">
+                <span class="icon">
+                    <img src="img/AccionesCorrectivas-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Acciones <br>
+                    Preventivas
+                </span>
+            </a>
+
+
+        </div>
+    </div>
+
+    <div class="sidebar-overlay"></div>
+    
+
+    <main class="main-content animate__animated animate__fadeIn animate__delay-10ms">
+
+
+        <section>
+            <div class="topbar d-flex justify-content-between align-items-center px-3 py-1 flex-wrap">
+
+                <div class="d-md-none">
+                    <button id="Button_Togle" class="btn p-0">
+                        <ion-icon name="menu-outline" style="font-size: 2.5rem;"></ion-icon>
+                    </button>
+                </div>
+
+
+                <!-- Sección derecha: iconos + nombre + foto -->
+                <div class="d-flex align-items-center gap-3 order-md-1 ms-auto">
+
+                    <!-- Iconos más cerca -->
+                    <a href="MisSanciones.html" class="text-dark">
+                        <img src="img/Sanciones-icon.png" alt="Sanciones" width="22">
+                    </a>
+                    <a href="notification.html" class="text-dark">
+                        <img src="img/Notificacionn-icon.png" alt="Notificación" width="22">
+                    </a>
+
+                    <div class="dropdown d-flex align-items-center gap-2">
+                        <div class="text-end d-none d-sm-block">
+                            <div class="fw-bold text-dark small">IVÁN ELISEO</div>
+                            <div class="text-muted small">HERNÁNDEZ MAURICIO</div>
+                        </div>
+                        <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="img/Captura de pantalla 2025-05-24 230248.png" alt="User" width="40" height="40"
+                                class="rounded-circle border border-success border-2">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end mt-2">
+                            <li><a class="dropdown-item" href="perfil.html"><i class="bi bi-person me-2"></i> Perfil</a>
+                            </li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i> Configuración</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right me-2"></i>
+                                    Cerrar sesión</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container mt-5" id="pdf-content">
+                <div class="d-flex justify-content-center align-items-center mb-4">
+                    <i class="fas fa-folder fa-2x me-3" style="color: #008080;"></i>
+                    <h2 class="text-center mb-0">Plan Preventivo - <span id="ppa-version-title"></span></h2>
+                </div>
+                <div class="title-line"></div>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="mb-0">Acciones Preventivas</h3>
+                    <button style="border: none; background: none;">
+                        <a href="#" id="linkBancoSoluciones" class="text-decoration-none">
+                        <img src="img/banco.png" alt="Banco de Soluciones" class="bank-logo" style="width: 40px;">
+                        </a>
+                    </button>
+                    
+                </div>
+
+                <div class="d-flex flex-wrap gap-2 mb-4">
+                    <button class="btn btn-outline-secondary d-flex align-items-center" data-bs-toggle="modal"
+                        data-bs-target="#nuevaActividadModal">
+                        <i class="fas fa-plus-square me-2"></i>Nueva Actividad
+                    </button>
+                    <button class="btn btn-outline-secondary d-flex align-items-center" data-bs-toggle="modal"
+                        data-bs-target="#nuevaAccionModal">
+                        <i class="fas fa-plus-square me-2"></i>Nueva Acción
+                    </button>
+                    <button class="btn btn-outline-secondary d-flex align-items-center" id="descargarPDF">
+                        <i class="fas fa-download me-2"></i>Descargar PDF
+                    </button>
+                    <div class="ms-auto">
+                        <input type="text" class="form-control" placeholder="Buscar por accion o Actividad...">
+                    </div>
+                </div>
+                <section>
+                    <div id="activities-container">
+                    </div>
+                </section>
+            </div>
+        </section>
+
+
+        <div class="modal fade" id="nuevaActividadModal" tabindex="-1" aria-labelledby="nuevaActividadModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="nuevaActividadModalLabel">Nueva Actividad</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formNuevaActividad">
+                            <div class="mb-3">
+                                <label for="nombreActividad" class="form-label">Nombre de la Actividad</label>
+                                <input type="text" class="form-control" id="nombreActividad" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary"
+                            style="background-color: #008080; border-color: #008080;"
+                            id="btnGuardarActividad">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="nuevaAccionModal" tabindex="-1" aria-labelledby="nuevaAccionModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="nuevaAccionModalLabel">Nueva Acción</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formNuevaAccion">
+                            <div class="mb-3">
+                                <label for="actividadRelacionada" class="form-label">Actividad Relacionada</label>
+                                <select class="form-select" id="actividadRelacionada" required>
+                                    <option value="" disabled selected>Seleccione una actividad</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tituloAccion" class="form-label">Título de la Acción</label>
+                                <input type="text" class="form-control" id="tituloAccion" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="descripcionAccion" class="form-label">Descripción</label>
+                                <textarea class="form-control" id="descripcionAccion" rows="3" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="estadoAccion" class="form-label">Estado</label>
+                                <select class="form-select" id="estadoAccion" required>
+                                    <option value="implementado">Implementado</option>
+                                    <option value="induccion">Inducción</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary"
+                            style="background-color: #008080; border-color: #008080;"
+                            id="btnGuardarAccion">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modificarAccionModal" tabindex="-1" aria-labelledby="modificarAccionModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modificarAccionModalLabel">Modificar Acción</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formModificarAccion">
+                            <input type="hidden" id="edit-activity-name">
+                            <input type="hidden" id="edit-action-index">
+                            <div class="mb-3">
+                                <label for="edit-tituloAccion" class="form-label">Título de la Acción</label>
+                                <input type="text" class="form-control" id="edit-tituloAccion" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="edit-descripcionAccion" class="form-label">Descripción</label>
+                                <textarea class="form-control" id="edit-descripcionAccion" rows="3" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="edit-estadoAccion" class="form-label">Estado</label>
+                                <select class="form-select" id="edit-estadoAccion" required>
+                                    <option value="implementado">Implementado</option>
+                                    <option value="induccion">Inducción</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary"
+                            style="background-color: #008080; border-color: #008080;"
+                            id="btnGuardarModificacion">Guardar Cambios</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!--Scirpts de IonIcons-->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!--Script-->
+    <script src="Js/SideBarScript.js"></script>
+    <!--Script de Boostrap5-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="Js/AccionesPreventivasVersion.js"></script>
+    
+
+</body>
+
+</html>

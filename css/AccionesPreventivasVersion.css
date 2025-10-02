@@ -1,0 +1,68 @@
+ /* Estilos adicionales para esta página */
+ .action-card {
+     background-color: white;
+     border: 1px solid #ced4da;
+     border-radius: 10px;
+     padding: 1rem;
+     margin-bottom: 1rem;
+     position: relative;
+ }
+
+ .action-card-status {
+     position: absolute;
+     top: 1rem;
+     right: 1rem;
+     width: 20px;
+     height: 20px;
+     border-radius: 50%;
+     border: 2px solid white;
+     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+ }
+
+ .status-implementado {
+     background-color: #008080;
+ }
+
+ .status-induccion {
+     background-color: #ffc107;
+ }
+
+ .activity-section {
+     margin-top: 2rem;
+     margin-bottom: 2rem;
+ }
+
+ .activity-section .title-line {
+     max-width: 100%;
+     margin-bottom: 1rem;
+ }
+
+ .bank-logo {
+     width: 80px;
+ }
+
+ .action-container {
+     display: grid;
+     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+     gap: 1rem;
+ }
+
+ .action-card .dropdown-toggle {
+     color: #008080;
+ }
+
+ .action-card .dropdown-menu {
+     border: 1px solid #ced4da;
+ }
+
+ .action-card .dropdown-item {
+     color: #212529;
+ }
+
+ /* Nuevo estilo para el ícono de opciones */
+ .action-options-icon {
+     color: #008080;
+     cursor: pointer;
+     position: absolute;
+     font-size: 1rem;
+ }

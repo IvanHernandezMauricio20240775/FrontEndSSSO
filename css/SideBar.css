@@ -1,0 +1,610 @@
+.sidebar {
+    width: 78px;
+    /* Ancho inicial reducido: solo iconos */
+    background-color: #229E82;
+    /* El color verde principal */
+    color: #ffffff;
+    /* Color de texto por defecto (cuando se muestre) */
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+
+    /* Permite scroll si el contenido excede la altura */
+    /* Para ocultar la barra de scroll visualmente */
+    &::-webkit-scrollbar {
+        width: 0;
+        background: transparent;
+    }
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-top: 20px;
+    border-right: none;
+    /* Eliminar borde si el fondo es oscuro */
+    transition: all 0.3s ease;
+    /* Transición para el cambio de ancho */
+    z-index: 1000;
+}
+
+/* **NUEVO/MODIFICADO:** Sidebar expandido al hover */
+.sidebar:hover {
+    width: 230px;
+    /* Ancho completo al hover */
+}
+
+/* **NUEVO/MODIFICADO:** Esconder texto por defecto (solo se muestran iconos) */
+.sidebar .description,
+.sidebar .bi-caret-down-fill {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    /* Transición para la visibilidad del texto */
+    pointer-events: none;
+    /* Evita interacciones con el texto oculto */
+}
+
+/* **NUEVO/MODIFICADO:** Mostrar texto al hover en el sidebar */
+.sidebar:hover .description,
+.sidebar:hover .bi-caret-down-fill {
+    opacity: 1;
+    width: auto;
+    /* Ajusta el ancho automáticamente */
+    overflow: visible;
+    pointer-events: auto;
+    /* Permite interacciones */
+}
+
+
+.sidebar .Image_Logo {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    /* Centra horizontalmente */
+    align-items: flex-start;
+    /* Alinea arriba verticalmente */
+    height: 60px;
+    /* Alto inicial colapsado */
+    padding: 10px;
+    width: 100%;
+    transition: height 0.3s ease;
+    overflow: hidden;
+}
+
+
+.sidebar:hover .Image_Logo {
+    height: 100px;
+    /* Aumenta solo si tu logo es más alto al expandirse */
+}
+
+
+
+.Image_Logo img {
+
+    position: relative;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    max-width: 90%;
+    height: auto;
+    display: block;
+}
+
+
+
+
+/* Estilos para los enlaces de navegación */
+.sidebar .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Centra el icono cuando el sidebar está colapsado */
+    padding: 15px 0;
+    /* Padding vertical cuando colapsado */
+    color: #ffffff;
+    /* Texto blanco por defecto */
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    border-radius: 0 25px 25px 0;
+    margin-right: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* **NUEVO/MODIFICADO:** Comportamiento al hover del nav-link */
+.sidebar .nav-link:hover {
+    background-color: #ffffff;
+    /* Fondo blanco al hover */
+    color: #00897B;
+    /* Texto verde al hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Sombra al hover */
+    margin-right: 0;
+    /* Para que el fondo blanco se extienda completamente */
+}
+
+.sidebar:hover .nav-link {
+    justify-content: flex-start;
+    /* Alinea a la izquierda cuando expandido */
+    padding: 12px 20px;
+    /* Padding normal cuando expandido */
+}
+
+/* Estilo para el enlace activo */
+.sidebar .nav-link.active {
+    background-color: #ffffff;
+    /* Fondo blanco para el elemento activo */
+    color: #00897B;
+    /* Texto verde para el elemento activo */
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-right: 0;
+}
+
+
+/* Estilos para los iconos */
+.sidebar .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin-right: 0;
+    /* Por defecto, sin margen a la derecha cuando colapsado */
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    padding-left: 10px;
+    /* Espaciado del ícono al borde izquierdo cuando colapsado */
+}
+
+/* **NUEVO/MODIFICADO:** Margen para iconos cuando el texto es visible (al hover) */
+.sidebar:hover .icon {
+    margin-right: 15px;
+    /* Restaura el margen al expandirse */
+    padding-left: 0;
+    /* Eliminar el padding-left cuando se expande */
+}
+
+.sidebar .icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* Íconos blancos por defecto para un fondo verde oscuro */
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+    /* Hace los iconos blancos por defecto */
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.sidebar .nav-link:hover .icon img {
+    /* Íconos verdes al hover porque el fondo se vuelve blanco */
+    filter: invert(30%) sepia(80%) saturate(2000%) hue-rotate(140deg) brightness(90%) contrast(100%);
+    /* Cambia a verde al hover */
+    transform: scale(1.05);
+}
+
+.sidebar .nav-link.active .icon img {
+    /* Íconos verdes en activo porque el fondo es blanco */
+    filter: invert(30%) sepia(80%) saturate(2000%) hue-rotate(140deg) brightness(90%) contrast(100%);
+    /* Íconos verdes en activo */
+}
+
+/* Estilos para las descripciones de texto */
+.sidebar .description {
+    white-space: nowrap;
+    flex-grow: 1;
+}
+
+/* Estilos para los dropdowns (MODIFICADO para adaptarse al colapso/expansión y colores) */
+.sidebar .nav-link .bi-caret-down-fill {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+    color: #ffffff;
+    /* Flecha blanca por defecto */
+    font-size: 0.8em;
+}
+
+.sidebar .nav-link:hover .bi-caret-down-fill {
+    color: #00897B;
+    /* Flecha verde al hover */
+}
+
+.sidebar .nav-link.active .bi-caret-down-fill {
+    color: #00897B;
+    /* Flecha verde en activo */
+}
+
+.sidebar .nav-link[aria-expanded="true"] .bi-caret-down-fill {
+    transform: rotate(180deg);
+}
+
+.sidebar .collapse {
+    /* Por defecto, los dropdowns están ocultos */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    /* Animación para abrir/cerrar */
+}
+
+.sidebar .collapse.show {
+    max-height: 500px;
+    /* Suficientemente grande para contener los elementos */
+    background-color: rgba(0, 0, 0, 0.1);
+    /* Fondo ligeramente transparente para los dropdowns abiertos */
+    margin-top: 5px;
+    padding-bottom: 5px;
+    margin-left: 10px;
+    border-radius: 0 0 25px 0;
+}
+
+/* **NUEVO:** Indentación para elementos de dropdown solo cuando el sidebar está expandido */
+.sidebar:hover .collapse .nav-link {
+    padding-left: 50px;
+    /* Indentación para elementos de dropdown */
+    font-size: 0.95rem;
+    color: #eeeeee;
+    /* Un blanco roto o gris muy claro para sub-elementos */
+    border-radius: 0;
+    margin-right: 0;
+}
+
+/* **NUEVO:** Sub-enlaces sin indentación cuando colapsado (solo icono visible) */
+.sidebar:not(:hover) .collapse .nav-link {
+    padding-left: 0;
+    /* Sin padding cuando colapsado */
+    justify-content: center;
+    /* Centrar icono */
+}
+
+.sidebar .collapse .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Fondo muy sutil blanco al hover de sub-enlaces */
+    color: #ffffff;
+    /* Texto blanco al hover de sub-enlaces */
+}
+
+
+/* Línea divisoria en dropdown (mantener) */
+.sidebar .lineDropDown {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    /* Línea más clara para fondo oscuro */
+    margin: 10px 20px;
+}
+
+
+/* Solución para el scroll en el body (mantener esta si quieres el scroll oculto globalmente) */
+body {
+    overflow-y: scroll;
+}
+
+.main-content {
+    /* Initially, adjust margin for the collapsed sidebar */
+    margin-left: 95px;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+    overflow-x: hidden;
+    width: auto;
+}
+
+
+.sidebar:hover+.main-content {
+    margin-left: 230px;
+}
+
+
+
+
+.topbar {
+    height: auto;
+    min-height: 65px;
+}
+
+.ai-button {
+    flex: 1;
+    justify-content: center;
+}
+
+@media (min-width: 768px) {
+    .ai-button {
+        justify-content: flex-start;
+    }
+}
+
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    padding-right: 8px;
+}
+
+.user-info .name-details {
+    text-align: right;
+    line-height: 1.1;
+    white-space: nowrap;
+}
+
+.user-info .name-details .first-name,
+.user-info .name-details .last-name {
+    display: block;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.divider {
+    width: 1px;
+    height: 30px;
+    background-color: black;
+    margin-right: 15px;
+}
+
+.user {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.user img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    object-fit: cover;
+}
+
+.ActionsUser {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    margin-left: auto;
+    padding-left: 800px;
+}
+
+.notificationIcon img,
+.ObservationIcon img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    margin: 10px;
+}
+
+:root {
+    --sz-btn: 45px;
+    /* Tamaño general del botón */
+    --space: calc(var(--sz-btn) / 5.5);
+    /* Espacio interno para el contenido */
+    --gen-sz: calc(var(--space) * 2);
+    /* Tamaño inicial del icono */
+    --sz-text: calc(var(--sz-btn) - var(--gen-sz));
+    /* Tamaño del texto */
+
+    --color-gradient-start: #229E82;
+    /* Naranja oscuro */
+    --color-gradient-end: #7fcdbb;
+    /* Amarillo brillante */
+    --color-icon-initial: #d0efe8;
+    /* Amarillo del icono inicial */
+    --color-icon-hover: #ffffff;
+    /* Blanco del icono al hover */
+    --color-text: #ffffff;
+    /* Color del texto "AI" */
+
+    /* Sombras complejas (traducidas del ejemplo de Tailwind) */
+    --shadow-main: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+        rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    --shadow-inset: rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+        rgba(52, 52, 52, 0.35) 0px -2px 6px 0px inset;
+}
+
+
+
+.elegant-ai-button {
+    /* Reseteo básico del botón */
+    appearance: none;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+    /* Elimina el contorno de enfoque por defecto */
+
+    /* Propiedades de tamaño y forma */
+    position: relative;
+    height: var(--sz-btn);
+    width: var(--sz-btn);
+    border: 1px solid transparent;
+    /* Border sólido transparente */
+    border-radius: 12px;
+    /* rounded-xl */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1;
+    /* aspect-square */
+
+    /* Fondo y sombras */
+    background: linear-gradient(45deg, var(--color-gradient-start), var(--color-gradient-end));
+    box-shadow: var(--shadow-main), var(--shadow-inset);
+
+    /* Transiciones para interactividad */
+    transition: transform 0.2s ease-in-out;
+    /* duration-200 */
+}
+
+/* Estado activo (cuando se presiona el botón) */
+.elegant-ai-button:active {
+    transform: scale(0.95);
+    /* active:scale-[0.95] */
+}
+
+/* Estilos del icono SVG */
+.elegant-ai-icon {
+    position: absolute;
+    z-index: 10;
+    overflow: visible;
+    transition: all 0.3s ease-in-out;
+    /* transition-all duration-300 */
+    color: var(--color-icon-initial);
+    /* Posición y tamaño iniciales */
+    top: calc(var(--sz-text) / 7);
+    /* top-[calc(var(--sz-text)/7)] */
+    left: calc(var(--sz-text) / 7);
+    /* left-[calc(var(--sz-text)/7)] */
+    height: var(--gen-sz);
+    /* h-[var(--gen-sz)] */
+    width: var(--gen-sz);
+    /* w-[var(--gen-sz)] */
+
+    /* Animación de pulsación */
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    /* animate-pulse */
+}
+
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: .5;
+    }
+}
+
+
+/* Estilos del texto "AI" */
+.elegant-ai-text {
+    font-size: var(--sz-text);
+    /* font-size:var(--sz-text) */
+    font-weight: 800;
+    /* font-extrabold */
+    line-height: 1;
+    /* leading-none */
+    color: var(--color-text);
+    /* text-white */
+    transition: all 0.2s ease-in-out;
+    /* transition-all duration-200 */
+    position: relative;
+    /* Asegura que el texto esté sobre el icono si es necesario */
+    z-index: 1;
+}
+
+/* Estados al pasar el mouse (group-hover:...) */
+.elegant-ai-button:hover .elegant-ai-icon {
+    color: var(--color-icon-hover);
+    /* group-hover:text-white */
+    height: var(--sz-text);
+    /* group-hover:h-[var(--sz-text)] */
+    width: var(--sz-text);
+    /* group-hover:w-[var(--sz-text)] */
+    left: calc(var(--sz-text) / 4);
+    /* group-hover:left-[calc(var(--sz-text)/4)] */
+    top: calc(var(--gen-sz) / 2);
+    /* group-hover:top-[calc(calc(var(--gen-sz))/2)] */
+}
+
+.elegant-ai-button:hover .elegant-ai-text {
+    opacity: 0;
+    /* group-hover:opacity-0 */
+}
+
+
+#Button_Menu {
+    background-color: transparent;
+    border: none;
+}
+
+
+
+.btn-success {
+    background-color: #00897B;
+    border-color: #00897B;
+}
+
+.btn-success:hover {
+    background-color: #00695C;
+    border-color: #00695C;
+}
+
+/* Imagen personaje */
+.personaje-img {
+    position: absolute;
+    top: -40px;
+    right: -30px;
+    width: 110px;
+    z-index: 999;
+}
+/*
+/*
+  CSS para el sidebar en dispositivos móviles y tablets (hasta 991.98px)
+*/
+@media (max-width: 767.98px) {
+  /* Por defecto el sidebar está oculto */
+  .sidebar {
+    width: 0;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    position: fixed;
+    z-index: 1050;
+    transition: width 0.3s ease-in-out;
+    box-shadow: none; /* Eliminar sombra por defecto */
+  }
+
+  /* Sidebar activo cuando la clase 'sidebar-active' está en el body */
+  body.sidebar-active .sidebar {
+    width: 250px;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3); /* Sombra al abrir */
+  }
+  
+  /* Los textos siempre son visibles en vista móvil/tablet */
+  .sidebar .description,
+  .sidebar .bi-caret-down-fill {
+      opacity: 1;
+      width: auto;
+      overflow: visible;
+      pointer-events: auto;
+  }
+  
+  .sidebar.Image_Logo {
+    height: 100px;
+    /* Aumenta solo si tu logo es más alto al expandirse */
+}
+
+  .main-content {
+    margin-left: 0;
+    padding: 10px;
+  }
+  
+  /* Overlay (el fondo gris que quieres) */
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo gris transparente */
+    z-index: 1040;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  }
+  
+  /* Mostrar overlay cuando sidebar está activo */
+  body.sidebar-active .sidebar-overlay {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* Deshabilitar scroll del body cuando el sidebar está abierto */
+  body.sidebar-active {
+    overflow: hidden;
+  }
+}

@@ -1,0 +1,547 @@
+#Titulo {
+  text-align: start;
+  /* Si quieres que el título esté centrado */
+  margin-bottom: 8px;
+  /* Espacio entre el título y el contenido de abajo */
+  color: #333;
+  /* Color del texto del título */
+
+  /* ----- Esto es lo que añade la línea ----- */
+  border-bottom: 1.5px solid #ccc;
+  /* 1px de grosor, estilo sólido, color gris claro */
+  padding-bottom: 10px;
+  /* Espacio entre el texto del título y la línea */
+  display: inline-block;
+  /* Opcional: si quieres que la línea se ajuste al ancho del texto */
+  width: 40%;
+}
+
+#OptionsCapacitaciones {
+    background-color: #fff;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
+}
+
+
+.metrics {
+    display: flex;
+    justify-content: start;
+    gap: 20px;
+    font-size: 0.95em;
+}
+
+.metrics strong {
+    color: #209F84;
+}
+
+.controls {
+    display: flex;
+    justify-content: end;
+    gap: 20px;
+    margin-left: auto; /* Empuja los controles a la derecha */
+}
+
+.add-plan-btn {
+    background-color:rgba(14, 127, 125, 0.7);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.add-plan-btn:hover {
+    background-color: rgba(13, 113, 111, 0.7);
+}
+
+input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.timeline {
+  position: relative;
+  max-width: 900px;
+  margin: auto;
+  padding-left: 20px;
+}
+
+.timeline::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  background: #20A2A0;
+  top: 0;
+  bottom: 0;
+}
+
+.entry {
+  position: relative;
+  width: 50%;
+  padding: 20px 40px;
+  box-sizing: border-box;
+}
+
+.entry:nth-child(odd) {
+  left: 0;
+}
+
+.entry:nth-child(even) {
+  left: 50%;
+}
+
+.entry .content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  animation: fadeInUp 0.6s ease;
+  transition: transform 0.3s;
+  border-left: 5px solid #20A2A0;
+}
+
+.entry:hover .content {
+  transform: scale(1.02);
+}
+
+.entry::before {
+  content: '📍';
+  position: absolute;
+  top: 30px;
+  right: -18px;
+  font-size: 20px;
+  background: #fff;
+  color: #20A2A0;
+  border: 3px solid #20A2A0;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.entry:nth-child(even)::before {
+  left: -18px;
+  right: auto;
+}
+
+.content h3 {
+  margin-top: 0;
+  color: #145c5b;
+}
+
+.content p {
+  margin: 5px 0;
+  color: #444;
+}
+
+.content .fecha {
+  font-weight: bold;
+  color: #20A2A0;
+  margin-top: 10px;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .timeline::after {
+    left: 10px;
+  }
+
+  .entry {
+    width: 100%;
+    padding-left: 40px;
+    left: 0 !important;
+    margin-bottom: 30px;
+  }
+
+  .entry::before {
+    left: -20px !important;
+  }
+}
+
+
+/* Estilos para el modal del formulario */
+.modal-content {
+  border-radius: 1rem;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+}
+
+.modal-header {
+  border-bottom: none;
+  padding-bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.modal-title {
+  color: #008080;
+  font-weight: bold;
+}
+
+.title-divider {
+  background-color: #008080;
+  height: 2px;
+  border: none;
+  opacity: 0.5;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+
+.btn-close {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+}
+
+.form-group label {
+  color: #008080;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.form-control {
+  border: 1px solid #ced4da;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+}
+
+.form-control:focus {
+  border-color: #008080;
+  box-shadow: 0 0 0 0.25rem rgba(0, 128, 128, 0.25);
+}
+
+.image-preview {
+  width: 100px;
+  height: 100px;
+  background-color: #e9ecef;
+  border-radius: 0.5rem;
+  border: 1px solid #ced4da;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.btn-add-photo {
+  background-color: transparent;
+  border: 1px solid #008080;
+  color: #008080;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-add-photo i {
+  font-size: 1.25rem;
+}
+
+.divider-section {
+  background-color: #008080;
+  height: 2px;
+  border: none;
+  opacity: 0.5;
+  margin: 1.5rem 0;
+}
+
+.form-group h6 {
+  color: #008080;
+}
+
+.form-check-input:checked {
+  background-color: #008080;
+  border-color: #008080;
+}
+
+.form-switch .form-check-input {
+  width: 3rem;
+  height: 1.5rem;
+  margin-right: 1.5rem;
+}
+
+.brigada-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.brigada-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.brigada-card:hover {
+  border-color: #008080;
+}
+
+.brigada-card.selected {
+  background-color: #e9f5f5;
+  border-color: #008080;
+}
+
+.brigada-card span {
+  color: #008080;
+  font-weight: 500;
+}
+
+.brigada-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 1rem;
+}
+
+.btn-programar-capacitacion {
+  background-color: #43BAA1; /* Color verde deseado */
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-programar-capacitacion:hover {
+  background-color: #38a591;
+}
+
+/* Estilos para la modal de éxito */
+.success-icon-container {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkmark {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  box-shadow: inset 0px 0px 0px #43BAA1;
+  animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+}
+
+.checkmark__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: #43BAA1;
+  fill: none;
+  animation: stroke .6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark__check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke: #fff;
+  animation: stroke .3s cubic-bezier(0.65, 0, 0.45, 1) .8s forwards, bounce .5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 30px #43BAA1;
+  }
+}
+
+@keyframes scale {
+  0%, 100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Estilos para el menú contextual */
+.context-menu {
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 150px;
+  overflow: hidden;
+}
+
+.context-menu-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+.context-menu-item:hover {
+  background-color: #f0f0f0;
+}
+
+.context-menu-item:first-child {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.context-menu-item:last-child {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+/* Estilos para el botón de programar/actualizar */
+.btn-custom {
+  background-color: #43BAA1; /* Color verde deseado */
+  border-color: #43BAA1;
+  color: white;
+}
+
+.btn-custom:hover {
+  background-color: #38a591;
+  border-color: #38a591;
+}
+
+/* Estilos para la modal de éxito */
+.modal-exito .modal-dialog,
+.modal-exito-actualizar .modal-dialog,
+.modal-exito-eliminar .modal-dialog {
+    display: flex;
+    align-items: center;
+    min-height: calc(100% - 20px); /* Ajusta la altura para centrar */
+    margin: auto; /* Centra el modal vertical y horizontalmente */
+}
+
+/* El resto de estilos del checkmark y animación se mantienen igual */
+.success-icon-container {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.checkmark {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 2;
+    stroke: #fff;
+    stroke-miterlimit: 10;
+    box-shadow: inset 0px 0px 0px #43BAA1;
+    animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+}
+
+.checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: #43BAA1;
+    fill: none;
+    animation: stroke .6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    stroke: #fff;
+    animation: stroke .3s cubic-bezier(0.65, 0, 0.45, 1) .8s forwards, bounce .5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards;
+}
+
+@keyframes stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes fill {
+    100% {
+        box-shadow: inset 0px 0px 0px 30px #43BAA1;
+    }
+}
+
+@keyframes scale {
+    0%, 100% {
+        transform: none;
+    }
+    50% {
+        transform: scale3d(1.1, 1.1, 1);
+    }
+}
+
+@keyframes bounce {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

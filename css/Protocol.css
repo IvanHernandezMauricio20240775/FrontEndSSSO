@@ -1,0 +1,113 @@
+#Titulo {
+    text-align: start;
+    /* Si quieres que el título esté centrado */
+    margin-bottom: 8px;
+    /* Espacio entre el título y el contenido de abajo */
+    color: #333;
+    /* Color del texto del título */
+
+    /* ----- Esto es lo que añade la línea ----- */
+    border-bottom: 1.5px solid #ccc;
+    /* 1px de grosor, estilo sólido, color gris claro */
+    padding-bottom: 10px;
+    /* Espacio entre el texto del título y la línea */
+    display: inline-block;
+    /* Opcional: si quieres que la línea se ajuste al ancho del texto */
+    width: 40%;
+}
+:root{
+  --brand-1:#169b87;
+  --brand-2:#138c79;
+  --ink:#222;
+  --muted:#6c757d;
+  --card-border:#e9ecef;
+  --ring:#d0efe9;
+}
+
+.page-title{
+  font-weight:800; letter-spacing:.3px;
+  border-bottom:2px solid #e5e7eb; padding-bottom:.4rem;
+}
+
+/* Buttons */
+.btn-brand{
+  background:var(--brand-1); color:#fff; border:none;
+  padding:.7rem 1.1rem; border-radius:999px; font-weight:600;
+}
+.btn-brand:hover{ background:var(--brand-2); color:#fff; }
+
+/* Cards grid + card */
+.grid{ --cols:4; display:grid; gap:18px; grid-template-columns:repeat(var(--cols), minmax(0,1fr)); }
+@media (max-width: 1200px){ .grid{ --cols:3; } }
+@media (max-width: 992px){ .grid{ --cols:2; } }
+@media (max-width: 576px){ .grid{ --cols:1; } }
+
+.cat-card, .proto-card{
+  position:relative; border:1px solid var(--card-border);
+  border-radius:16px; background:#fff; padding:18px 16px 16px 16px;
+  box-shadow:0 1px 0 rgba(12,12,13,.04);
+  transition:transform .15s ease, box-shadow .15s ease;
+  cursor:pointer;
+}
+.proto-card{ cursor:default; }
+.cat-card:hover, .proto-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 22px rgba(0,0,0,.05);
+}
+.accent-strip{
+  position:absolute; inset:auto auto 0 0; width:6px; height:26px;
+  background:var(--brand-1); border-radius:0 8px 8px 0;
+}
+.thumb{
+  width:90px; height:90px; border-radius:999px; object-fit:cover;
+  display:block; border:4px solid #f3f4f6; background:#f1f5f9;
+  margin:2px auto 10px auto;
+}
+.proto-title{ font-weight:700; font-size:.98rem; line-height:1.15rem; }
+.proto-desc, .xsmall{ color:var(--muted); font-size:.86rem; }
+.xsmall{ font-size:.8rem; }
+
+/* Three dots button */
+.dots{
+  position:absolute; right:8px; top:8px; color:#9aa0a6;
+}
+.dots:hover{ color:#111827; }
+
+/* Scroll area */
+.scroll-area{
+  border-left:1px dashed #e5e7eb; border-right:1px dashed #e5e7eb;
+  border-radius:12px; padding:12px; height: clamp(380px, 60vh, 620px);
+  overflow:auto; background:#fff;
+  scrollbar-width:thin; scrollbar-color: var(--brand-1) #f5f7f8;
+}
+.scroll-area::-webkit-scrollbar{ width:10px; }
+.scroll-area::-webkit-scrollbar-track{ background:#f5f7f8; border-radius:10px; }
+.scroll-area::-webkit-scrollbar-thumb{ background:var(--brand-1); border-radius:10px; }
+.scroll-area::-webkit-scrollbar-thumb:hover{ background:var(--brand-2); }
+
+/* Search pill */
+.search-pill{
+  border-radius:999px; padding:.7rem 1rem; border:1px solid #e5e7eb;
+}
+
+/* Right decorative image (protocol list) */
+.side-illustration{
+  width:330px; height:330px; border-radius:999px; overflow:hidden;
+  border:10px solid #eef7f5; background:#f3f6f6;
+}
+.side-illustration img{ width:100%; height:100%; object-fit:cover; }
+
+/* Modal header deco line */
+.modal-title{ font-weight:800; }
+.modal-title::after{
+  content:""; display:block; height:2px; width:100%;
+  background:#e9ecef; margin-top:.5rem;
+}
+
+/* Image upload preview (categoría) */
+.img-drop{
+  width:210px; height:250px; border:2px dashed #cbd5e1; border-radius:12px;
+  background:#fafafa; display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+}
+.img-drop img{ width:100%; height:100%; object-fit:cover; }

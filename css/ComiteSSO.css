@@ -1,0 +1,242 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f8f9fa;
+}
+
+
+
+.info-box {
+    background-color:  #dff6f0;
+    border-left: 5px solid #20c997;
+
+}
+
+.card {
+    border: 1px solid #d0e2dc;
+     border-radius: 15px;
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.rounded-circle {
+    object-fit: cover;
+}
+
+.nav-tabs .nav-link {
+    color: #20c997;
+    font-weight: 500;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #20c997;
+    color: #fff;
+    border-radius: 5px 5px 0 0;
+    border: none;
+}
+
+#table {
+    width: 100%;
+    border-collapse: separate;
+    /* ¡Crucial! Permite bordes redondeados y espacio entre filas */
+    border-spacing: 0 15px;
+    /* Espacio vertical de 15px entre cada fila (panel) */
+    margin-top: 20px;
+}
+
+.table thead th {
+    background-color: #0C8266;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    border-bottom: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.table tbody td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.table thead tr th:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.table thead tr th:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s ease-in-out;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.table tbody td {
+    padding: 1rem 1rem;
+    color: #444;
+}
+
+.pagination .page-item .page-link {
+    border: none;
+    border-radius: 0.5rem;
+    margin: 0 0.2rem;
+    color: #6c757d;
+    background-color: transparent;
+    transition: background-color 0.2s ease;
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: #12bb94;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #0C8266;
+    color: white;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.35em 0.8em;
+    border-radius: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    text-align: center;
+}
+
+
+/* Clase para deshabilitar el fondo (la aplicaremos al <body>) */
+.no-scroll {
+  overflow: hidden;
+  /* Evita el scroll del fondo */
+}
+
+.disabled-overlay {
+  pointer-events: none;
+  /* Deshabilita interacciones con el fondo */
+  opacity: 0.5;
+  /* Opcional: Oscurece un poco el fondo */
+}
+
+.form-container {
+  max-width: 900px;
+  margin: 50px auto;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header-custom {
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.card-empleado {
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card-empleado:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-empleado.disabled-card {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #e9ecef;
+}
+
+.empleados-scroll-container {
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 15px;
+}
+
+.empleados-scroll-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.empleados-scroll-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.empleados-scroll-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.empleados-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.action-icon {
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin: 0 5px;
+  transition: color 0.2s;
+}
+
+.action-icon.text-danger:hover {
+  color: #dc3545 !important;
+}
+
+.action-icon.text-primary:hover {
+  color: #0d6efd !important;
+}
+
+.profile-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+/* Estilos para las tarjetas de la fase 3 */
+.card-miembro-proceso {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.acciones-miembro {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

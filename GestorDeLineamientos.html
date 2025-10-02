@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Lineamientos</title>
+
+    <link rel="stylesheet" href="css/GestionLineamientos.css">
+
+    <link rel="stylesheet" href="css/SideBar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+</head>
+
+<body>
+    <!-- SIDE BAR -->
+    <!-- SIDE BAR -->
+    <div class="sidebar">
+        <div class="nav flex-column">
+            <div style="display: flex; justify-content: center; align-items: center; margin: 20px;">
+                <span class="Image_Logo">
+
+                    <img src="img/WhatsApp_Image_2025-05-12_at_9.32.07_PM-removebg-preview.png" alt="Logo ">
+
+                </span>
+            </div>
+
+
+            <a href="index.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/Home-Icon.png" alt="">
+                </span>
+                <span class="description">
+                    Inicio
+                </span>
+            </a>
+
+            <a href="Report.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/Report-Icon.png" alt="">
+                </span>
+                <span class="description">
+                    Reportes
+                </span>
+            </a>
+
+            <a href="Accidentes.html" class="nav-link ">
+                <span class="icon">
+                    <img src="img/accidentes-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Accidentes
+                </span>
+            </a>
+
+            <a href="Capacitaciones.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/Capacitaciones.png" alt="">
+                </span>
+                <span class="description">
+                    Capacitaciones
+                </span>
+            </a>
+
+            <a href="Simulacrum.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/simulacros-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Simulacros
+                </span>
+            </a>
+
+            <a href="Inspection.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/inspecciones-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Inspecciones
+                </span>
+            </a>
+
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#Implements" aria-expanded="false"
+                aria-controls="Implements">
+                <!--Seccion-->
+                <span class="icon">
+                    <img src="img/Implementos-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Implementos
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+                <!--Apartados-->
+                <div class="Implements collapse" id="Implements">
+                    <a href="Extintores.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/extintor.png" alt="">
+                        </span>
+                        <span class="description">
+                            Extintores
+                        </span>
+                    </a>
+
+                    <a href="SmokeDetector.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Detector de Humo.png" alt="">
+                        </span>
+                        <span class="description">
+                            Detector <br>
+                            de Humo
+                        </span>
+                    </a>
+
+                    <a href="EmergencyAlarm.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Alarma de Emergencia.png" alt="">
+                        </span>
+                        <span class="description">
+                            Alarmas de
+                            <br> Emergencia
+                        </span>
+                    </a>
+                </div>
+            </a>
+
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#Maintenance" aria-expanded="false"
+                aria-controls="Maintenance">
+
+                <span class="icon">
+                    <img src="img/Manteniminetos-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Mantenimiento
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+
+                <div class="Maintenance collapse" id="Maintenance">
+
+                    <a href="GeneralMaintenance.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Mantenimientos generales.png" alt="">
+                        </span>
+                        <span class="description">
+                            General
+                        </span>
+                    </a>
+
+                    <a href="#" class="nav-link">
+                        <span class="icon">
+                            <img src="img/extintor.png" alt="">
+                        </span>
+                        <span class="description">
+                            Extintores
+                        </span>
+                    </a>
+
+                    <a href="#" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Detector de Humo.png" alt="">
+                        </span>
+                        <span class="description">
+                            Detector <br>
+                            de Humo
+                        </span>
+                    </a>
+
+                </div>
+            </a>
+
+
+
+            <!--SideBar con Dropdown-->
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#User" aria-expanded="false"
+                aria-controls="User">
+                <!--Seccion-->
+                <span class="icon">
+                    <img src="img/Personal-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Personal
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+                <!--Apartados-->
+                <div class="User collapse" id="User">
+                    <a href="Employee.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Empelados-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Empleados
+                        </span>
+                    </a>
+
+                    <a href="#" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Invitados-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Invitados
+                        </span>
+                    </a>
+                    <div class="lineDropDown">
+
+                    </div>
+                </div>
+            </a>
+
+
+            <!--SideBar con Dropdown-->
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#OperativeGroup"
+                aria-expanded="false" aria-controls="OperativeGroup">
+                <!--Seccion-->
+                <span class="icon">
+                    <img src="img/Personal-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Grupos <br> Operativos
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+                <!--Apartados-->
+                <div class="OperativeGroup collapse" id="OperativeGroup">
+                    <a href="Brigades.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/brigadas-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Brigadas
+                        </span>
+                    </a>
+
+                    <a href="ComiteSSO.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Comite SSO-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Comite SSO
+                        </span>
+                    </a>
+
+                    <div class="lineDropDown">
+
+                    </div>
+                </div>
+            </a>
+
+
+
+            <a href="Zone.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/zonas-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Zonas
+                </span>
+            </a>
+
+
+            <!--SideBar con Dropdown-->
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#Security" aria-expanded="false"
+                aria-controls="Security">
+                <!--Seccion-->
+                <span class="icon">
+                    <img src="img/MarcosDeSeguridad-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Marcos de <br> Seguridad
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+                <!--Apartados-->
+                <div class="Security collapse" id="Security">
+                    <a href="Protocol.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/protocolos-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Protocolos
+                        </span>
+                    </a>
+
+                    <a href="Lineamientos.html" class="nav-link active">
+                        <span class="icon">
+                            <img src="img/protocolos-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Lineamientos
+                        </span>
+                    </a>
+                    <div class="lineDropDown">
+
+                    </div>
+                </div>
+            </a>
+
+
+
+            <a href="Departamentos.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/DepartamentosPersonal.png" alt="">
+                </span>
+                <span class="description">
+                    Departamentos
+                </span>
+            </a>
+
+            <a href="CorrectiveActionController.html" class="nav-link ">
+                <span class="icon">
+                    <img src="img/AccionesCorrectivas-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Acciones <br>
+                    Correctivas
+                </span>
+            </a>
+
+            <a href="PlanPreventivoAnual.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/AccionesCorrectivas-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Acciones <br>
+                    Preventivas
+                </span>
+            </a>
+
+
+        </div>
+    </div>
+
+    <div class="sidebar-overlay"></div>
+
+
+    <!--Main-->
+    <main class="main-content">
+        <!--Seccion de topBar-->
+        <section>
+            <div
+                class="topbar d-flex justify-content-between align-items-center px-3 py-1  flex-wrap">
+
+                <div class="d-md-none">
+                    <button id="Button_Togle" class="btn p-0">
+                        <ion-icon name="menu-outline" style="font-size: 2.5rem;"></ion-icon>
+                    </button>
+                </div>
+
+                <!-- Sección derecha: iconos + nombre + foto -->
+                <div class="d-flex align-items-center gap-3 order-md-1 ms-auto">
+
+                    <!-- Iconos más cerca -->
+                    <a href="MisSanciones.html" class="text-dark">
+                        <img src="img/Sanciones-icon.png" alt="Sanciones" width="22">
+                    </a>
+                    <a href="notification.html" class="text-dark">
+                        <img src="img/Notificacionn-icon.png" alt="Notificación" width="22">
+                    </a>
+
+                    <div class="dropdown d-flex align-items-center gap-2">
+                        <div class="text-end d-none d-sm-block">
+                            <div class="fw-bold text-dark small">IVÁN ELISEO</div>
+                            <div class="text-muted small">HERNÁNDEZ MAURICIO</div>
+                        </div>
+                        <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="img/Captura de pantalla 2025-05-24 230248.png" alt="User" width="40" height="40"
+                                class="rounded-circle border border-success border-2">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end mt-2">
+                            <li><a class="dropdown-item" href="perfil.html"><i class="bi bi-person me-2"></i> Perfil</a>
+                            </li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i> Configuración</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right me-2"></i>
+                                    Cerrar sesión</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <div class="container main-content animate__animated animate__bounceInUp animate__delay-10ms">
+
+            <section id="Welcome">
+                <div class="row">
+
+                    <div class="col-sm-12 col-lg-40">
+                        <h2 id="Titulo">Gestor de Lineamientos y Categorias</h2>
+                    </div>
+                </div>
+            </section>
+
+            <section id="Actions" class="py-5">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-end mb-3 mb-md-0">
+                            <button class="btn btn-newCategory" id="createCategoryBtn">
+                                <i class="fas fa-folder-plus"></i> Crear Nueva Categoría
+                            </button>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4 d-flex justify-content-start">
+                            <button class="btn btn-lineament" id="createLineamentBtn">
+                                <i class="fas fa-file-circle-plus"></i> Crear Nuevo Lineamiento
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="ListLineaments">
+                <div class="list-section" id="listSection">
+                    <h3 class="d-flex justify-content-center align-items-center"><i class="fas fa-clipboard-list"
+                            style="margin-right: 5px;"></i> Categorías y Lineamientos Existentes</h3>
+                    <div class="option-content mt-3" style="flex-direction: row; display: flex; justify-content: flex-end; justify-content: flex-end;">
+                        <input type="text" class="form-control" id="SearchCategory"
+                            placeholder="Buscar Categoria o Lineamiento.." style="min-width: 200px; max-width: 450px;">
+                    </div>
+                    <div id="categoryLineamentList">
+                        <!--Aqui cargaremos todas las Categorias con sus respectivos Lineaminetos-->
+                    </div>
+                </div>
+            </section>
+    </main>
+
+    <!--Menu para Lineamientos-->
+    <div id="categoryContextMenu" class="context-menu" style="display: none;">
+        <a href="#" class="context-menu-item" id="editCategoryBtn">
+            <i class="fas fa-edit me-2"></i>Editar
+        </a>
+        <a href="#" class="context-menu-item" id="deleteCategoryBtn">
+            <i class="fas fa-trash-alt me-2"></i>Eliminar
+        </a>
+    </div>
+
+    <!--Menu para categorias-->
+
+
+
+    <!--Modal de registro de Lineamientos-->
+    <div id="lineamentFormModal" class="modal-form" style="display: none; ">
+        <div class="modal-content-form">
+            <div class="modal-header-form">
+                <button class="close-form" id="closeFormBtn">&times;</button>
+                <h2 class="modal-title-form">Registro de Lineamientos</h2>
+            </div>
+            <form id="lineamentForm">
+                <input type="hidden" id="updateCategoryId" name="updateCategoryId">
+                <div class="form-group-form">
+                    <label for="lineamentName">Nombre del Lineamiento</label>
+                    <input type="text" id="lineamentName" name="lineamentName" required>
+                </div>
+                <div class="form-group-form">
+                    <label for="lineamentCategory">Categoria del Lineamiento</label>
+                    <select id="lineamentCategory" name="lineamentCategory" required>
+                        <option value="" disabled selected>Selecciona una categoría</option>
+                    </select>
+                </div>
+                <div class="form-group-form">
+                    <label for="lineamentDescription">Descripcion del Lineamiento</label>
+                    <textarea id="lineamentDescription" name="lineamentDescription" rows="4" required></textarea>
+                </div>
+                <div class="button-container-form">
+                    <button type="submit" class="btn-register-form">Registrar Lineamiento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--Modal de registro de Categooria-->
+
+    <div id="categoryFormModal" class="modal-category" style="display: none;">
+        <div class="modal-content-category">
+            <div class="modal-header-category">
+                <button class="close-category" id="closeCategoryBtn">&times;</button>
+            </div>
+            <div class="modal-body-category">
+                <h2 class="modal-title-category">Registro de Categorías de Lineamientos</h2>
+                <div class="title-underline"></div>
+                <form id="categoryForm">
+                    <div class="form-section-top">
+                        <div class="form-fields">
+                            <div class="form-group-category">
+                                <label for="categoryName">Nombre del Categoria de Lineamientos</label>
+                                <input type="text" id="categoryName" name="categoryName" required>
+                            </div>
+                            <div class="form-group-category">
+                                <label for="categoryDescription">Descripcion de la Categoria</label>
+                                <textarea id="categoryDescription" name="categoryDescription" rows="4"
+                                    required></textarea>
+                            </div>
+                        </div>
+                        <div class="image-upload-container">
+                            <div class="image-placeholder">
+                                <img id="previewImage" src="#" alt="Vista previa de la foto" style="display: none;">
+                                <div id="placeholderText" style="display: block;">Añadir foto</div>
+                            </div>
+                            <button type="button" class="btn-add-photo">
+                                <i class="fas fa-camera"></i> Añadir foto
+                            </button>
+                            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                        </div>
+                    </div>
+
+                    <div class="department-selection-section">
+                        <label>Selecciona a que Departamentos pertenecera la Categoria</label>
+                        <div class="department-list">
+                            <div class="department-item">
+                                <span class="department-name">Departamento de Electromecanica</span>
+                                <div class="department-icon-container">
+                                    <img src="img/electromecanica-icon.png" alt="Icono de Electromecánica"
+                                        class="department-icon">
+                                </div>
+                                <input type="checkbox" id="deptElectromecanica" name="departments"
+                                    value="electromecanica">
+                                <label for="deptElectromecanica" class="checkbox-custom"></label>
+                            </div>
+                            <div class="department-item">
+                                <span class="department-name">Departamento de Psicologia</span>
+                                <div class="department-icon-container">
+                                    <img src="img/psicologia-icon.png" alt="Icono de Psicología"
+                                        class="department-icon">
+                                </div>
+                                <input type="checkbox" id="deptPsicologia" name="departments" value="psicologia">
+                                <label for="deptPsicologia" class="checkbox-custom"></label>
+                            </div>
+                            <div class="department-item">
+                                <span class="department-name">Departamento de Desarrollo de Software</span>
+                                <div class="department-icon-container">
+                                    <img src="img/software-icon.png" alt="Icono de Desarrollo de Software"
+                                        class="department-icon">
+                                </div>
+                                <input type="checkbox" id="deptSoftware" name="departments" value="software">
+                                <label for="deptSoftware" class="checkbox-custom"></label>
+                            </div>
+                            <div class="department-item">
+                                <span class="department-name">Departamento de Mantenimiento</span>
+                                <div class="department-icon-container">
+                                    <img src="img/mantenimiento-icon.png" alt="Icono de Mantenimiento"
+                                        class="department-icon">
+                                </div>
+                                <input type="checkbox" id="deptMantenimiento" name="departments" value="mantenimiento">
+                                <label for="deptMantenimiento" class="checkbox-custom"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-container-category">
+                        <button type="submit" class="btn-register-category">Registrar Categoria</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal de Actualizar Categoria-->
+    <div id="updateCategoryFormModal" class="modal-category" style="display: none;">
+        <div class="modal-content-category">
+            <div class="modal-header-category">
+                <button class="close-category" id="closeUpdateCategoryBtn">&times;</button>
+            </div>
+            <div class="modal-body-category">
+                <h2 class="modal-title-category">Actualizar Categoría de Lineamientos</h2>
+                <div class="title-underline"></div>
+                <form id="updateCategoryForm">
+                    <div class="form-section-top">
+                        <div class="form-fields">
+                            <div class="form-group-category">
+                                <label for="updateCategoryName">Nombre del Categoria de Lineamientos</label>
+                                <input type="text" id="updateCategoryName" name="updateCategoryName" required>
+                            </div>
+                            <div class="form-group-category">
+                                <label for="updateCategoryDescription">Descripcion de la Categoria</label>
+                                <textarea id="updateCategoryDescription" name="updateCategoryDescription" rows="4"
+                                    required></textarea>
+                            </div>
+                        </div>
+                        <div class="image-upload-container">
+                            <div class="image-placeholder">
+                                <img id="updatePreviewImage" src="#" alt="Vista previa de la foto"
+                                    style="display: none;">
+                                <div id="updatePlaceholderText" style="display: block;">Añadir foto</div>
+                            </div>
+                            <button type="button" class="btn-add-photo" id="updateAddPhotoBtn">
+                                <i class="fas fa-camera"></i> Añadir foto
+                            </button>
+                            <input type="file" id="updateFileInput" accept="image/*" style="display: none;">
+                        </div>
+                    </div>
+                    <div class="department-selection-section">
+                        <label>Selecciona a que Departamentos pertenecera la Categoria</label>
+                        <div class="department-list">
+                            <div class="department-item">
+                                <span class="department-name">Departamento de Electromecanica</span>
+                                <div class="department-icon-container">
+                                    <img src="img/electromecanica-icon.png" alt="Icono de Electromecánica"
+                                        class="department-icon">
+                                </div>
+                                <input type="checkbox" id="updateDeptElectromecanica" name="updateDepartments"
+                                    value="electromecanica">
+                                <label for="updateDeptElectromecanica" class="checkbox-custom"></label>
+                            </div>
+                            <div class="department-item">
+                                <span class="department-name">Departamento de Psicologia</span>
+                                <div class="department-icon-container">
+                                    <img src="img/psicologia-icon.png" alt="Icono de Psicología"
+                                        class="department-icon">
+                                </div>
+                                <input type="checkbox" id="updateDeptPsicologia" name="updateDepartments"
+                                    value="psicologia">
+                                <label for="updateDeptPsicologia" class="checkbox-custom"></label>
+                            </div>
+                            <div class="department-item">
+                                <span class="department-name">Departamento de Desarrollo de Software</span>
+                                <div class="department-icon-container">
+                                    <img src="img/software-icon.png" alt="Icono de Desarrollo de Software"
+                                        class="department-icon">
+                                </div>
+                                <input type="checkbox" id="updateDeptSoftware" name="updateDepartments"
+                                    value="software">
+                                <label for="updateDeptSoftware" class="checkbox-custom"></label>
+                            </div>
+                            <div class="department-item">
+                                <span class="department-name">Departamento de Mantenimiento</span>
+                                <div class="department-icon-container">
+                                    <img src="img/mantenimiento-icon.png" alt="Icono de Mantenimiento"
+                                        class="department-icon">
+                                </div>
+                                <input type="checkbox" id="updateDeptMantenimiento" name="updateDepartments"
+                                    value="mantenimiento">
+                                <label for="updateDeptMantenimiento" class="checkbox-custom"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button-container-category">
+                        <button type="submit" class="btn-register-category">Actualizar Categoría</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal de Actualizar lineamientos-->
+    <div id="updateLineamentFormModal" class="modal-form" style="display: none;">
+        <div class="modal-content-form">
+            <div class="modal-header-form">
+                <button class="close-form" id="closeUpdateLineamentBtn">&times;</button>
+                <h2 class="modal-title-form">Actualizar Lineamiento</h2>
+            </div>
+            <form id="updateLineamentForm">
+                <div class="form-group-form">
+                    <label for="updateLineamentName">Nombre del Lineamiento</label>
+                    <input type="text" id="updateLineamentName" name="updateLineamentName" required>
+                </div>
+                <div class="form-group-form">
+                    <label for="updateLineamentCategory">Categoria del Lineamiento</label>
+                    <select id="updateLineamentCategory" name="updateLineamentCategory" required>
+                        <option value="" disabled selected>Selecciona una categoría</option>
+                    </select>
+                </div>
+                <div class="form-group-form">
+                    <label for="updateLineamentDescription">Descripcion del Lineamiento</label>
+                    <textarea id="updateLineamentDescription" name="updateLineamentDescription" rows="4"
+                        required></textarea>
+                </div>
+                <div class="button-container-form">
+                    <button type="submit" class="btn-register-form">Actualizar Lineamiento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="Js/Controller/LineamentManagerController.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--Scirpts de IonIcons-->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!--Script-->
+    <script src="Js/SideBarScript.js"></script>
+    <!--Script de Boostrap5-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,737 @@
+.btn {
+    border-radius: 0.25rem !important;
+    /* Bootstrap's default border-radius */
+    font-weight: 500 !important;
+    /* Medium font-weight */
+    padding: 0.75rem 1.5rem !important;
+    /* Generous padding */
+    display: inline-flex !important;
+    /* Allows icon and text to be on the same line and align */
+    align-items: center !important;
+    /* Vertically align icon and text */
+    justify-content: center !important;
+    /* Center content horizontally within the button */
+    text-decoration: none !important;
+    /* Remove underline if it were a link */
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+    /* Smooth transitions */
+    /* Remove width: 100% and max-width from here and control it with Bootstrap grid and flex utilities */
+    min-width: 200px !important;
+    /* Give them a minimum width to ensure they're not too small */
+}
+
+.btn i {
+    margin-right: 8px !important;
+    /* Space between the icon and the text */
+}
+
+/* Primary Button Style (Crear Nueva Categoría) */
+.btn-newCategory {
+    background-color: #229E82 !important;
+    /* A shade of green, similar to the image */
+    border-color: #229E82 !important;
+    color: #fff !important;
+    /* White text */
+}
+
+.btn-newCategory:hover {
+    background-color: #1c8d72 !important;
+    /* Darker green on hover */
+    border-color: #1c8d72 !important;
+    color: #fff !important;
+}
+
+/* Secondary Button Style (Crear Nuevo Lineamiento) */
+.btn-lineament {
+    background-color: #20c997 !important;
+    /* A lighter, more cyan-ish green, similar to the image */
+    border-color: #20c997 !important;
+    color: #fff !important;
+    /* White text */
+}
+
+.btn-lineament:hover {
+    background-color: #17a2b8 !important;
+    /* Slightly different shade on hover for distinction */
+    border-color: #17a2b8 !important;
+    color: #fff !important;
+}
+
+
+/* Specific adjustments for button alignment within columns on different screen sizes */
+/* For medium (md) and larger screens, buttons will be half width (col-md-6) and aligned */
+@media (min-width: 768px) {
+    .col-md-6 .btn {
+        width: auto;
+        /* Allow buttons to take their natural width */
+    }
+}
+
+/* For small (sm) and extra small (xs) screens, make buttons full width and centered */
+@media (max-width: 767.98px) {
+    .col-12 .btn {
+        width: 100%;
+    }
+
+    .col-12.d-flex {
+        justify-content: center !important;
+        /* Override Bootstrap's justify-content-end/start for centering */
+    }
+}
+
+/* More specific alignment for larger screens to replicate image */
+@media (min-width: 992px) {
+
+    /* For laptop screens (lg) and up */
+    .col-lg-4.d-flex.justify-content-end {
+        justify-content: flex-end !important;
+        /* Force align right */
+    }
+
+    .col-lg-4.d-flex.justify-content-start {
+        justify-content: flex-start !important;
+        /* Force align left */
+    }
+
+    /* Add some gap between the two buttons for larger screens */
+    .row.justify-content-center>.col-lg-4:first-child {
+        margin-right: 15px;
+        /* Adjust as needed for spacing */
+    }
+
+    .row.justify-content-center>.col-lg-4:last-child {
+        margin-left: 15px;
+        /* Adjust as needed for spacing */
+    }
+}
+
+
+/* Override default Bootstrap button focus outlines if desired (optional) */
+.btn:focus {
+    box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25) !important;
+    /* Primary color with transparency */
+}
+
+.btn-lineament:focus {
+    box-shadow: 0 0 0 0.25rem rgba(32, 201, 151, 0.25) !important;
+    /* Secondary color with transparency */
+}
+
+.list-section {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+    text-align: left;
+}
+
+#categoryLineamentList {
+    margin-top: 20px;
+}
+
+.category-item {
+    background-color: #fff;
+    border: 1px solid #43BAA1;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.category-header {
+    background-color: #43BAA1;
+    color: #fff;
+    padding: 15px 25px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.3em;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(32, 162, 160, 1);
+    transition: background-color 0.3s ease;
+}
+
+.category-header:hover {
+    background-color: rgba(32, 162, 160, 1);
+}
+
+.category-header i {
+    font-size: 1em;
+    transition: transform 0.3s ease;
+}
+
+.category-header.expanded i {
+    transform: rotate(90deg);
+    /* Gira el icono para indicar expandido */
+}
+
+.category-content {
+    padding: 0 25px;
+    max-height: 0;
+    /* Oculto por defecto */
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+}
+
+.category-content.expanded {
+    max-height: 500px;
+    /* Suficientemente grande para contener el contenido */
+    padding: 20px 25px;
+}
+
+.category-content p {
+    font-style: italic;
+    color: #666;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.category-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.category-content ul li {
+    background-color: #f4f7f6;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1em;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease-in-out;
+}
+
+.category-content ul li:hover {
+    transform: translateX(3px);
+}
+
+.category-content ul li i {
+    color: #229E82;
+}
+
+/* Fondo oscurecido */
+.modal-form {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Contenido del formulario */
+.modal-content-form {
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.3s ease-in-out;
+    position: relative;
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Estilos para el encabezado del modal */
+.modal-header-form {
+    text-align: center;
+    position: relative;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.modal-header-form .close-form {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #555;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.modal-header-form .close-form:hover {
+    color: #000;
+}
+
+.modal-header-form::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    height: 3px;
+    background-color: #20A2A0;
+    border-radius: 2px;
+}
+
+.modal-title-form {
+    font-size: 1.5rem;
+    color: #20A2A0;
+    margin: 0;
+}
+
+/* Estilos de los campos del formulario */
+.form-group-form {
+    margin-bottom: 15px;
+}
+
+.form-group-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group-form input[type="text"],
+.form-group-form select,
+.form-group-form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group-form input[type="text"]:focus,
+.form-group-form select:focus,
+.form-group-form textarea:focus {
+    border-color: #20C997;
+    outline: none;
+}
+
+/* Botón de registro */
+.button-container-form {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.btn-register-form {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(to right, #20C997, #19a67a);
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-register-form:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+#lineamentForm input[type="text"],
+#lineamentForm select,
+#lineamentForm textarea {
+    border: 1px solid #8FCAB9;
+}
+
+/* Estilos para el modal de Registro de Categorias */
+.modal-category {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.modal-content-category {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+    max-height: 90vh;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.modal-content-category::-webkit-scrollbar {
+    display: none;
+}
+
+.modal-header-category {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: none;
+}
+
+.close-category {
+    color: #20A2A0;
+    font-size: 24px;
+    font-weight: bold;
+    border: none;
+    background: none;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px;
+}
+
+.close-category:hover {
+    color: #00796b;
+}
+
+.modal-title-category {
+    text-align: center;
+    color: #009688;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+.title-underline {
+    /* La línea debajo del título */
+    width: 100%;
+    /* Ajusta el ancho al 100% del contenedor */
+    max-width: 300px;
+    /* Limita el ancho máximo si es necesario */
+    height: 3px;
+    background-color: #009688;
+    margin: 10px auto 20px;
+    /* Centra la barra horizontalmente */
+    border-radius: 2px;
+}
+
+.form-section-top {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-fields {
+    flex: 1;
+}
+
+.form-group-category {
+    margin-bottom: 15px;
+}
+
+.form-group-category label {
+    display: block;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+/* Aplicar el color de borde a los inputs y textareas */
+.form-group-category input[type="text"],
+.form-group-category textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #8FCAB9;
+    /* Borde con el color #8FCAB9 */
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-group-category textarea {
+    resize: none;
+    height: 100px;
+}
+
+/* Asegura que el contenedor de la imagen tenga el tamaño y la apariencia correcta */
+.image-upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 150px;
+}
+
+/* El recuadro gris donde aparece el texto o la imagen de previsualización */
+.image-placeholder {
+    width: 100%;
+    height: 150px;
+    background-color: #e0e0e0;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* El texto "Añadir foto" */
+#placeholderText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #999;
+    font-size: 14px;
+    text-align: center;
+    display: block;
+}
+
+/* La imagen de previsualización que se muestra cuando el usuario sube una foto */
+#previewImage,
+#updatePreviewImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
+#placeholderText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Centra el texto */
+    color: #999;
+    /* El color de gris más claro para el texto */
+    font-size: 14px;
+    /* Un tamaño de fuente más pequeño */
+    text-align: center;
+    display: block;
+}
+
+.btn-add-photo {
+    background-color: #f7f9fc;
+    border: 1px solid #ccc;
+    color: #00796b;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-add-photo i {
+    color: #00796b;
+}
+
+.department-selection-section {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+}
+
+.department-selection-section label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #009688;
+    margin-bottom: 15px;
+}
+
+.department-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.department-item {
+    display: flex;
+    align-items: center;
+    background-color: #f7f9fc;
+    border-radius: 8px;
+    padding: 10px 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease;
+    border: 1px solid #e0e0e0;
+}
+
+.department-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.department-item .department-name {
+    flex-grow: 1;
+    font-size: 15px;
+    color: #444;
+}
+
+.department-icon-container {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e0f2f1;
+    margin-right: 15px;
+}
+
+.department-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.department-item input[type="checkbox"] {
+    display: none;
+}
+
+.checkbox-custom {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    background-color: #fff;
+    transition: background-color 0.3s, border-color 0.3s;
+    position: relative;
+}
+
+.department-item input[type="checkbox"]:checked+.checkbox-custom {
+    background-color: #43BAA1;
+    border-color: #43BAA1;
+}
+
+.department-item input[type="checkbox"]:checked+.checkbox-custom::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 7px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+.button-container-category {
+    text-align: center;
+}
+
+.btn-register-category {
+    background-color: #009688;
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-register-category:hover {
+    background-color: #00796b;
+    transform: translateY(-2px);
+}
+
+/* Ajustes para la responsividad */
+@media (max-width: 768px) {
+    .form-section-top {
+        flex-direction: column;
+    }
+
+    .image-upload-container {
+        width: 100%;
+        margin-top: 20px;
+    }
+}
+
+/* Oculta la barra de desplazamiento para navegadores basados en WebKit (Chrome, Safari, etc.) */
+.modal-content-category::-webkit-scrollbar {
+    display: none;
+    /* Oculta la barra de scroll */
+}
+
+/* Oculta la barra de desplazamiento para Firefox */
+.modal-content-category {
+    scrollbar-width: none;
+    /* Oculta la barra de scroll */
+}
+
+.category-item.expanded .category-header i {
+    transform: rotate(90deg);
+}
+
+.category-content {
+    max-height: 0;
+    /* Oculta el contenido por defecto */
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+    padding: 0 15px;
+    /* Elimina el padding para que no ocupe espacio cuando está colapsado */
+}
+
+.category-item.expanded .category-content {
+    max-height: 500px;
+    /* Un valor lo suficientemente grande para mostrar el contenido */
+    padding: 15px;
+    /* Restaura el padding cuando está expandido */
+}
+
+
+.context-menu {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    min-width: 150px;
+    padding: 5px 0;
+}
+
+.context-menu-item {
+    display: block;
+    padding: 8px 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.context-menu-item:hover {
+    background-color: #f0f0f0;
+}

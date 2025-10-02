@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DashBoard-SSSO</title>
+
+    <link rel="stylesheet" href="css/DashBoard.css">
+
+    <link rel="stylesheet" href="css/SideBar.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+
+</head>
+
+<body>
+
+    <!-- SIDE BAR -->
+    <div class="sidebar">
+        <div class="nav flex-column">
+            <div style="display: flex; justify-content: center; align-items: center; margin: 20px;">
+                <span class="Image_Logo">
+
+                    <img src="img/WhatsApp_Image_2025-05-12_at_9.32.07_PM-removebg-preview.png" alt="Logo ">
+
+                </span>
+            </div>
+
+
+            <a href="index.html" class="nav-link active">
+                <span class="icon">
+                    <img src="img/Home-Icon.png" alt="">
+                </span>
+                <span class="description">
+                    Inicio
+                </span>
+            </a>
+
+            <a href="Report.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/Report-Icon.png" alt="">
+                </span>
+                <span class="description">
+                    Reportes
+                </span>
+            </a>
+
+            <a href="Accidentes.html" class="nav-link ">
+                <span class="icon">
+                    <img src="img/accidentes-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Accidentes
+                </span>
+            </a>
+
+            <a href="Capacitaciones.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/Capacitaciones.png" alt="">
+                </span>
+                <span class="description">
+                    Capacitaciones
+                </span>
+            </a>
+
+            <a href="Simulacrum.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/simulacros-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Simulacros
+                </span>
+            </a>
+
+            <a href="Inspection.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/inspecciones-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Inspecciones
+                </span>
+            </a>
+
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#Implements" aria-expanded="false"
+                aria-controls="Implements">
+                <!--Seccion-->
+                <span class="icon">
+                    <img src="img/Implementos-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Implementos
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+                <!--Apartados-->
+                <div class="Implements collapse" id="Implements">
+                    <a href="Extintores.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/extintor.png" alt="">
+                        </span>
+                        <span class="description">
+                            Extintores
+                        </span>
+                    </a>
+
+                    <a href="SmokeDetector.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Detector de Humo.png" alt="">
+                        </span>
+                        <span class="description">
+                            Detector <br>
+                            de Humo
+                        </span>
+                    </a>
+
+                    <a href="EmergencyAlarm.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Alarma de Emergencia.png" alt="">
+                        </span>
+                        <span class="description">
+                            Alarmas de
+                            <br> Emergencia
+                        </span>
+                    </a>
+                </div>
+            </a>
+
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#Maintenance" aria-expanded="false"
+                aria-controls="Maintenance">
+
+                <span class="icon">
+                    <img src="img/Manteniminetos-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Mantenimiento
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+
+                <div class="Maintenance collapse" id="Maintenance">
+
+                    <a href="GeneralMaintenance.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Mantenimientos generales.png" alt="">
+                        </span>
+                        <span class="description">
+                            General
+                        </span>
+                    </a>
+
+                    <a href="#" class="nav-link">
+                        <span class="icon">
+                            <img src="img/extintor.png" alt="">
+                        </span>
+                        <span class="description">
+                            Extintores
+                        </span>
+                    </a>
+
+                    <a href="#" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Detector de Humo.png" alt="">
+                        </span>
+                        <span class="description">
+                            Detector <br>
+                            de Humo
+                        </span>
+                    </a>
+
+                </div>
+            </a>
+
+
+
+            <!--SideBar con Dropdown-->
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#User" aria-expanded="false"
+                aria-controls="User">
+                <!--Seccion-->
+                <span class="icon">
+                    <img src="img/Personal-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Personal
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+                <!--Apartados-->
+                <div class="User collapse" id="User">
+                    <a href="Employee.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Empelados-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Empleados
+                        </span>
+                    </a>
+
+                    <a href="#" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Invitados-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Invitados
+                        </span>
+                    </a>
+                    <div class="lineDropDown">
+
+                    </div>
+                </div>
+            </a>
+
+
+            <!--SideBar con Dropdown-->
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#OperativeGroup"
+                aria-expanded="false" aria-controls="OperativeGroup">
+                <!--Seccion-->
+                <span class="icon">
+                    <img src="img/Personal-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Grupos <br> Operativos
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+                <!--Apartados-->
+                <div class="OperativeGroup collapse" id="OperativeGroup">
+                    <a href="Brigades.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/brigadas-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Brigadas
+                        </span>
+                    </a>
+
+                    <a href="ComiteSSO.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/Comite SSO-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Comite SSO
+                        </span>
+                    </a>
+
+                    <div class="lineDropDown">
+
+                    </div>
+                </div>
+            </a>
+
+
+
+            <a href="Zone.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/zonas-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Zonas
+                </span>
+            </a>
+
+
+            <!--SideBar con Dropdown-->
+            <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#Security" aria-expanded="false"
+                aria-controls="Security">
+                <!--Seccion-->
+                <span class="icon">
+                    <img src="img/MarcosDeSeguridad-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Marcos de <br> Seguridad
+                    <i class="bi bi-caret-down-fill"></i>
+                </span>
+                <!--Apartados-->
+                <div class="Security collapse" id="Security">
+                    <a href="Protocol.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/protocolos-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Protocolos
+                        </span>
+                    </a>
+
+                    <a href="Lineamientos.html" class="nav-link">
+                        <span class="icon">
+                            <img src="img/protocolos-icon.png" alt="">
+                        </span>
+                        <span class="description">
+                            Lineamientos
+                        </span>
+                    </a>
+                    <div class="lineDropDown">
+
+                    </div>
+                </div>
+            </a>
+
+
+
+            <a href="Departamentos.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/DepartamentosPersonal.png" alt="">
+                </span>
+                <span class="description">
+                    Departamentos
+                </span>
+            </a>
+
+            <a href="CorrectiveActionController.html" class="nav-link ">
+                <span class="icon">
+                    <img src="img/AccionesCorrectivas-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Acciones <br>
+                    Correctivas
+                </span>
+            </a>
+
+            <a href="PlanPreventivoAnual.html" class="nav-link">
+                <span class="icon">
+                    <img src="img/AccionesCorrectivas-icon.png" alt="">
+                </span>
+                <span class="description">
+                    Acciones <br>
+                    Preventivas
+                </span>
+            </a>
+
+
+        </div>
+    </div>
+
+    <div class="sidebar-overlay"></div>
+
+
+
+    <main class="main-content animate__animated animate__fadeIn animate__delay-10ms">
+
+
+
+        <section>
+            <div class="topbar d-flex justify-content-between align-items-center px-3 py-1  flex-wrap">
+
+                <div class="d-md-none">
+                    <button id="Button_Togle" class="btn p-0">
+                        <ion-icon name="menu-outline" style="font-size: 2.5rem;"></ion-icon>
+                    </button>
+                </div>
+
+                <!-- Botón IA (siempre visible y centrado en móvil, alineado en desktop) -->
+                <div class="ai-button d-flex align-items-center mx-auto mx-md-0 order-md-0">
+                    <div class="IAOption">
+                        <div class="button-container">
+                            <button class="elegant-ai-button" id="IA-Button">
+                                <svg class="elegant-ai-icon" stroke="none" viewBox="0 0 24 24" fill="currentColor">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M9 4.5a.75.75 0 01.721.544l.813 2.846a3.75 3.75 0 002.576 2.576l2.846.813a.75.75 0 010 1.442l-2.846.813a3.75 3.75 0 00-2.576 2.576l-.813 2.846a.75.75 0 01-1.442 0l-.813-2.846a3.75 3.75 0 00-2.576-2.576l-2.846-.813a.75.75 0 010-1.442l2.846-.813A3.75 3.75 0 007.466 7.89l.813-2.846A.75.75 0 019 4.5zM18 1.5a.75.75 0 01.728.568l.258 1.036c.236.94.97 1.674 1.91 1.91l1.036.258a.75.75 0 010 1.456l-1.036.258c-.94.236-1.674.97-1.91 1.91l-.258 1.036a.75.75 0 01-1.456 0l-.258-1.036a2.625 2.625 0 00-1.91-1.91l-1.036-.258a.75.75 0 010-1.456l1.036-.258a2.625 2.625 0 001.91-1.91l.258-1.036A.75.75 0 0118 1.5zM16.5 15a.75.75 0 01.712.513l.394 1.183c.15.447.5.799.948.948l1.183.395a.75.75 0 010 1.422l-1.183.395c-.447.15-.799.5-.948.948l-.395 1.183a.75.75 0 01-1.422 0l-.395-1.183a1.5 1.5 0 00-.948-.948l-1.183-.395a.75.75 0 010-1.422l1.183-.395c.447-.15.799-.5.948-.948l.395-1.183A.75.75 0 0116.5 15z">
+                                    </path>
+                                </svg>
+                                <span class="elegant-ai-text">AI</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección derecha: iconos + nombre + foto -->
+                <div class="d-flex align-items-center gap-3 order-md-1 ms-auto">
+
+                    <!-- Iconos más cerca -->
+                    <a href="MisSanciones.html" class="text-dark">
+                        <img src="img/Sanciones-icon.png" alt="Sanciones" width="22">
+                    </a>
+                    <a href="notification.html" class="text-dark">
+                        <img src="img/Notificacionn-icon.png" alt="Notificación" width="22">
+                    </a>
+
+                    <div class="dropdown d-flex align-items-center gap-2">
+                        <div class="text-end d-none d-sm-block">
+                            <div class="fw-bold text-dark small">IVÁN ELISEO</div>
+                            <div class="text-muted small">HERNÁNDEZ MAURICIO</div>
+                        </div>
+                        <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="img/Captura de pantalla 2025-05-24 230248.png" alt="User" width="40" height="40"
+                                class="rounded-circle border border-success border-2">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end mt-2">
+                            <li><a class="dropdown-item" href="perfil.html"><i class="bi bi-person me-2"></i> Perfil</a>
+                            </li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i> Configuración</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" id="BtnLogOut"><i class="bi bi-box-arrow-right me-2"></i>
+                                    Cerrar sesión</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!--Seccion de inicio del DashBoard-->
+        <Section id="Inicio">
+            <div>
+                <h2>Bienvenido! <br>Ivan Hernandez</h2>
+            </div>
+        </Section>
+
+
+
+        <section>
+            <div class="row g-4 mb-4">
+                <div class="col-md-4 col-sm-6">
+                    <div class="kpi-card bg-green">
+                        <div class="kpi-number">0</div>
+                        <div class="kpi-label">Accidentes de hoy</div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="kpi-card bg-orange">
+                        <div class="kpi-number">3</div>
+                        <div class="kpi-label">Simulacros pendientes</div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="kpi-card bg-blue">
+                        <div class="kpi-number">20</div>
+                        <div class="kpi-label">Acciones Correctivas Pendientes</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <section id="Card-Dashboard">
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-12 col-md-6 col-lg-8 mb-4">
+                        <div class="card" style="height: 310px;  border: none; height: 400px;">
+                            <div class="card-body">
+                                <div class="chart-container" style="height: 100%;"> <canvas id="sismoChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-4">
+                        <div class="calendar-container" style="margin-top: 20px;">
+                            <div class="calendar" id="calendar">
+                                <div class="calendar-header">
+                                    <button id="prev">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white"
+                                            viewBox="0 0 24 24">
+                                            <path d="M15 6l-6 6 6 6" />
+                                        </svg>
+                                    </button>
+                                    <h2 id="monthYear"></h2>
+                                    <button id="next">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white"
+                                            viewBox="0 0 24 24">
+                                            <path d="M9 18l6-6-6-6" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div id="calendarBody">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section id="ActionsFast">
+            <div class="row g-4 mb-4">
+                <div class="col-12">
+                    <div class="kpi-card">
+                        <h5 class="mb-3">Acciones Rápidas</h5>
+                        <div class="d-flex flex-wrap justify-content-center gap-3">
+                            <button class="btn btn-lg custom-action-btn"
+                                style="background-color: #00897B; color: white;">
+                                <i class="bi bi-plus-circle me-2"></i> Registrar Accidente
+                            </button>
+                            <button class="btn btn-success btn-lg custom-action-btn">
+                                <i class="bi bi-calendar-plus me-2"></i> Programar Inspección
+                            </button>
+                            <button class="btn  btn-lg custom-action-btn text-white"
+                                style="background-color:rgb(118, 196, 196);">
+                                <i class="bi bi-person-video2 me-2"></i> Asignar Capacitación
+                            </button>
+                            <button class="btn btn-lg custom-action-btn text-white"
+                                style="background-color: rgba(231, 231, 82, 0.979);">
+                                <i class="bi bi-clipboard-pulse me-2"></i> Crear Simulacro
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="Charts" class="row">
+            <div class="col-lg-6">
+                <div class="chart-card">
+                    <h5>Cumplimiento de Inspecciones</h5>
+                    <div class="chart-container" style="height:300px;">
+                        <canvas id="inspeccionesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="chart-card">
+                    <h5>Incidentes por Tipo de Peligro</h5>
+                    <div class="chart-container" style="height:300px;">
+                        <div id="incidentesPeligroChart"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+    </main>
+
+    <div class="modal fade" id="subscriptionModal" tabindex="1">
+        <div class="modal-dialog modal-dialog-centered">
+
+            <img src="img/Recurso 5seguritichito.png" alt="personaje" class="personaje-img">
+
+            <div class="modal-content animate__animated animate__fadeInDown">
+
+                <div class="modal-body p-4 position-relative">
+
+                    <!-- Botón cerrar -->
+                    <button type="button" class="btn-close position-absolute top-0 start-0 m-3" data-bs-dismiss="modal"
+                        aria-label="Cerrar"></button>
+
+
+                    <!-- Contenido -->
+                    <h5 class="fw-bold text-center mb-3 text-dark">¡Desbloquea el Potencial Ilimitado de
+                        tu<br>Gestión de Seguridad y Salud Ocupacional!</h5>
+
+                    <p class="text-center">¿Listo para transformar tu gestión de Seguridad y Salud Ocupacional? Con
+                        nuestra Suscripción Premium por solo <strong style="color: #00897B;">$5.99/mes</strong>,
+                        accederás a herramientas de vanguardia que te darán ventaja competitiva.</p>
+
+                    <hr>
+
+                    <p><strong>Con nuestra Suscripción obtendrás acceso a:</strong></p>
+                    <ul>
+                        <li><strong>Inteligencia Artificial Potente:</strong>
+                            <div class="text-info">• Identifica patrones y riesgos ocultos en tus datos.</div>
+                        </li>
+                        <li><strong>Análisis de Accidentes con Profundidad:</strong>
+                            <div class="text-info">• Evita recurrencias identificando deficiencias sistémicas.</div>
+                        </li>
+                        <li><strong>Planes de Acciones Preventivas Inteligentes:</strong>
+                            <div class="text-info">• Genera planes personalizados basados en los riesgos.</div>
+                        </li>
+                    </ul>
+
+                    <div class="d-grid mt-4">
+                        <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=XXXXXXXX"
+                            target="_blank" class="btn btn-success rounded-pill fw-bold">OBTENER POR SOLO
+                            $5.99/MES</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!--Scirpts de IonIcons-->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--Script-->
+    <script type="module" src="Js/Controller/DashBoardController.js"></script>
+  
+
+    <script src="Js/SideBarScript.js"></script>
+    <!--Script de Boostrap5-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        crossorigin="anonymous"></script>
+   
+
+    <script src="Js/DashBoardScript.js"></script>
+    <!--Script de Chart.js-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+    <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+    <script src="https://code.highcharts.com/modules/boxplot.js"></script>
+
+
+</body>
+
+</html>

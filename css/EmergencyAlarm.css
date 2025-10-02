@@ -1,0 +1,526 @@
+#Titulo {
+  text-align: start;
+  /* Si quieres que el título esté centrado */
+  margin-bottom: 8px;
+  /* Espacio entre el título y el contenido de abajo */
+  color: #333;
+  /* Color del texto del título */
+
+  /* ----- Esto es lo que añade la línea ----- */
+  border-bottom: 1.5px solid #ccc;
+  /* 1px de grosor, estilo sólido, color gris claro */
+  padding-bottom: 10px;
+  /* Espacio entre el texto del título y la línea */
+  display: inline-block;
+  /* Opcional: si quieres que la línea se ajuste al ancho del texto */
+  width: 40%;
+}
+
+/*Seccion de Tarjetas de Informacion*/
+.custom-card {
+    border-radius: 15px; /* Rounded corners for the cards */
+    border: none; /* Remove default card border */
+    padding: 15px; /* Add some padding inside the card */
+}
+
+.icon-wrapper {
+    width: 50px; /* Size of the circular icon background */
+    height: 50px;
+    font-size: 1.25rem; /* Icon size */
+    flex-shrink: 0; /* Prevent shrinking on smaller screens */
+}
+
+/* Custom background colors for icons */
+.bg-orange {
+    background-color: #FF7043 ; /* A shade of orange for Total Sales */
+}
+
+.bg-pink {
+    background-color: #20A2A0  ; /* A shade of pink for Expenses */
+}
+
+.bg-green {
+    background-color: #FFB6C1 ; /* A shade of green for Income */
+}
+
+
+/*Seccion de Opciones*/
+.SectionOptions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#AllOptions {
+  border: 0;
+  background-color: white;
+  padding-top: 20px;
+  padding-bottom: 5px;
+  position: relative;
+  transition: all 0.3s ease;
+  flex-grow: 1;
+}
+
+#AlarmDisabled {
+  border: 0;
+  background-color: white;
+  padding-top: 20px;
+  padding-bottom: 5px;
+  position: relative;
+  transition: all 0.3s ease;
+  flex-grow: 1;
+}
+
+#AlarmWorking {
+  border: 0;
+  background-color: white;
+  padding-top: 20px;
+  padding-bottom: 5px;
+  position: relative;
+  transition: all 0.3s ease;
+  flex-grow: 1;
+}
+
+#AllOptions p,
+#AlarmDisabled p,
+#AlarmWorking p {
+  margin: 0;
+  /* Elimina el margen por defecto del párrafo dentro del botón */
+  padding-bottom: 5px;
+  /* Espacio entre el texto y la barra */
+}
+
+
+/* Estilo para la barra cuando la opción está seleccionada */
+#AllOptions.selected-option,
+#AlarmDisabled.selected-option,
+#AlarmWorking.selected-option {
+  color: #209F84;
+  /* Ejemplo: texto verde para el botón seleccionado */
+  font-weight: bold;
+}
+
+#AllOptions.selected-option::after,
+#AlarmDisabled.selected-option::after,
+#AlarmWorking.selected-option::after {
+  content: '';
+  /* Contenido vacío para el pseudo-elemento */
+  position: absolute;
+  bottom: 0;
+  /* Posiciona la barra en la parte inferior del botón */
+  left: 10%;
+  /* Empieza la barra un poco desde la izquierda */
+  right: 10%;
+  /* Termina la barra un poco antes del final derecho */
+  height: 3px;
+  /* Grosor de la barra */
+  background-color: #209F84;
+  /* Color de la barra (el verde de tu botón Add) */
+  border-radius: 2px;
+  /* Bordes ligeramente redondeados para la barra */
+  animation: slideInBar 0.3s forwards;
+  /* Animación para que aparezca suavemente */
+}
+
+/* Animación para la barra */
+@keyframes slideInBar {
+  from {
+    transform: scaleX(0);
+    /* Empieza con ancho cero */
+  }
+
+  to {
+    transform: scaleX(1);
+    /* Termina con ancho completo */
+  }
+}
+
+#Search {
+  margin-top: 20px;
+  height: 30px;
+  width: 20%;
+  border-radius: 10px;
+  border: 2px solid gray;
+  padding: 10px;
+}
+
+#openFormBtn {
+  margin-left: 10px;
+  border: 2px solid #209F84;
+  background-color: white;
+  height: 35px;
+  margin-top: 17px;
+  width: 20%;
+  text-align: center;
+  border-radius: 15px;
+  color: black;
+  transition: 20ms;
+}
+
+#openFormBtn:hover {
+  background: #209F84;
+  border: 2px solid whitesmoke;
+  color: white;
+  transform: translateY(-1px)
+}
+
+
+#table {
+  width: 100%;
+  border-collapse: separate;
+  /* ¡Crucial! Permite bordes redondeados y espacio entre filas */
+  border-spacing: 0 15px;
+  /* Espacio vertical de 15px entre cada fila (panel) */
+  margin-top: 20px;
+}
+
+.table thead th {
+  background-color: #0C8266;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  border-bottom: none;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table tbody td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.table thead tr th:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.table thead tr th:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.table tbody tr {
+  transition: background-color 0.2s ease-in-out;
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.table tbody td {
+  padding: 1rem 1rem;
+  color: #444;
+}
+
+.pagination .page-item .page-link {
+  border: none;
+  border-radius: 0.5rem;
+  margin: 0 0.2rem;
+  color: #6c757d;
+  background-color: transparent;
+  transition: background-color 0.2s ease;
+}
+
+.pagination .page-item .page-link:hover {
+  background-color: #12bb94;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #0C8266;
+  color: white;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.35em 0.8em;
+  border-radius: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.status-activo {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-inactivo {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.status-revision {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.action-btn {
+  color: #6c757d;
+  font-size: 1.1rem;
+  transition: color 0.2s;
+}
+
+.action-btn:hover {
+  color: #000;
+}
+
+
+.custom-modal-content {
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border: none;
+    max-width: 650px; /* Ajusta el ancho del modal */
+}
+
+.custom-modal-header {
+    border-bottom: 2px solid #20A2A0; /* Línea de color debajo del título */
+    padding: 1.5rem 2rem 0.5rem;
+    position: relative;
+    border-bottom: 2px solid #20A2A0; /* Línea inferior al título */
+}
+
+.modal-title {
+    font-weight: 600;
+    color: #444;
+    font-size: 1.5rem;
+    padding-bottom: 0.5rem; /* Espacio entre el título y la línea */
+}
+
+.custom-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #0E7F7D;
+    opacity: 1; /* Oculta la "X" de Bootstrap y muestra el icono */
+    z-index: 1000;
+}
+
+.custom-close-btn .fas {
+    color: #0E7F7D; /* Color del icono de la "X" */
+}
+
+.custom-modal-body {
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.extintor-image-cell{ width:160px; min-width:160px; text-align:center; }
+/* Imagen en tabla */
+.extintor-image{
+  width:140px; height:90px; object-fit:cover; object-position:center;
+  border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,.08); display:inline-block;
+}
+.table td,.table th{ vertical-align:middle; }
+@media (max-width:576px){
+  .extintor-image-cell{ width:120px; min-width:120px; }
+  .extintor-image{ width:100px; height:70px; }
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInFromTop {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+/* Clases para deshabilitar el fondo (en el <body>) */
+.no-scroll {
+    overflow: hidden; /* Evita el scroll del fondo */
+}
+
+.disabled-overlay {
+    pointer-events: none; /* Deshabilita interacciones con el fondo */
+    opacity: 0.5; /* Oscurece un poco el fondo */
+}
+
+
+@media (max-width: 575.98px) {
+  .main-content {
+    /* Ajustar el padding y margen para pantallas muy pequeñas */
+    margin-left: 0 !important;
+    /* Eliminar margen del sidebar en móviles */
+    padding: 10px;
+  }
+
+  body.sidebar-collapsed .main-content {
+    margin-left: 0 !important;
+    /* Asegurar que no haya margen del sidebar colapsado tampoco */
+  }
+
+
+
+  .SectionOptions {
+    flex-direction: column;
+    /* Apilar todos los elementos en columna */
+    align-items: stretch;
+    /* Estirar los elementos para que ocupen todo el ancho */
+    gap: 10px;
+    /* Espacio entre los elementos apilados */
+    padding: 0 10px;
+  }
+
+  .OptionsDGV {
+    flex-direction: column;
+    /* Apilar los botones de pestaña */
+    align-items: stretch;
+    margin-right: 0;
+    /* Eliminar margen a la derecha */
+    width: 100%;
+    /* Ocupar todo el ancho disponible */
+  }
+
+#AllOptions,
+#AlarmDisabled,
+#AlarmWorking {
+    width: 100%;
+    /* Botones de pestaña ocupan todo el ancho */
+    padding-top: 15px;
+    padding-bottom: 5px;
+    font-size: 0.9rem;
+    /* Un poco más pequeño si es necesario */
+  }
+
+#AllOptions.selected-option::after,
+#AlarmDisabled.selected-option::after,
+#AlarmWorking.selected-option::after{
+    right: 5%;
+  }
+
+
+  #Search {
+    width: 100%;
+    /* Campo de búsqueda ocupa todo el ancho */
+    margin-top: 10px;
+    /* Ajustar margen superior */
+    margin-left: 0;
+    /* Eliminar margen izquierdo */
+  }
+
+  #openFormBtn {
+    width: 100%;
+    /* Botón Registrar ocupa todo el ancho */
+    margin-left: 0;
+    /* Eliminar margen izquierdo */
+    margin-top: 10px;
+    /* Ajustar margen superior */
+  }
+
+  /* Tabla: Asegurar que se haga scroll horizontalmente si no cabe */
+  #table {
+    padding: 0 10px;
+  }
+
+  #table thead th,
+  #table tbody tr td {
+    font-size: 0.85rem;
+    /* Reducir tamaño de fuente de la tabla */
+    padding: 10px;
+    /* Reducir padding de la tabla */
+  }
+}
+
+/* Tablets y computadoras pequeñas (576px a 991px - medium devices en Bootstrap) */
+@media (min-width: 576px) and (max-width: 991.98px) {
+  .main-content {
+    padding: 15px;
+  }
+
+
+  .SectionOptions {
+    flex-wrap: wrap;
+    /* Permitir que los elementos se envuelvan si no caben en una línea */
+    justify-content: space-between;
+    padding: 0 10px;
+  }
+
+  .OptionsDGV {
+    flex-grow: 1;
+    /* Permite que los botones de pestaña ocupen más espacio */
+    flex-basis: auto;
+    /* Ocupan lo que necesitan */
+    margin-right: 15px;
+  }
+
+  #Search {
+    flex-grow: 1;
+    min-width: 180px;
+    margin-top: 0;
+    /* Restablecer margin-top */
+  }
+
+  #openFormBtn {
+    flex-grow: 1;
+    min-width: 150px;
+    margin-top: 0;
+    /* Restablecer margin-top */
+  }
+
+  /* Si los botones de opción se envuelven, ajusta su distribución */
+  .OptionsDGV button {
+    flex-basis: calc(33.33% - 10px);
+    /* Intenta que sean 3 columnas si caben */
+  }
+}
+
+
+
+
+/* Laptops y Desktops (992px en adelante - large devices en Bootstrap) */
+@media (min-width: 992px) {
+
+  .SectionOptions {
+    flex-direction: row;
+    /* Asegura que estén en fila */
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .OptionsDGV {
+    flex-direction: row;
+    margin-right: 10px;
+    flex-grow: 0;
+    /* No crece para dejar espacio al Search y Add */
+  }
+
+  #Search,
+  #openFormBtn {
+    flex-grow: 0;
+    /* No crecen */
+    width: auto;
+    /* Vuelve a su ancho natural o definido */
+  }
+
+  #Search {
+    width: 20%;
+    /* Ancho original deseado */
+    min-width: 180px;
+  }
+
+  #Add {
+    width: 20%;
+    /* Ancho original deseado */
+    min-width: 150px;
+  }
+}

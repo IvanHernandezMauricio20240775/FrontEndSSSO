@@ -1,0 +1,138 @@
+/* Estilos del título del formulario */
+/* Estilos del título del formulario */
+*{
+    font-family: Montserrat;
+ 
+}
+
+.image-upload-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-top: 10px; /* Espacio superior para el círculo */
+}
+
+.hidden-input {
+    display: none; /* Oculta el input de tipo file */
+}
+
+.image-preview {
+    width: 120px; /* Tamaño del círculo de imagen */
+    height: 120px;
+    border-radius: 50%; /* Hace que sea un círculo */
+    border: 2px dashed #20A2A0; /* Borde punteado con color principal */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: #F0FAF8; /* Fondo más claro para el círculo */
+    overflow: hidden; /* Oculta partes de la imagen que sobresalgan */
+    position: relative;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.image-preview:hover {
+    border-color: #0E7F7D; /* Cambia el color del borde al pasar el ratón */
+    background-color: #E2F0EC;
+}
+
+.uploaded-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
+    border-radius: 50%; /* Mantener la imagen dentro del círculo */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.upload-icon {
+    font-size: 3.5em; /* Tamaño del icono de la cámara */
+    color: #20A2A0; /* Color del icono */
+    margin-bottom: 5px;
+}
+
+.upload-text {
+    font-size: 0.9em;
+    color: #0E7F7D; /* Color del texto "Añadir imagen" */
+    font-weight: 500;
+}
+/* Estilos para cada grupo de campo (label + input/select/textarea) */
+.form-group {
+    margin-bottom: 25px; /* Más espacio entre cada campo */
+}
+label {
+    display: block;
+    margin-bottom: 10px; /* Más espacio entre etiqueta y campo */
+    color: #0E7F7D; /* Color de etiqueta que contraste */
+    font-weight: 600; /* Etiquetas más negritas */
+    font-size: 1em; /* Tamaño de fuente ligeramente más grande */
+    font-family: 'Montserrat', sans-serif; /* Aplicar Montserrat a los labels */
+}
+input[type="text"],
+input[type="date"],
+textarea,
+select {
+    width: 100%;
+    padding: 14px 18px; /* Más padding para un mejor aspecto */
+    border: 1px solid #20A2A0; /* Borde con el color principal */
+    border-radius: 8px; /* Bordes más redondeados */
+    box-sizing: border-box;
+    font-size: 1em;
+    color: #333;
+    background-color: #f8fcf8; /* Fondo ligeramente diferente para los inputs */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #0E7F7D; /* Borde oscuro al enfocar */
+    box-shadow: 0 0 0 4px rgba(32, 162, 160, 0.2); /* Sombra suave con el color principal */
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 120px; /* Altura mínima un poco mayor para la descripción */
+    font-family: 'Montserrat', sans-serif;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    /* Usar un SVG de flecha que combine con la paleta */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%230E7F7D%22%20d%3D%22M287%2C197.3L153.2%2C63.5c-3.6-3.6-9.5-3.6-13.1%2C0L0%2C197.3l12.7%2C12.7L146.7%2C86.7c3.6-3.6%2C9.5-3.6%2C13.1%2C0l133.3%2C133.3L287%2C197.3z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 18px top 50%;
+    background-size: 14px auto; /* Tamaño del icono */
+    padding-right: 45px; /* Espacio para el icono */
+    cursor: pointer;
+}
+
+/* Estilos del botón de submit */
+input[type="submit"] {
+    background-color: #209F84; /* Color principal más oscuro para el botón */
+    color: white;
+    padding: 16px 30px; /* Más padding para un botón prominente */
+    border: none;
+    border-radius: 8px; /* Bordes redondeados */
+    cursor: pointer;
+    font-size: 1.2em; /* Texto del botón más grande */
+    font-weight: 700; /* Negrita */
+    width: 100%;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Animación al hover */
+    margin-top: 20px; /* Espacio superior */
+    font-family: 'Montserrat', sans-serif;
+}
+
+input[type="submit"]:hover {
+    background-color: #0E7F7D; /* Tono más oscuro al pasar el ratón */
+    transform: translateY(-2px); /* Pequeño efecto de "levantar" */
+}

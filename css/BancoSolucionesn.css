@@ -1,0 +1,54 @@
+.bank-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.solution-card {
+    background-color: white;
+    border: 1px solid #ced4da;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.solution-card-body {
+    height: 100%;
+}
+
+.solution-card-body h6 {
+    font-weight: bold;
+}
+
+.solution-card-add-btn {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    background-color: #008080;
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border: none;
+}
+
+.solutions-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.filter-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}

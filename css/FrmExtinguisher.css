@@ -1,0 +1,174 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: scroll; 
+}
+
+
+.form-container {
+  width: 100%;
+  padding: 20px;
+ 
+}
+
+:root {
+  --verde: #2BA39B;
+  --borde: #ccc;
+  --gris-claro: #f8f8f8;
+}
+
+.form-container {
+  background-color: #fff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  width: 100%;
+
+}
+
+.form-title {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #222;
+  margin-bottom: 20px;
+  border-bottom: 3px solid #20A2A0;
+  padding-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 20px;
+  border: 1px solid #32A090;
+  outline: none;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus {
+ /* Cambia el color del borde al color principal que usas (similar al efecto fade) */
+  border-color: #0E7F7D; /* Tu color verde/azul oscuro */
+
+  /* Crea un efecto de brillo/sombra que se "fade in" */
+  box-shadow: 0 0 0 3px rgba(14, 127, 125, 0.4); /* Un brillo inicial más visible */
+
+  /* Aquí se aplica la animación de "fade" para el box-shadow */
+  animation: borderFadeFocus 1.2s ease-in-out forwards; /* 'forwards' mantiene el estado final */
+}
+
+/* Define la animación para el efecto de "fade" */
+@keyframes borderFadeFocus {
+ 0% {
+    border-color: var(--borde, #ccc); /* Color del borde inicial */
+    box-shadow: 0 0 0 0 rgba(50, 160, 144, 0); /* Sin sombra al inicio */
+  }
+  30% {
+    border-color: #32A090; /* Color del borde objetivo */
+    box-shadow: 0 0 0 5px rgba(50, 160, 144, 0.2); /* Brillo más intenso */
+  }
+  60% {
+    border-color: #32A090; /* Mantiene color del borde */
+    box-shadow: 0 0 0 3px rgba(50, 160, 144, 0.4); /* Brillo se reduce un poco */
+  }
+ 
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.foto-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.foto-box {
+  width: 160px;
+  height: 160px;
+  border: 1px solid #32A090;;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.btn-foto {
+  background-color: var(--verde);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  padding: 8px 18px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-foto:hover {
+  background-color: #21877d;
+}
+
+.btn-registrar {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.btn-registrar button {
+  background-color: #209F84;
+  color: black;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 20%;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.btn-registrar button:hover {
+  background-color: #159e88;
+  color: white;
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+  }
+}
+

@@ -1,0 +1,197 @@
+/*Seccion de Dgv y tablas*/
+#table {
+    width: 100%;
+    border-collapse: separate;
+    /* ¡Crucial! Permite bordes redondeados y espacio entre filas */
+    border-spacing: 0 15px;
+    /* Espacio vertical de 15px entre cada fila (panel) */
+    margin-top: 20px;
+}
+
+.table thead th {
+    background-color: #0C8266;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    border-bottom: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.table tbody td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.table thead tr th:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.table thead tr th:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s ease-in-out;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.table tbody td {
+    padding: 1rem 1rem;
+    color: #444;
+}
+
+.pagination .page-item .page-link {
+    border: none;
+    border-radius: 0.5rem;
+    margin: 0 0.2rem;
+    color: #6c757d;
+    background-color: transparent;
+    transition: background-color 0.2s ease;
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: #12bb94;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #0C8266;
+    color: white;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.35em 0.8em;
+    border-radius: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    text-align: center;
+}
+
+
+
+.modal-header.modal-header-custom .modal-title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #343a40;
+}
+
+.modal-header.modal-header-custom {
+    border-bottom: 4px solid rgba(32, 159, 132, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding: 1.5rem 1rem 1rem;
+}
+
+
+
+.btn-close-custom {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #6c757d;
+    opacity: 1;
+    transition: color 0.2s;
+}
+
+.btn-close-custom:hover {
+    color: #dc3545;
+}
+
+.modal-body {
+    padding-top: 1rem;
+}
+
+.modal-label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.25rem;
+}
+
+.image-upload-container {
+    width: 120px;
+    height: 120px;
+    border: 2px dashed #ced4da;
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.image-upload-container img {
+    object-fit: cover;
+}
+
+.btn-upload-image {
+    background-color: rgba(32, 159, 132, 1);
+    color: #fff;
+    border-color: rgba(32, 159, 132, 1);
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-upload-image:hover {
+    background-color: #1a7e6b;
+}
+
+.btn-register-modal {
+    background-color: rgba(32, 159, 132, 1);
+    border-color: rgba(32, 159, 132, 1);
+    border-radius: 50px;
+    padding: 10px 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-register-modal:hover {
+    background-color: #1a7e6b;
+    border-color: #1a7e6b;
+}
+
+.extintor-image-cell{
+  width: 160px;
+  min-width: 160px;
+  text-align: center;
+}
+
+/* Imagen dentro de la tabla: tamaño controlado y recorte elegante */
+.extintor-image{
+  width: 140px;         /* <- ajusta a tu gusto (120–160px suele verse bien) */
+  height: 90px;
+  object-fit: cover;    /* recorta sin deformar */
+  object-position: center;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  display: inline-block;
+}
+
+/* Alinea verticalmente todos los td/th para que quede centrado */
+.table td, .table th{
+  vertical-align: middle;
+}
+
+/* Un poquito más pequeño en móviles */
+@media (max-width: 576px){
+  .extintor-image-cell{ width: 120px; min-width: 120px; }
+  .extintor-image{ width: 100px; height: 70px; }
+}
