@@ -33,7 +33,6 @@ export async function GetAllBrigadesTraining() {
     }
 }
 
-
 export async function getTrainingByID(id) {
     try {
         const response = await fetch(`${Endpoint_URL}/GetTrainingById/${id}`, {
@@ -49,8 +48,6 @@ export async function getTrainingByID(id) {
         throw error;
     }
 }
-
-
 
 export async function ProgramNewTraining(data_Training) {
     try {

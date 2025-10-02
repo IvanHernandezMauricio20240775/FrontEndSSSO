@@ -30,10 +30,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     const inputFecha = document.getElementById("fecha-ejecucion");
     const inputHora = document.getElementById("hora-capacitacion");
     const inputDescripcion = document.getElementById("descripcion-capacitacion");
+    
+    // NUEVA LÍNEA: Obtener el input/select para el estado de la capacitación
+    // DEBES ASEGURARTE DE AGREGAR UN ELEMENTO CON ESTE ID EN TU HTML
+    const inputStatus = document.getElementById("estado-capacitacion");
 
     let allTrainings = [];
     let allBrigades = [];
-    let currentFilter = "PENDIENTE";
+    let currentFilter = "PENDIENTE"; // Usamos 'PENDIENTE' para la lógica JS
 
     // Función para manejar errores de forma centralizada
     function handleResponseError(error, customMessage) {
@@ -89,6 +93,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     function renderTrainings(trainings) {
         mainTimeline.innerHTML = "";
         const filteredTrainings = trainings.filter(training => {
+            // ASUMO QUE LA PROPIEDAD SE LLAMA Status_Training, tal como la definiste en la tabla.
             const matchesStatus = training.Status_Training === currentFilter;
             const matchesSearch = searchInput.value.toLowerCase().trim() === "" ||
                 training.name_training.toLowerCase().includes(searchInput.value.toLowerCase().trim()) ||
@@ -122,6 +127,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                             <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${training.id_training}">
                                 Eliminar
                             </button>
+                            <span class="badge ${training.Status_Training === 'COMPLETADA' ? 'bg-success' : 'bg-warning text-dark'}">${training.Status_Training}</span>
                         </div>
                     </div>
                 </div>
@@ -162,9 +168,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         modalCapacitacion.show();
         formCapacitacion.reset();
         btnSubmitForm.textContent = "Programar Capacitación";
+        btnSubmitForm.dataset.mode = "insert";
         inputID.value = "CPT-";
         inputID.disabled = false; // Habilitar el input de ID
-        btnSubmitForm.dataset.mode = "insert";
+        
+        // MODIFICACIÓN: En modo inserción, el estado inicial es PENDIENTE
+        if (inputStatus) inputStatus.value = "PENDIENTE";
+
         asignarTodasSwitch.checked = false; // Resetear el switch
         const checkboxes = brigadaOptionsContainer.querySelectorAll('input[type="checkbox"]');
         checkboxes.forEach(cb => cb.checked = false); // Desmarcar todos los checkboxes
@@ -215,7 +225,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             time_training: inputHora.value,
             img_training: "https://ejemplo.com/imagen.png", // Debes manejar la subida de imágenes
             description: inputDescripcion.value,
-            Status_Training: "PENDIENTE",
+            // MODIFICACIÓN: Si es UPDATE, toma el valor del campo de estado, si es INSERT usa PENDIENTE
+            Status_Training: mode === 'update' ? inputStatus.value : "PENDIENTE", 
             list_brigades_id: selectedBrigades,
         };
 
@@ -251,6 +262,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 inputFecha.value = trainingToEdit.date_training;
                 inputHora.value = trainingToEdit.time_training;
                 inputDescripcion.value = trainingToEdit.description;
+                
+                // NUEVA LÍNEA: Llenar el campo de estado
+                if (inputStatus) inputStatus.value = trainingToEdit.Status_Training;
 
                 // Marcar las brigadas asociadas
                 const checkboxes = brigadaOptionsContainer.querySelectorAll('input[name="brigada"]');

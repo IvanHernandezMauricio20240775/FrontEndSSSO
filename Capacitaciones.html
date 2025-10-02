@@ -398,8 +398,7 @@
                         </div>
 
                         <div class="controls">
-                            <button class="add-plan-btn" 
-                                id="BtnProgramTraining">
+                            <button class="add-plan-btn" id="BtnProgramTraining">
                                 + Programar Nueva Capacitación
                             </button>
 
@@ -448,8 +447,9 @@
                     <form id="form-capacitacion" novalidate>
                         <div class="row">
                             <div class="col-12">
-                                 <div class="mb-3">
-                                    <label for="nombre-capacitacion" class="form-label">Codigo de La capacitacion</label>
+                                <div class="mb-3">
+                                    <label for="nombre-capacitacion" class="form-label">Codigo de La
+                                        capacitacion</label>
                                     <input type="text" class="form-control" id="ID_Training" required>
                                 </div>
                                 <div class="mb-3">
@@ -465,6 +465,14 @@
                                     <label for="hora-capacitacion" class="form-label">Hora de la
                                         Capacitación</label>
                                     <input type="time" class="form-control" id="hora-capacitacion" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="estado-capacitacion" class="form-label">Estado</label>
+                                    <select class="form-select" id="estado-capacitacion" required>
+                                        <option value="PENDIENTE">Pendiente</option>
+                                        <option value="COMPLETADA">Completada</option>
+                                    </select>
+                                    <div class="invalid-feedback">Por favor, selecciona un estado.</div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="descripcion-capacitacion" class="form-label">Descripción de la
@@ -510,11 +518,11 @@
         </div>
     </div>
 
-     <script type="module" src="Js/Controller/CapacitacionesController.js"></script>
+    <script type="module" src="Js/Controller/CapacitacionesController.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   
+
 
 
 
