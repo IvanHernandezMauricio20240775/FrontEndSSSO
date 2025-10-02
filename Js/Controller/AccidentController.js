@@ -37,7 +37,6 @@ async function ensureAuthAndPermissions() {
       if (btn) btn.classList.remove('d-none');
     }
   } catch (e) {
-    window.location.href = "/login";
     throw e;
   }
 }
