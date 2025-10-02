@@ -596,6 +596,21 @@
     transform: translateY(-2px);
 }
 
+.extintor-image-cell{ 
+  width:160px; min-width:160px; text-align:center; 
+}
+
+.extintor-image{
+  width:140px; height:90px; object-fit:cover; object-position:center;
+  border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,.08); display:inline-block;
+}
+.table td,.table th{ vertical-align:middle; }
+@media (max-width:576px){
+  .extintor-image-cell{ width:120px; min-width:120px; }
+  .extintor-image{ width:100px; height:70px; }
+}
+
+
 /* Media queries para responsividad */
 @media (max-width: 768px) {
     .modal-content {
