@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
             simulacrum_time: Input_Time.value,
             description_simulacrum: Input_Description.value,
             img_simulacrum: "https://empresa.com/logos/mantenimiento.png", // si quieres convertir la imagen en base64 aquí
-            id_member: 2, // <-- asigna tu ID por defecto
+            id_member: 1, // <-- asigna tu ID por defecto
             simulacrum_status: "PENDIENTE"
         };
 

@@ -56,6 +56,7 @@ export async function ProgramNewTraining(data_Training) {
     try {
         const response = await fetch(`${Endpoint_URL}/InsertTraining`, {
             method: "POST",
+            credentials: "include",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data_Training)
         });
@@ -72,6 +73,7 @@ export async function UpdatedTraining(ID_Training, data_Training) {
     try {
         const response = await fetch(`${Endpoint_URL}/UpdateTraining/${ID_Training}`, {
             method: "PUT",
+            credentials: "include",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data_Training)
         });
@@ -86,7 +88,8 @@ export async function UpdatedTraining(ID_Training, data_Training) {
 export async function DeleteTraining(ID_Training) {
     try {
         const response = await fetch(`${Endpoint_URL}/DeleteTraining/${ID_Training}`, {
-            method: "DELETE"
+            method: "DELETE",
+            credentials: "include"
         });
         return await response.json();
     } catch (error) {
