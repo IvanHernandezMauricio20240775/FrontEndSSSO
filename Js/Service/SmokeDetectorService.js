@@ -1,4 +1,4 @@
-const Endpoint_URL = "http://localhost:8080/ActionsSmokeDetector"
+const Endpoint_URL = "https://sssoserver-d5bbca7fec4b.herokuapp.com/ActionsSmokeDetector"
 
 async function toJsonSafe(response) {
   try { return await response.json(); } catch { return null; }

@@ -1,4 +1,4 @@
-const Endpoint_URL = "http://localHost:8080/ActionCommittee"
+const Endpoint_URL = "https://sssoserver-d5bbca7fec4b.herokuapp.com/ActionCommittee"
 
 export async function GetAllListMemberCommite() {
     try {

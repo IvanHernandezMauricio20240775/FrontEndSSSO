@@ -1,4 +1,4 @@
-const Endpoint_URL = "http://localhost:8080/ActionsAccident"
+const Endpoint_URL = "https://sssoserver-d5bbca7fec4b.herokuapp.com/ActionsAccident"
 
 /** maneja ApiResponse {status, message, data} y errores HTTP */
 async function handle(response) {

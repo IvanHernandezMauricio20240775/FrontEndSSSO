@@ -1,5 +1,5 @@
 // LocationService.js
-const Endpoint_URL = "http://localhost:8080/ActionsLocation";
+const Endpoint_URL = "https://sssoserver-d5bbca7fec4b.herokuapp.com/ActionsLocation";
 
 /* Utilidad para intentar parsear JSON siempre */
 async function toJsonSafe(response) {

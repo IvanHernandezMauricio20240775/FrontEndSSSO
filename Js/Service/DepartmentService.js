@@ -1,4 +1,4 @@
-const Endpoint_URL = "http://localhost:8080/ActionsDepartment";
+const Endpoint_URL = "https://sssoserver-d5bbca7fec4b.herokuapp.com/ActionsDepartment";
 
 export async function getAllDepartment() {
     try {

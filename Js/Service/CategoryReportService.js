@@ -1,4 +1,4 @@
-const Endpoint_URL = "http://localhost:8080/ActionsPotencialRisk";
+const Endpoint_URL = "https://sssoserver-d5bbca7fec4b.herokuapp.com/ActionsPotencialRisk";
 
 /* ==================== TYPES RISK ==================== */
 export async function getAllTypeReports() {

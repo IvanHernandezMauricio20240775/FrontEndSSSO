@@ -1,4 +1,4 @@
-const Endpoint_URL = "http://localHost:8080/ActionsAssignInspection"
+const Endpoint_URL = "https://sssoserver-d5bbca7fec4b.herokuapp.com/ActionsAssignInspection"
 
 
 export async function getAllAssignInspection() {

@@ -1,4 +1,4 @@
-const Endpoint_URL = "http://localHost:8080/ActionsAuth";
+const Endpoint_URL = "https://sssoserver-d5bbca7fec4b.herokuapp.com/ActionsAuth";
 
 export async function AuthenticationUser(user) {
   const res = await fetch(`${Endpoint_URL}/login`, {

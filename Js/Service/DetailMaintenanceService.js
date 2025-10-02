@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/DetailMaitanenceActions";
+const API_URL = "https://sssoserver-d5bbca7fec4b.herokuapp.com/DetailMaitanenceActions";
 
 export async function getAllDetailMaintenance() {
     const res = await fetch(`${API_URL}/GetAllDetails`);

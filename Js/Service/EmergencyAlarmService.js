@@ -1,4 +1,4 @@
-const Endpoint_URL = "http://localHost:8080/ActionsEmergencyAlarm"
+const Endpoint_URL = "https://sssoserver-d5bbca7fec4b.herokuapp.com/ActionsEmergencyAlarm"
 
 async function toJsonSafe(response) {
   try { return await response.json(); } catch { return null; }
