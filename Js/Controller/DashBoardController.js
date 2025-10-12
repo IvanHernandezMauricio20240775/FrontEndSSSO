@@ -94,10 +94,10 @@ async function initDashboard() {
         allowAllRoutes();
     } 
     // NUEVA LÓGICA: Acceso por rol de Comité (Presidente o Inspector)
-    else if (isPresidentCommite(roleCommiteMemeber) || isVicePresidentCommite(roleCommiteMemeber)|| isInspectorCommite(roleCommiteMemeber)) {
+    else if (isPresidentCommite(roleCommiteMemeber) || isVicePresidentCommite(roleCommiteMemeber)|| isMaintenanceCommite(roleCommiteMemeber)) {
         applyCommiteSidebar(roleCommiteMemeber); // Nueva función para manejar el acceso del comité
-        enforceUserMaintenanceRouteGuard(true); // Pasar un flag para incluir 'Inspection.html'
-    }else if(isPresidentCommite(roleCommiteMemeber)|| isVicePresidentCommite(roleCommiteMemeber) || isMaintenanceCommite(roleCommiteMemeber)){
+        enforceUserMaintenanceRouteGuard(true); // Pasar un flag para incluir 'Maintenance.html'
+    }else if(isPresidentCommite(roleCommiteMemeber)|| isVicePresidentCommite(roleCommiteMemeber) || isInspectorCommite(roleCommiteMemeber)){
         applyCommiteSidebar(roleCommiteMemeber); // Nueva función para manejar el acceso del comité
         enforceUserRouteGuard(true); // Pasa
     }
@@ -234,7 +234,7 @@ function allowAllRoutes() {
 }
 
 function enforceUserMaintenanceRouteGuard(allowMaintenance = false) {
-    const allowed = new Set([
+    const allowedMaintenance = new Set([
         "index.html",
         "Report.html",
         "Simulacrum.html",
@@ -245,12 +245,12 @@ function enforceUserMaintenanceRouteGuard(allowMaintenance = false) {
         ]);
 
     if (allowMaintenance) {
-        allowed.add("Maintenance.html");
+        allowedMaintenance.add("Maintenance.html");
     }
 
     // 1) Bloquea si ya está en una ruta no permitida (acceso directo por URL)
     const current = getCurrentPage();
-    if (!allowed.has(current)) {
+    if (!allowedMaintenance.has(current)) {
         notify("Acceso restringido", "No tienes permisos para acceder a esa sección.");
         window.location.replace("index.html");
         return;
@@ -267,7 +267,7 @@ function enforceUserMaintenanceRouteGuard(allowMaintenance = false) {
         if (!href || href === "#") return;
 
         const file = href.split("/").pop();
-        if (!allowed.has(file)) {
+        if (!allowedMaintenance.has(file)) {
             e.preventDefault();
             notify("Acceso restringido", "No tienes permisos para acceder a esa sección.");
         }
