@@ -1,0 +1,91 @@
+#Titulo {
+    text-align: start;
+    /* Si quieres que el título esté centrado */
+    margin-bottom: 8px;
+    /* Espacio entre el título y el contenido de abajo */
+    color: #333;
+    /* Color del texto del título */
+
+    /* ----- Esto es lo que añade la línea ----- */
+    border-bottom: 1.5px solid #ccc;
+    /* 1px de grosor, estilo sólido, color gris claro */
+    padding-bottom: 10px;
+    /* Espacio entre el texto del título y la línea */
+    display: inline-block;
+    /* Opcional: si quieres que la línea se ajuste al ancho del texto */
+    width: 40%;
+}
+/* Botón tema */
+.btn-teal{ background:#169b87; color:#fff; border:none; }
+.btn-teal:hover{ background:#0c8b7e; color:#fff; }
+
+.titulo{
+  color:#2a2a2a;
+  border-bottom:2px solid #dcdcdc;
+  font-weight:800;
+  letter-spacing:.5px;
+  padding-bottom:.5rem;
+}
+.nav-link{
+  color: gray;
+}
+
+/* KPI cards */
+.kpi-card{ background:#fff;border:1px solid #e9ecef;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.03); }
+.kpi-icon{ width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff; }
+.kpi-icon.success{ background:#169b87; }
+.kpi-icon.warn{ background:#f0ad4e; }
+.kpi-title{ color:#6b7a7c; font-weight:600; }
+.kpi-number{ font-size:32px; font-weight:800; margin-top:-4px; }
+
+/* Filtros */
+.filter-bar{ background:#fff;border:1px solid #e9ecef;border-radius:16px; }
+.nav-pills .nav-link.active{ background:#169b87; }
+
+/* -------- Cards SIN imagen (como tu ejemplo) -------- */
+.card-mnt{
+  position:relative;
+  background:#fff;border:1px solid #edf0f2;border-radius:14px;
+  overflow:hidden;padding:1rem 1.25rem 0.75rem 1.25rem;
+  box-shadow:0 6px 24px rgba(0,0,0,.03);
+  min-height: 172px;
+}
+.card-mnt .stripe{
+  position:absolute;left:0;top:0;bottom:0;width:8px;border-top-left-radius:14px;border-bottom-left-radius:14px;
+}
+.stripe.pending{ background:#f0ad4e; }
+.stripe.done{ background:#169b87; }
+.stripe.overdue{ background:#e55353; }
+
+.state-pill{
+  padding:.25rem .6rem;border-radius:999px;font-size:.75rem;font-weight:700;
+}
+.state-pill.pending{ background:#fff3cd; color:#a16200; border:1px solid #ffe7a4; }
+.state-pill.done{ background:#eaf7f5; color:#0f7f70; border:1px solid #c9ebe6; }
+.state-pill.overdue{ background:#ffe5e5; color:#a90000; border:1px solid #ffc9c9; }
+
+.label{ color:#6b7a7c; font-size:.92rem; }
+.value{ font-weight:600; color:#2a2a2a; }
+
+.card-actions{
+  display:flex; gap:.5rem; padding-top:.5rem; border-top:1px dashed #e6eaec; margin-top:.5rem;
+}
+
+.emp-picker{ white-space:nowrap; }
+.emp-pill{
+  display:inline-flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid #e9ecef;
+  border-radius:12px; background:#fff; cursor:pointer; user-select:none;
+  min-width:240px;
+}
+.emp-pill .avatar{ width:36px; height:36px; border-radius:50%; background:#169b87; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; }
+.emp-pill .meta{ font-size:.85rem; color:#6c757d; }
+.emp-pill.active{ outline:2px solid #169b87; box-shadow:0 0 0 4px rgba(22,155,135,.1); }
+
+/* Paginación */
+#paginator .btn{ min-width:42px; }
+
+/* Responsive */
+@media (max-width: 576px){
+  .kpi-number{ font-size:26px; }
+  .emp-pill{ min-width:220px; }
+}

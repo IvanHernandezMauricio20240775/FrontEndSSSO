@@ -94,9 +94,12 @@ async function initDashboard() {
         allowAllRoutes();
     } 
     // NUEVA LÓGICA: Acceso por rol de Comité (Presidente o Inspector)
-    else if (isPresidentCommite(roleCommiteMemeber) || isInspectorCommite(roleCommiteMemeber)) {
+    else if (isPresidentCommite(roleCommiteMemeber) || isVicePresidentCommite(roleCommiteMemeber)|| isInspectorCommite(roleCommiteMemeber)) {
         applyCommiteSidebar(roleCommiteMemeber); // Nueva función para manejar el acceso del comité
-        enforceUserRouteGuard(true); // Pasar un flag para incluir 'Inspection.html'
+        enforceUserMaintenanceRouteGuard(true); // Pasar un flag para incluir 'Inspection.html'
+    }else if(isPresidentCommite(roleCommiteMemeber)|| isVicePresidentCommite(roleCommiteMemeber) || isMaintenanceCommite(roleCommiteMemeber)){
+        applyCommiteSidebar(roleCommiteMemeber); // Nueva función para manejar el acceso del comité
+        enforceUserRouteGuard(true); // Pasa
     }
     else {
         applyUserSidebar();
@@ -115,10 +118,21 @@ function isInspectorCommite(roleCommiteMemeber) {
     return roleCommiteMemeber === "inspector";
 }
 
+
+function isMaintenanceCommite(roleCommiteMemeber){
+    return roleCommiteMemeber === "mantenimiento";
+}
+
 function isPresidentCommite(roleCommiteMemeber) {
     // Corregido: Usar 'roleCommiteMemeber' que se pasa como argumento
     return roleCommiteMemeber === "presidente";
 }
+
+function isVicePresidentCommite(roleCommiteMemeber) {
+    // Corregido: Usar 'roleCommiteMemeber' que se pasa como argumento
+    return roleCommiteMemeber === "vicepresidente";
+}
+
 
 
 function redirectToLogin() {
@@ -147,8 +161,14 @@ function applyCommiteSidebar(committeeRole) {
         "Protocol.html",       // Marcos de Seguridad (hijo)
         "Lineamientos.html",    // Marcos de Seguridad (hijo)
         // Añado Inspección
-        "Inspection.html"
     ]);
+
+    if(committeeRole === "presidente"|| committeeRole === "vicepresidente"|| committeeRole === "inspector"){
+        allowedHrefs.add("Inspection.html")
+    }else if(committeeRole === "presidente"|| committeeRole === "vicepresidente"|| committeeRole === "mantenimiento"){
+        allowedHrefs.add("Maintenance.html")
+    }
+    
 
     showLinksByHref(allowedHrefs);
 
@@ -213,6 +233,48 @@ function allowAllRoutes() {
     // No hacemos nada: admin puede ir a todos lados
 }
 
+function enforceUserMaintenanceRouteGuard(allowMaintenance = false) {
+    const allowed = new Set([
+        "index.html",
+        "Report.html",
+        "Simulacrum.html",
+        "Zone.html",
+        "Departamentos.html",
+        "Protocol.html",
+        "Lineamientos.html"
+        ]);
+
+    if (allowMaintenance) {
+        allowed.add("Maintenance.html");
+    }
+
+    // 1) Bloquea si ya está en una ruta no permitida (acceso directo por URL)
+    const current = getCurrentPage();
+    if (!allowed.has(current)) {
+        notify("Acceso restringido", "No tienes permisos para acceder a esa sección.");
+        window.location.replace("index.html");
+        return;
+    }
+
+    // 2) Intercepta clicks en el sidebar para impedir navegar a rutas no permitidas
+    const sidebar = document.querySelector(".sidebar");
+    if (!sidebar) return;
+
+    sidebar.addEventListener("click", (e) => {
+        const a = e.target.closest("a.nav-link[href]");
+        if (!a) return;
+        const href = a.getAttribute("href");
+        if (!href || href === "#") return;
+
+        const file = href.split("/").pop();
+        if (!allowed.has(file)) {
+            e.preventDefault();
+            notify("Acceso restringido", "No tienes permisos para acceder a esa sección.");
+        }
+    }, true);
+}
+
+
 // Modificada para recibir un flag que indica si se debe permitir Inspection.html
 function enforceUserRouteGuard(allowInspection = false) {
     const allowed = new Set([
@@ -223,7 +285,7 @@ function enforceUserRouteGuard(allowInspection = false) {
         "Departamentos.html",
         "Protocol.html",
         "Lineamientos.html"
-    ]);
+        ]);
 
     if (allowInspection) {
         allowed.add("Inspection.html");

@@ -4,19 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Extintores</title>
-    <link rel="stylesheet" href="css/SideBar.css">
-    <link rel="stylesheet" href="css/Extinguisher.css">
+    <title>Mantenimientos</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="css/SideBar.css">
 
+    <link rel="stylesheet" href="css/Maintenance.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
-    <!-- SIDE BAR -->
     <!-- SIDE BAR -->
     <div class="sidebar">
         <div class="nav flex-column">
@@ -95,7 +95,7 @@
                 </span>
                 <!--Apartados-->
                 <div class="Implements collapse" id="Implements">
-                    <a href="Extintores.html" class="nav-link active">
+                    <a href="Extintores.html" class="nav-link">
                         <span class="icon">
                             <img src="img/extintor.png" alt="">
                         </span>
@@ -126,7 +126,7 @@
                 </div>
             </a>
 
-            <a href="Maintenance.html" class="nav-link ">
+            <a href="Maintenance.html" class="nav-link active">
                 <span class="icon">
                     <img src="img/Manteniminetos-icon.png" alt="">
                 </span>
@@ -134,7 +134,6 @@
                     Mantenimiento
                 </span>
             </a>
-
 
 
             <!--SideBar con Dropdown-->
@@ -350,226 +349,200 @@
 
             <section id="Welcome">
                 <div class="row">
-                    <div class="col-sm-12 col-lg-40">
-                        <h1 id="Titulo">Extintores</h1>
+                    <div class="col-sm-12">
+                        <h3 id="Titulo">Manteniminetos</h3>
                     </div>
                 </div>
             </section>
 
-            <!--Seccion de Tarjetas-->
+            <section class="mb-3">
+                <div class="row g-3 kpi-row">
+                    <div class="col-12 col-lg-6">
+                        <div class="kpi-card d-flex align-items-center p-3">
+                            <div class="kpi-icon success"><i class="bi bi-check2-circle"></i></div>
+                            <div class="ms-3">
+                                <div class="kpi-title">Mantenimientos Realizados:</div>
+                                <div id="kpiDone" class="kpi-number">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="kpi-card d-flex align-items-center p-3">
+                            <div class="kpi-icon warn"><i class="bi bi-slash-circle"></i></div>
+                            <div class="ms-3">
+                                <div class="kpi-title">Mantenimientos Pendientes:</div>
+                                <div id="kpiPending" class="kpi-number">0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filtros / acciones -->
+            <section class="mb-3">
+                <div class="filter-bar d-flex flex-wrap align-items-center gap-2 p-2">
+                    <ul class="nav nav-pills me-auto" id="statusTabs">
+                        <li class="nav-item"><button class="nav-link active" data-status="ALL">Todos los
+                                Mantenimientos</button></li>
+                        <li class="nav-item"><button class="nav-link" data-status="PENDIENTE">Pendientes</button></li>
+                        <li class="nav-item"><button class="nav-link" data-status="COMPLETADO">Completados</button></li>
+                    </ul>
+
+                    <select id="typeFilter" class="form-select w-auto">
+                        <option value="ALL">Tipo de Mantenimiento</option>
+                    </select>
+
+                    <div class="input-group w-auto">
+                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                        <input id="searchBox" class="form-control" type="search" placeholder="Buscar...">
+                    </div>
+
+                    <button id="btnOpenAssign" class="btn btn-teal">
+                        <i class="bi bi-plus-lg me-1"></i> Asignar Mantenimiento
+                    </button>
+                </div>
+            </section>
+
+            <!-- Cards + paginación -->
             <section>
-                <div class="container py-5">
-                    <div class="row justify-content-center">
+                <div id="cardsContainer" class="row g-4"></div>
+                <div id="emptyState" class="text-center text-muted py-5 d-none">Sin resultados</div>
 
-                        <div class="col-md-4 mb-4" id="TotalExtinguishersCard">
-                            <div class="card custom-card shadow-sm">
-                                <div class="card-body d-flex align-items-center">
-                                    <div
-                                        class="icon-wrapper bg-orange text-white rounded-circle d-flex align-items-center justify-content-center me-3">
-
-                                    </div>
-                                    <div>
-                                        <h6 class="card-subtitle mb-1 text-muted">Total Extintors</h6>
-                                        <h4 class="card-title fw-bold">50</h4>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 mb-4" id="WorkingExtinguishersCard">
-                            <div class="card custom-card shadow-sm">
-                                <div class="card-body d-flex align-items-center">
-                                    <div
-                                        class="icon-wrapper bg-pink text-white rounded-circle d-flex align-items-center justify-content-center me-3">
-
-                                    </div>
-
-                                    <div>
-                                        <h6 class="card-subtitle mb-1 text-muted">Extintores Funcionando</h6>
-                                        <h4 class="card-title fw-bold"></h4>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 mb-4" id="ExpiredExtinguishersCard">
-                            <div class="card custom-card shadow-sm">
-                                <div class="card-body d-flex align-items-center">
-                                    <div
-                                        class="icon-wrapper bg-green text-white rounded-circle d-flex align-items-center justify-content-center me-3">
-
-                                    </div>
-                                    <div>
-                                        <h6 class="card-subtitle mb-1 text-muted">Extintors Vencidos</h6>
-                                        <h4 class="card-title fw-bold"></h4>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2" id="paginator">
+                    <div class="small text-muted" id="pageInfo">Mostrando 0–0 de 0</div>
+                    <div class="btn-group">
+                        <button class="btn btn-outline-secondary btn-sm" id="btnPrev"><i
+                                class="bi bi-chevron-left"></i></button>
+                        <button class="btn btn-outline-secondary btn-sm" id="btnNext"><i
+                                class="bi bi-chevron-right"></i></button>
                     </div>
                 </div>
             </section>
-
-
-            <section id="Options">
-                <div class="row">
-                    <div class="col-sm-12 col-lg-40">
-                        <div class="SectionOptions">
-                            <div class="OptionsDGV">
-                                <button type="button" id="AllOptions">
-                                    <p>Todos los Extintores</p>
-                                </button>
-                                <button type="button" id="ExtinguisherExpiration">
-                                    <p>Extintores Vencidos</p>
-                                </button>
-                                <button type="button" id="ExtinguisherGood">
-                                    <p>Extintores Funcionando</p>
-                                </button>
-                            </div>
-
-                            <input type="text" placeholder="Buscar..." id="Search">
-                            <button id="openFormBtn" type="button" data-bs-toggle="modal"
-                                data-bs-target="#ExtinguisherModal">
-                                <p>Registrar Extintores</p>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="Data">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="TableExtinguisher">
-                            <div class="table-responsive rounded-4 shadow-sm mt-4">
-                                <table
-                                    class="table align-middle table-borderless table-hover animate__animated animate__fadeIn animate__delay-15ms">
-                                    <thead class="text-uppercase" style="font-size: 0.85rem;">
-                                        <tr>
-                                            <th scope="col" class="px-3 text-center">Imagen</th>
-                                            <th scope="col" class="px-3">#ID</th>
-                                            <th scope="col" class="px-3">Tipo</th>
-                                            <th scope="col" class="px-3">Estado</th>
-                                            <th scope="col" class="px-3">Fecha de expiracion</th>
-                                            <th scope="col" class="px-3">Ubicacion</th>
-                                            <th scope="col" class="px-3">Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="extintoresTableBody">
-
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-center mt-4">
-                            <nav aria-label="Extintores pagination" class="mt-3">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item" id="prevPageBtn">
-                                        <a class="page-link" href="#">
-                                            << </a>
-                                    </li>
-                                    <span id="paginationNumbers" class="d-flex"></span>
-                                    <li class="page-item" id="nextPageBtn">
-                                        <a class="page-link" href="#">>></a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-
-            </section>
-
         </div>
     </main>
 
-    <div class="modal fade" id="ExtinguisherModal" tabindex="-1" aria-labelledby="ExtinguisherModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal-custom-content">
-                <div class="modal-header modal-header-custom">
-                    <h5 class="modal-title" id="ExtinguisherModalLabel">Registro de Zona</h5>
-                    <button type="button" class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <form id="ExtinguisherForm">
-                    <div class="modal-body">
-
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="mb-3">
-                                    <label for="ID_Extinguisher" class="form-label modal-label">Codigo del Extintor
-                                    </label>
-                                    <input type="text" class="form-control" id="ID_Extinguisher" name="ID_Extinguisher">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="Name_Zone" class="form-label modal-label">Tipo del Extintor</label>
-                                    <input type="text" class="form-control" id="TypeExtinguisher"
-                                        name="TypeExtinguisher" required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="Name_Zone" class="form-label modal-label">Fecha de expiracion</label>
-                                    <input type="date" class="form-control" id="DateExpiration" name="DateExpiration"
-                                        required>
-                                </div>
-                                <div class="mb-3" id="status-group">
-                                    <label for="Status_CMB" class="form-label modal-label">Estado del Extintor</label>
-                                    <select class="form-select" id="Status_CMB">
-                                        <option value="FUNCIONANDO">FUNCIONANDO</option>
-                                        <option value="DESACTIVADO">DESACTIVADO</option>
-                                        <option value="MANTENIMIENTO">MANTENIMIENTO</option>
-                                        <option value="FALLO">FALLO</option>
-                                        <option value="PENDIENTE">PENDIENTE</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="Name_Zone" class="form-label modal-label">Ubicacion</label>
-                                    <select class="form-select" id="TypeLocation_CMB">
-                                        <option selected disabled value="">Seleccionar el Tipo de la Ubicacion...
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4 d-flex flex-column align-items-center">
-                                <div class="image-upload-container mb-2">
-                                    <img id="departamentoImagePreview" src="https://via.placeholder.com/120"
-                                        alt="Vista previa de imagen" class="img-fluid rounded">
-                                </div>
-                                <label for="ZoneIMG" class="btn btn-sm btn-upload-image">
-                                    <i class="fas fa-camera"></i> Añadir foto
-                                    <input type="file" id="ZoneIMG" name="ZoneIMG" accept="image/*" class="d-none">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer d-flex justify-content-center">
-                        <button type="submit" class="btn btn-success btn-register-modal" id="saveButton">
-                            <i class="fas fa-save me-2"></i> Registrar Extintor
-                        </button>
-                    </div>
-                </form>
-            </div>
+   <div class="modal fade" id="modalAssign" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <form class="modal-content" id="formAssign">
+        <div class="modal-header">
+          <h5 class="modal-title"><span id="assignModalTitle">Asignar Mantenimiento</span></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-lg-3">
+              <label class="form-label">Código</label>
+              <input id="asigId" class="form-control" placeholder="MNT-XXX" readonly>
+            </div>
+            <div class="col-lg-3">
+              <label class="form-label">Fecha</label>
+              <input id="asigDate" type="date" class="form-control" required>
+            </div>
+            <div class="col-lg-3">
+              <label class="form-label">Tipo</label>
+              <select id="asigType" class="form-select" required></select>
+            </div>
+            <div class="col-lg-3">
+              <label class="form-label">Ubicación</label>
+              <select id="asigLocation" class="form-select"></select>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Descripción</label>
+              <textarea id="asigDesc" class="form-control" rows="2" maxlength="800" placeholder="Descripción general..."></textarea>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Seleccionar encargado (Comité: Mantenimiento)</label>
+              <div id="empPicker" class="emp-picker d-flex gap-2 overflow-auto py-2"></div>
+              <div class="small text-muted mt-1">Desliza horizontalmente si no caben todas las tarjetas.</div>
+              <input type="hidden" id="asigEmployeeId">
+            </div>
+          </div>
+          <input type="hidden" id="hiddenEditingAssignId">
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button class="btn btn-teal" type="submit"><i class="bi bi-check2 me-1"></i><span id="assignBtnText">Guardar</span></button>
+        </div>
+      </form>
     </div>
+  </div>
+
+  <!-- Modal: Realizar / Detalle -->
+  <div class="modal fade" id="modalDetail" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <form class="modal-content" id="formDetail">
+        <div class="modal-header">
+          <h5 class="modal-title">Realizar mantenimiento <span id="detHeadId" class="text-muted"></span></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Nombre del detalle</label>
+              <input id="detName" class="form-control" required maxlength="200">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Tiempo total (HH:mm:ss)</label>
+              <input id="detTime" class="form-control" placeholder="00:30:00" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Actividad</label>
+              <input id="detActivity" class="form-control" required maxlength="200">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Imagen (opcional)</label>
+              <input id="detImg" type="file" class="form-control" accept="image/*">
+            </div>
+            <div class="col-12">
+              <label class="form-label">Descripción</label>
+              <textarea id="detDesc" class="form-control" rows="3" maxlength="1000"></textarea>
+            </div>
+          </div>
+          <input type="hidden" id="hiddenAssignIdForDetail">
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button class="btn btn-teal" type="submit"><i class="bi bi-clipboard2-check me-1"></i> Finalizar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Ver Detalles -->
+  <div class="modal fade" id="modalView" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Detalles de <span id="viewHeadId"></span></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body" id="viewBody"></div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script type="module" src="Js/Controller/DashBoardController.js"></script>
-
-    <script type="module" src="Js/Controller/ExtinguisherController.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <!--Scirpts de IonIcons-->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!--Script-->
+    <script src="Js/SideBarScript.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
         crossorigin="anonymous"></script>
 
-    <script src="Js/SideBarScript.js"></script>
+    <script type="module" src="Js/Controller/MaintenanceController.js"></script>
 </body>
 
 </html>
