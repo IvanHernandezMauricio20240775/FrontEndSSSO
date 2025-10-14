@@ -126,7 +126,7 @@
                     Mantenimiento
                 </span>
             </a>
-            
+
             <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#User" aria-expanded="false"
                 aria-controls="User">
                 <span class="icon">
@@ -319,158 +319,209 @@
                     </div>
                 </div>
             </section>
-
-            <section id="reports">
-                <div style="display: flex; justify-content: center; align-items: center;">
-                    <h4 style="color: rgba(32, 162, 160, 1);">Selecciona un Reporte </h4>
-                </div>
-
-                <section class="TypesReports">
-                    <div class="container ">
-                        <div class="row justify-content-center g-3">
-                            <div class="cards-grid" id="risk-cards-container">
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
+            <!-- tarjetas de tipos (6 por página) -->
+            <section id="riskTypesArea" class="mb-2">
+                <h6 class="text-center text-uppercase fw-bold mb-3">Selecciona un tipo de riesgo a reportar</h6>
+                <div class="row g-3" id="riskTypeGrid"><!-- JS inyecta --></div>
+                <div class="d-flex justify-content-center align-items-center mt-3 dots" id="riskDots"></div>
             </section>
 
-            <Section id="DGV">
-                <div class="row">
-                    <div class="col-sm-12 col-lg-40">
-                        <div class="accordion" id="miAcordeonEjemplo">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                        Mis Reportes
-                                    </button>
-                                </h2>
-
-                                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
-                                    data-bs-parent="#miAcordeonEjemplo">
-                                    <div class="accordion-body">
-
-                                        <table id="table" class="overflow-auto">
-                                            <thead>
-                                                <tr>
-                                                    <th>Codigo</th>
-                                                    <th>Fecha</th>
-                                                    <th>Tipo de Reporte</th>
-                                                    <th>Estado</th>
-                                                    <th>Acciones</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="reports-list">
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+            <!-- filtros -->
+            <section class="rounded-4 p-3 border bg-white d-flex flex-wrap align-items-center gap-2">
+                <div class="pill-tabs btn-group me-auto" role="group" aria-label="Estado">
+                    <button class="btn active" data-state="ALL">Todos mis Reportes</button>
+                    <button class="btn" data-state="VERIFICADO">Verificados</button>
+                    <button class="btn" data-state="PENDIENTE">Pendientes</button>
                 </div>
-            </Section>
+                <div class="d-flex gap-2">
+                    <select id="filterType" class="form-select" style="min-width:210px">
+                        <option value="">Tipo de Riesgos</option>
+                    </select>
+                    <input type="search" id="filterText" class="form-control" placeholder="Buscar...">
+                </div>
+            </section>
+
+            <!-- tabla -->
+            <section class="mt-3">
+                <div class="table-responsive shadow-sm">
+                    <table class="table align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>TIPO</th>
+                                <th>FECHA DEL REPORTE</th>
+                                <th>NIVEL DE RIESGO</th>
+                                <th>REPORTADOR</th>
+                                <th>ESTADO</th>
+                                <th class="text-center">ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportTableBody"></tbody>
+                    </table>
+                </div>
+                <nav class="mt-3">
+                    <ul id="tablePager" class="pagination pager justify-content-end"></ul>
+                </nav>
+            </section>
 
         </div>
     </main>
 
-    <div class="modal fade" id="riskFormModal" tabindex="-1" aria-labelledby="riskFormModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered ">
-            <div class="modal-content custom-modal-content">
-                <div class="modal-header custom-modal-header">
-                    <h5 class="modal-title custom-modal-title" id="riskFormModalLabel">Reporte de Riesgo Potencial</h5>
-                    <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                    <div class="header-underline"></div>
+    <!-- Modal Captura -->
+    <div class="modal fade" id="captureModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0">
+                <div class="modal-header">
+                    <div>
+                        <h5 class="modal-title">Reporte de Riesgo Potencial</h5>
+                        <hr class="hr-mini">
+                    </div>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="risk-report-form">
-                        <div class="mb-3">
-                            <input type="text" class="form-control custom-input" id="codigo" name="codigo" hidden>
-                        </div>
-                        <div class="mb-3">
-                            <label for="probabilidad" class="form-label">Probabilidad</label>
-                            <select class="form-select custom-select" id="probabilidad" name="probabilidad" required>
-                                <option value="" disabled selected>Seleccione</option>
-                                <option value="1">Muy baja</option>
-                                <option value="2">Baja</option>
-                                <option value="3">Media</option>
-                                <option value="4">Alta</option>
-                                <option value="5">Muy alta</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="impacto" class="form-label">Impacto</label>
-                            <select class="form-select custom-select" id="impacto" name="impacto" required>
-                                <option value="" disabled selected>Seleccione</option>
-                                <option value="1">Muy bajo</option>
-                                <option value="2">Bajo</option>
-                                <option value="3">Medio</option>
-                                <option value="4">Alto</option>
-                                <option value="5">Muy alto</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="nivelRiesgo" class="form-label">Nivel de Riesgo</label>
-                            <input type="text" class="form-control custom-input" id="nivelRiesgo" name="nivelRiesgo"
-                                readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label for="tipoRiesgo" class="form-label">Tipo de Riesgo</label>
-                            <select class="form-select custom-select" id="tipoRiesgo" name="tipoRiesgo"
-                                required></select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="ubicacion" class="form-label">Ubicación</label>
-                            <select class="form-select custom-select" id="ubicacion" name="ubicacion" required></select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="descripcion" class="form-label">Descripción</label>
-                            <textarea class="form-control custom-textarea" id="descripcion" name="descripcion" rows="3"
-                                required></textarea>
-                        </div>
-                        <div class="mt-4 text-center">
-                            <p class="evidencia-text">Evidencias del Riesgo</p>
-                            <div class="d-flex justify-content-center gap-2 mb-2">
-                                <div class="file-upload-wrapper">
-                                    <input type="file" class="file-upload-input" id="evidencia1" name="evidencia1"
-                                        accept="image/*">
-                                    <label for="evidencia1" class="file-upload-button">
-                                        <i class="fas fa-plus"></i>
-                                        <img class="preview-image" src="" alt="Preview" style="display: none;">
-                                    </label>
-                                </div>
-                                <div class="file-upload-wrapper">
-                                    <input type="file" class="file-upload-input" id="evidencia2" name="evidencia2"
-                                        accept="image/*">
-                                    <label for="evidencia2" class="file-upload-button">
-                                        <i class="fas fa-plus"></i>
-                                        <img class="preview-image" src="" alt="Preview" style="display: none;">
-                                    </label>
-                                </div>
-                                <div class="file-upload-wrapper">
-                                    <input type="file" class="file-upload-input" id="evidencia3" name="evidencia3"
-                                        accept="image/*">
-                                    <label for="evidencia3" class="file-upload-button">
-                                        <i class="fas fa-plus"></i>
-                                        <img class="preview-image" src="" alt="Preview" style="display: none;">
-                                    </label>
-                                </div>
+                    <form id="riskForm" class="needs-validation" novalidate>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Probabilidad</label>
+                                <select class="form-select" id="prob" required>
+                                    <option value="">Seleccione</option>
+                                    <option value="1">1 Raro</option>
+                                    <option value="2">2 Poco probable</option>
+                                    <option value="3">3 Moderado</option>
+                                    <option value="4">4 Probable</option>
+                                    <option value="5">5 Casi seguro</option>
+                                </select>
+                                <div class="invalid-feedback">Selecciona la probabilidad.</div>
                             </div>
-                            <small class="text-danger mb-3 d-block">MÍNIMO 1 EVIDENCIA</small>
+                            <div class="col-md-6">
+                                <label class="form-label">Impacto</label>
+                                <select class="form-select" id="impact" required>
+                                    <option value="">Seleccione</option>
+                                    <option value="1">1 Insignificante</option>
+                                    <option value="2">2 Menor</option>
+                                    <option value="3">3 Significativo</option>
+                                    <option value="4">4 Mayor</option>
+                                    <option value="5">5 Severo</option>
+                                </select>
+                                <div class="invalid-feedback">Selecciona el impacto.</div>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Nivel de Riesgo</label>
+                                <input class="form-control" id="riskLevel" type="text"
+                                    placeholder="Se calculará automáticamente" readonly>
+                            </div>
+
+                            <!-- 🔒 Tipo de Riesgo bloqueado -->
+                            <div class="col-12">
+                                <label class="form-label">Tipo de Riesgo</label>
+                                <select class="form-select" id="typeRisk" disabled></select>
+                                <div class="form-text">Se define desde la tarjeta seleccionada.</div>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Ubicación</label>
+                                <select id="location" class="form-select" required>
+                                    <option value="">Seleccione</option>
+                                    <option>Edificio A - Planta Baja</option>
+                                    <option>Edificio A - 1er Nivel</option>
+                                    <option>Edificio B - Taller</option>
+                                    <option>Laboratorio Químico</option>
+                                    <option>Almacén Principal</option>
+                                </select>
+                                <div class="invalid-feedback">Selecciona la ubicación.</div>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Descripción</label>
+                                <textarea id="desc" class="form-control" rows="4" required></textarea>
+                                <div class="invalid-feedback">Describe el riesgo.</div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="text-center mb-2 fw-semibold">Evidencias del Riesgo</div>
+                                <div class="row g-3">
+                                    <div class="col-4">
+                                        <div class="evidence-slot d-flex align-items-center justify-content-center"
+                                            data-slot="0">
+                                            <div
+                                                class="evidence-drop w-100 h-100 d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-plus-lg fs-2"></i>
+                                            </div>
+                                        </div>
+                                        <input class="d-none" type="file" accept="image/*" data-input="0">
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="evidence-slot d-flex align-items-center justify-content-center"
+                                            data-slot="1">
+                                            <div
+                                                class="evidence-drop w-100 h-100 d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-plus-lg fs-2"></i>
+                                            </div>
+                                        </div>
+                                        <input class="d-none" type="file" accept="image/*" data-input="1">
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="evidence-slot d-flex align-items-center justify-content-center"
+                                            data-slot="2">
+                                            <div
+                                                class="evidence-drop w-100 h-100 d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-plus-lg fs-2"></i>
+                                            </div>
+                                        </div>
+                                        <input class="d-none" type="file" accept="image/*" data-input="2">
+                                    </div>
+                                </div>
+                                <p class="text-center mt-2 mb-0 small text-danger">MÍNIMO 1 EVIDENCIA</p>
+                            </div>
                         </div>
-                        <button type="submit" class="btn custom-submit-btn w-100" id="submit-btn" disabled>
-                            <i class="fas fa-clipboard-list me-2"></i>Reportar Riesgo
-                        </button>
                     </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="saveReportBtn" class="btn btn-success">
+                        <i class="bi bi-send"></i> Reportar Riesgo
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Modal Detalle -->
+    <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content border-0">
+                <div class="modal-header">
+                    <div>
+                        <h5 class="modal-title">Detalle del Reporte</h5>
+                        <hr class="hr-mini">
+                    </div>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="border rounded-3 p-3 bg-white h-100">
+                                <h6 class="fw-bold mb-2">Información</h6>
+                                <div id="detailInfo"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="border rounded-3 p-3 bg-white h-100">
+                                <h6 class="fw-bold mb-2">Evidencias</h6>
+                                <div class="row g-2" id="detailImages"></div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="border rounded-3 p-3 bg-white">
+                                <h6 class="fw-bold mb-2">Descripción</h6>
+                                <p id="detailDesc" class="mb-0"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" id="detailFooter"></div>
+            </div>
+        </div>
+    </div>
 
     <script type="module" src="Js/Controller/DashBoardController.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -480,8 +531,7 @@
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
         crossorigin="anonymous"></script>
     <script type="module" src="Js/Controller/DashBoardController.js"></script>
-    <script type="module" src="Js/Controller/ReportController.js"></script>
-    <script src="Js/Report.js"></script>
+    <script type="module" src="Js/Controller/PotencialRiskController.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>

@@ -85,6 +85,8 @@ async function initDashboard() {
         return;
     }
 
+    console.log("sesion iniciada", session)
+
     const role = (session.data.role || "").toLowerCase();
     const roleCommiteMemeber = (session.data.committeeRole || "").toLowerCase();
     console.log(roleCommiteMemeber);

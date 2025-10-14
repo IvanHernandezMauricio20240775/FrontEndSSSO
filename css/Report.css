@@ -8,527 +8,73 @@
     display: inline-block;
     width: 40%;
 }
-
-.hero {
-    background-color: var(--primary);
-    color: var(--secondary);
-    padding: 60px 0;
+:root{
+  --ssso-teal:#169b87;
+  --ssso-teal-2:#138c79;
+  --chip-bg:#eaf6f4;
+  --soft: 14px;
 }
 
-.carousel-item {
-    background-color: var(--neutral);
-    padding: 30px 0;
+
+.title-hr{
+  border:0; height:3px; width:220px; background:var(--ssso-teal);
+  margin:.25rem 0 1.25rem 0; border-radius:10px;
 }
 
-/* Card styles */
-.card {
-    border: 2px solid var(--accent-dark);
-    border-radius: 10px;
-    transition: transform 0.2s ease-in-out;
-    box-shadow: 0 4px 8px rgba(44, 62, 109, 0.1);
-    /* Remove fixed width from here, it will be handled by flex-basis or Bootstrap columns */
-    /* width: 280px; */ 
-    display: flex;
-    flex-direction: column; /* Ensure content stacks vertically within the card */
-    justify-content: center;
-    align-items: center;
-    text-align: center; /* Center card content */
-    padding: 15px; /* Add some padding inside the card */
+/* Tarjetas tipos */
+.risk-card{
+  border:2px solid #e3e6ee; background:#fff; border-radius:18px;
+  padding:22px; min-height:120px; display:flex; align-items:center; justify-content:center;
+  text-align:center; cursor:pointer; transition:all .18s ease;
+  box-shadow: 0 2px 0 rgba(0,0,0,.02); user-select:none;
 }
+.risk-card:hover{ transform:translateY(-2px); border-color:var(--ssso-teal); box-shadow:0 8px 22px rgba(0,0,0,.06); }
+.risk-card.active{ outline:3px solid var(--ssso-teal); }
 
-.img-contain {
-    border-radius: 8px;
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    margin-bottom: 10px; /* Space between image and title */
-    background-color: #f8f9fa;
-    display: flex; /* To center the image within its container */
-    justify-content: center;
-    align-items: center;
+.dots button{
+  width:12px; height:12px; border-radius:50%; border:0; margin:0 6px;
+  background:#dadada; transition:transform .15s ease;
 }
+.dots button.active{ background:var(--ssso-teal); transform:scale(1.15); }
 
-.img-contain img {
-    max-width: 100%;
-    max-height: 100%;
+/* Filtros */
+.pill-tabs .btn{
+  background:#fff; border:1px solid #dfe3ee; color:#2b2b2b; border-radius:30px; padding:.4rem 1rem;
 }
+.pill-tabs .btn.active{ background:var(--ssso-teal); color:#fff; border-color:var(--ssso-teal); }
 
-.cards-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-    margin: 10px;
-    padding: 10px 4px 10px 10px;
+/* Tabla */
+.table thead th{ background:var(--ssso-teal); color:#fff; border:0; }
+.badge-soft{
+  background:var(--chip-bg); color:#1f6d64; border:1px solid #bfe3dd; padding:.4rem .6rem; border-radius:999px;
+  font-weight:600;
 }
+.badge-soft.pending{ color:#a76a00; background:#fff4dc; border-color:#ffe3a6; }
+.badge-soft.verified{ color:#197a3a; background:#eaf8f0; border-color:#c9eed6; }
 
-.card:hover {
-    transform: scale(1.1);
-    box-shadow: 0 8px 16px rgba(44, 62, 109, 0.2);
+.table-actions i{ cursor:pointer; padding:.35rem; border-radius:10px; }
+.table-actions i:hover{ background:#eef3f8; }
+
+/* Modal */
+.modal-header h5{ font-weight:800; }
+.hr-mini{
+  width:180px; height:4px; background:var(--ssso-teal); border-radius:10px; border:0; margin-top:-6px;
 }
+.form-control, .form-select{ border-radius:12px !important; }
 
-.card-title {
-    color: var(--primary);
-    font-weight: bold;
-    font-size: 1rem; /* Adjust font size for better fit */
-    margin-top: 0; /* Remove default margin */
+/* Evidencias */
+.evidence-drop{
+  background:#f2fbf8; border:2px dashed #9fd3c9; border-radius:16px;
+  height:100px; display:flex; align-items:center; justify-content:center; cursor:pointer;
 }
+.evidence-slot img{ width:100%; height:100%; object-fit:cover; border-radius:12px; }
+.evidence-slot{ height:100px; border-radius:12px; overflow:hidden; border:2px dashed #cfe6e2; background:#e9f6f3; }
 
-/* Rest of your existing CSS */
-.cart-sidebar {
-    position: fixed;
-    top: 0;
-    right: -400px;
-    width: 400px;
-    height: 100%;
-    background-color: var(--secondary);
-    color: var(--accent-dark);
-    z-index: 1050;
-    transition: right 0.3s ease-in-out;
-}
+/* Paginadores */
+.pager .page-link{ border-radius:10px !important; }
+.pager .page-item.active .page-link{ background:var(--ssso-teal); border-color:var(--ssso-teal); }
 
-.cart-sidebar.open {
-    right: 0;
-}
-
-.cart-toggle-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1060;
-    background-color: var(--accent-green);
-    color: white;
-    border-radius: 50%;
-    width: 55px;
-    height: 55px;
-    font-size: 22px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-}
-
-.cart-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: var(--neutral);
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 6px;
-    animation: slideIn 0.3s ease-in-out;
-}
-
-.cart-item.slideOut {
-    animation: slideOutLeft 0.5s ease-in-out forwards;
-}
-
-@keyframes slideIn {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes slideOutLeft {
-    from {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    to {
-        transform: translateX(-100%);
-        opacity: 0;
-    }
-}
-
-.accordion-button {
-    border: 1px solid rgba(14, 127, 125, 1);
-}
-
-/*Seccion de Opciones*/
-.SectionOptions {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-#AllOptions {
-    border: 0;
-    background-color: white;
-    padding-top: 20px;
-    padding-bottom: 5px;
-    position: relative;
-    transition: all 0.3s ease;
-    flex-grow: 1;
-}
-
-#AllOptions p {
-    margin: 0;
-    padding-bottom: 5px;
-}
-
-/* Estilo para la barra cuando la opción está seleccionada */
-#AllOptions.selected-option {
-    color: #209F84;
-    font-weight: bold;
-}
-
-#AllOptions.selected-option::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 10%;
-    right: 10%;
-    height: 3px;
-    background-color: #209F84;
-    border-radius: 2px;
-    animation: slideInBar 0.3s forwards;
-}
-
-#Search {
-    margin-top: 20px;
-    height: 30px;
-    width: 20%;
-    border-radius: 10px;
-    border: 2px solid gray;
-    padding: 10px;
-}
-
-#table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 15px;
-    margin-top: 20px;
-}
-
-#table thead th {
-    background-color: #0C8266;
-    color: white;
-    padding: 15px;
-    text-align: center;
-    border-bottom: none;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-#table thead tr th:first-child {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-}
-
-#table thead tr th:last-child {
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-
-/* Estilos para cada fila (tr) del tbody, que actuará como un panel individual */
-#table tbody tr {
-    background-color: #ffffff;
-    border: 2px solid #28a745;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-}
-
-/* Efecto hover para las filas (paneles) */
-#table tbody tr:hover {
-    border-color: #0056b3;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    transform: translateY(-2px);
-}
-
-/* Estilos para cada celda (td) dentro de una fila de panel */
-#table tbody tr td {
-    padding: 15px;
-    text-align: left;
-    color: #495057;
-    border: none;
-}
-
-/* Bordes redondeados para la primera y última celda de cada fila de panel */
-#table tbody tr td:first-child {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-}
-
-#table tbody tr td:last-child {
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-
-#table tbody button {
-    border-radius: 20px;
-    padding-left: 15px;
-    padding-right: 15px;
-    background-color: whitesmoke;
-    border: 2px solid #a2feb8;
-}
-
-#table tbody button:hover {
-    background-color: white;
-    color: black;
-    border: 2px solid #28a745;
-    transform: translateY(-1.5px);
-}
-
-/* Modal styles (New, based on Image 2) */
-.custom-modal-content {
-    border-radius: 20px;
-    border: 1px solid #c0c0c0; /* Un borde sutil como en la imagen */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    background-color: #f7f7f7; /* Un fondo ligeramente gris */
-    
-}
-
-.custom-modal-header {
-    background-color: transparent; /* No background color, just title */
-    border-bottom: none;
-    padding: 1.5rem 1.5rem 0.5rem 1.5rem; /* Ajustar padding */
-    position: relative;
-    display: flex;
-    flex-direction: column; /* Para que la línea quede debajo del título */
-    align-items: flex-start; /* Alinear elementos a la izquierda */
-}
-
-.custom-modal-title {
-    color: #20A2A0; /* Color verde vibrante */
-    font-weight: bold;
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem; /* Espacio entre título y línea */
-    align-self: flex-start; /* Asegurar que el título se alinee a la izquierda */
-}
-
-.custom-btn-close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background-color: transparent;
-    border: none;
-    font-size: 1.5rem;
-    color: #888;
-    opacity: 1; /* Para asegurar que sea visible */
-    padding: 0;
-    margin: 0;
-}
-
-.custom-btn-close:hover {
-    color: #333;
-}
-
-.header-underline {
-    width: 60%; /* Ajusta el ancho de la línea verde */
-    height: 3px;
-    background-color: #20A2A0; /* Color verde de la imagen */
-    border-radius: 2px;
-    margin-left: 0; /* Asegurar que la línea comience a la izquierda */
-}
-
-.modal-body {
-    padding: 1.5rem;
-}
-
-.form-label {
-    font-weight: 500;
-    color: #555;
-    margin-bottom: 0.3rem;
-    font-size: 0.95rem;
-}
-
-.custom-input,
-.custom-select,
-.custom-textarea {
-    border: 1px solid #ced4da;
-    border-radius: 8px;
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
-    background-color: #fff;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-.custom-input:focus,
-.custom-select:focus,
-.custom-textarea:focus {
-    border-color: #80bdff;
-    outline: 0;
-    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
-}
-
-.custom-textarea {
-    resize: vertical;
-    min-height: 80px;
-}
-
-.evidencia-text {
-    font-weight: 500;
-    color: #555;
-    margin-bottom: 0.8rem;
-    font-size: 0.95rem;
-    text-align: center;
-}
-
-/* File upload buttons (Image 2 style) */
-.file-upload-wrapper {
-    position: relative;
-    width: 90px;
-    height: 90px;
-    border-radius: 10px;
-    overflow: hidden;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.file-upload-input {
-    position: absolute;
-    left: 0;
-    top: 0;
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-}
-
-.file-upload-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    background-color: #e0f2f1; /* Color de fondo claro */
-    border: 2px dashed #8FCAB9; /* Borde punteado verde */
-    border-radius: 10px;
-    color: #8FCAB9; /* Color del icono */
-    font-size: 2rem;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
-}
-
-.file-upload-button:hover {
-    background-color: #c8e6c9;
-    border-color: #388e3c;
-}
-
-.file-upload-button .preview-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-/* Submit button (Image 2 style) */
-.custom-submit-btn {
-    background-color: #80E1E0; /* Color verde del botón */
-    border-color: #80E1E0;
-    color: white;
-    font-weight: bold;
-    border-radius: 25px; /* Bordes más redondeados */
-    padding: 0.75rem 1.5rem;
-    font-size: 1.1rem;
-    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-}
-
-.custom-submit-btn:hover {
-    background-color: #5bb6b4;
-    border-color: #5bb6b4;
-    transform: translateY(-1px);
-}
-
-.custom-submit-btn:disabled {
-    background-color: #b0c9b0; /* Un verde más claro para deshabilitado */
-    border-color: #b0c9b0;
-    cursor: not-allowed;
-    transform: none;
-}
-
-/* --- Responsive Media Queries --- */
-
-/* Mobile devices (Portrait and Landscape) - Small screens */
-@media (max-width: 767.98px) {
-    .cards-grid {
-        /* On small screens, cards can stack or have 1-2 per row */
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* 1-2 cards per row */
-        gap: 0.8rem;
-    }
-
-    .card {
-        width: 100%; /* Take full width within its grid column */
-        max-width: 200px; /* Limit max width for very small cards if needed */
-        margin: auto; /* Center individual cards if not filling full width */
-    }
-
-    .img-contain {
-        width: 60px;
-        height: 60px;
-    }
-
-    .card-title {
-        font-size: 0.9rem;
-    }
-
-    #Titulo {
-        width: 80%; /* Adjust title width for smaller screens */
-        text-align: center; /* Center the title on small screens */
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    #Search {
-        width: 80%; /* Make search bar wider on small screens */
-        margin-left: auto;
-        margin-right: auto;
-        display: block; /* Ensure it takes full width */
-    }
-}
-
-/* Tablets (Portrait) and larger phones - Medium screens */
-@media (min-width: 768px) and (max-width: 991.98px) {
-    .cards-grid {
-        /* For tablets, 2 or 3 cards per row */
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1.5rem;
-    }
-
-    .card {
-        width: 100%; /* Take full width within its grid column */
-        max-width: 250px; /* Adjust max width for tablet cards */
-    }
-
-    #Titulo {
-        width: 60%; /* Adjust title width for tablets */
-    }
-}
-
-/* Desktops and Laptops - Large screens */
-@media (min-width: 992px) {
-    .cards-grid {
-        /* On larger screens, maintain 3 cards per row or more, as desired */
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust minmax as needed */
-        gap: 2rem; /* More space between cards */
-    }
-
-    .card {
-        width: 100%; /* Take full width within its grid column */
-        max-width: 280px; /* Can revert to original card size if desired */
-    }
-
-    #Titulo {
-        width: 40%; /* Original width for desktops */
-    }
-}
-
-/* Specific adjustments for iPad Air (given dimensions: 820x1180) */
-/* This falls within the tablet range, but if you want specific adjustments: */
-@media (width: 820px) and (height: 1180px),
-       (width: 1180px) and (height: 820px) { /* Portrait and Landscape for iPad Air */
-    .cards-grid {
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Example: 3 cards per row */
-        gap: 1.5rem;
-    }
-    .card {
-        max-width: 260px;
-    }
+/* Responsive */
+@media (max-width: 768px){
+  .risk-card{ min-height:90px; padding:16px; }
 }
