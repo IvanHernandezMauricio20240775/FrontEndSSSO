@@ -1,1013 +1,884 @@
-import {
-    AssignInspection,
-    getAllAssignInspection,
-    getAssignInspectionsByNit,
-    getAssignsImplementAndTypeByInspection,
-    UpdateAssignInspection,
-    getAssignPendingInspection,
-    RegisterDetailExtinguisher,
-    UpdateDetailExtinguisher,
-    RegisterDetailSmokeDetector,
-    UpdateDetailSmokeDetector,
-    RegisterDetailLocation,
-    UpdateDetailLocation
-} from "../Service/InspectionService.js";
+import * as INSPECTION from "../Service/InspectionAssignService.js";
+import { AuthStatus } from "../Service/AuthService.js";
+import { getSmokeDetectorByLocation } from "../Service/SmokeDetectorService.js";
+import { getExtinguishersByLocation } from "../Service/ExtinguisherService.js";
+import { GetAllListMemberCommite } from "../Service/CommiteService.js";
+import { getAllLocation } from "../Service/LocationService.js";
 
-import {
-    AuthStatus
-} from "../Service/AuthService.js";
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const fmtDate = d => d;
+const today = () => new Date().toISOString().slice(0, 10);
 
-import {
-    getSmokeDetectorByLocation
-} from "../Service/SmokeDetectorService.js";
+const TB_Type_Implements = [
+  { id: 1, name: "GENERAL" },
+  { id: 2, name: "EXTINTOR" },
+  { id: 3, name: "DETECTOR DE HUMO" }
+];
 
-import {
-    getExtinguishersByLocation
-} from "../Service/ExtinguisherService.js";
+// ==== auth / permisos
+let AUTH = { role: null, commiteRole: null, idMember: null };
+let CAN_MANAGE = false;     // programar/editar/eliminar (Admin/Presidente/Vice/Secretario)
+let IS_INSPECTOR = false;   // Usuario-Inspector
+let CAN_DO_DETAILS = false; // sólo inspector puede “realizar/editar” detalles
 
-import {
-    GetAllListMemberCommite
-} from "../Service/CommiteService.js";
+// ==== datos dinámicos
+let DB_Inspections = [];
+let DB_Pager = { totalPages: 1, totalElements: 0, number: 0, size: 10 };
+let DB_Locations = [];
+let DB_Inspectores = [];
 
-import {
-    getAllLocation
-} from "../Service/LocationService.js";
+// caches
+const TiposCache = new Map();        // idInspection -> "EXTINTOR - DETECTOR - GENERAL"
+const AnyCompletedCache = new Map(); // idInspection -> boolean
+const ExtByLocCache = new Map();     // locId -> [{code}]
+const DetByLocCache = new Map();     // locId -> [{code}]
 
+/* =========================================================
+   Estado de filtros / paginación
+   ========================================================= */
+const state = {
+  tab: "ALL",   // ALL | PENDIENTE | COMPLETADO
+  tipo: "",     // filtro local por tipo
+  q: "",
+  page: 0,
+  size: 10
+};
 
-// ----------------------------------------------------------------
-// --- DECLARACIÓN DE VARIABLES GLOBALES ---
-// ----------------------------------------------------------------
+/* =========================================================
+   UI utils
+   ========================================================= */
+function stateBadge(st) {
+  return st === "COMPLETADO"
+    ? '<span class="badge-soft verified">COMPLETADO</span>'
+    : '<span class="badge-soft pending">PENDIENTE</span>';
+}
 
-// --- Referencias a elementos del DOM ---
-const form = document.getElementById('inspection-form');
-const codigoInput = document.getElementById('codigo');
-const employeeListContainer = document.getElementById('employee-list-container');
-const ubicacionSelect = document.getElementById('ubicacion');
-const checkboxes = document.querySelectorAll('input[name="type_implement"]');
-const modalList = document.querySelector('.implement-modal-list');
-const saveBtn = document.getElementById('save-implements-btn');
+function nextInspectionId() {
+  const nums = DB_Inspections
+    .map(i => Number(String((i.ID_Inspection ?? i.id ?? "")).split("-")[1]))
+    .filter(n => !Number.isNaN(n));
+  const max = nums.length ? Math.max(...nums) : 0;
+  return `INSP-${String(max + 1).padStart(3, "0")}`;
+}
 
-const tableBody = document.getElementById('inspectionTableBody');
-const tableHeader = document.querySelector('.TableInspection thead tr');
-const assignInspectionBtn = document.querySelector('[data-bs-target="#asignInspectionModal"]');
-const myInspectionBtn = document.querySelector('[data-bs-target="#MyInspectionModal"]');
+function locationNameById(id) {
+  return DB_Locations.find(x => x.id_location === id)?.name_location || id || "";
+}
 
+function inspectorNitById(id) {
+  return DB_Inspectores.find(x => x.id_member === id)?.nit || "";
+}
 
-// --- VARIABLES para almacenar instancias de Modales ---
-// Se declaran como 'let' con valor inicial 'null'
-let modal = null;
-let assignInspectionModal = null;
-let myInspectionModal = null; // AÑADIDO: Instancia del modal de inspecciones pendientes
-let extinguisherDetailModal = null;
-let detectorDetailModal = null;
-let locationDetailModal = null;
+/* =========================================================
+   CHART
+   ========================================================= */
+const AQUA_PALETTE = [
+  "#1abc9c", "#16a085", "#20c997", "#0fb9b1", "#2ecc71",
+  "#27ae60", "#26de81", "#10b981", "#34d399", "#14b8a6"
+];
+let chart, _resizeTO = null;
 
-// --- Variables de estado de la aplicación ---
-let selectedEmployee = null;
-let selectedImplements = {};
-let currentModalType = '';
-let currentModalCheckbox = null;
-let allInspectionsData = [];
-let currentAssignmentData = null;
-let currentInspectionId = null;
+function getChartHeight() {
+  return Math.max(180, Math.min(320, Math.round(window.innerHeight * 0.28)));
+}
 
+async function buildChart() {
+  const canvas = document.getElementById("chartCategorias");
+  if (!canvas) return;
 
-// ----------------------------------------------------------------
-// --- EVENTO DOMContentLoaded (PUNTO CRÍTICO DE INICIALIZACIÓN) ---
-// ----------------------------------------------------------------
-document.addEventListener("DOMContentLoaded", () => {
-    // Inicializar las modales *después* de que todo el script de Bootstrap se haya cargado
-    modal = new bootstrap.Modal(document.getElementById('implementsModal'));
-    assignInspectionModal = new bootstrap.Modal(document.getElementById('asignInspectionModal'));
-    // CORRECCIÓN/ADICIÓN: Inicializar el modal de Mis Inspecciones
-    myInspectionModal = new bootstrap.Modal(document.getElementById('MyInspectionModal'));
-    extinguisherDetailModal = new bootstrap.Modal(document.getElementById('extinguisherDetailModal'));
-    detectorDetailModal = new bootstrap.Modal(document.getElementById('detectorDetailModal'));
-    locationDetailModal = new bootstrap.Modal(document.getElementById('locationDetailModal'));
-    
-    // Inicialización de datos
-    codigoInput.value = 'INSP-' + Math.floor(Math.random() * 10000);
-    AuthInspection();
-    fetchEmployeesAndRender();
-    fetchLocationsAndRender();
-    
-    // AÑADIDO: Lógica de carga de inspecciones pendientes al abrir el modal
-    setupMyInspectionModalListener();
+  let counts = { "GENERAL": 0, "EXTINTOR": 0, "DETECTOR DE HUMO": 0 };
+  try {
+    const data = await INSPECTION.GetCountsByCategory();
+    if (data && typeof data === "object") counts = { ...counts, ...data };
+  } catch (e) {
+    console.error("CountsByCategory error:", e);
+  }
+
+  const cats = ["GENERAL", "EXTINTOR", "DETECTOR DE HUMO"];
+  const values = cats.map(k => counts[k] || 0);
+
+  canvas.height = getChartHeight();
+  const ctx = canvas.getContext("2d");
+  if (chart) chart.destroy();
+  chart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: cats,
+      datasets: [{
+        label: "Inspecciones",
+        data: values,
+        backgroundColor: values.map((_, i) => AQUA_PALETTE[i % AQUA_PALETTE.length]),
+        borderWidth: 0,
+        borderRadius: 10,
+        maxBarThickness: 56,
+        categoryPercentage: 0.68,
+        barPercentage: 0.85
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: items => items?.[0]?.label ?? "",
+            label: item => ` ${item.parsed.y} asignación(es)`
+          }
+        }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: "#334155", font: { size: 12 } } },
+        y: { beginAtZero: true, grace: "10%", ticks: { stepSize: 1, color: "#64748b", font: { size: 12 } }, grid: { color: "rgba(0,0,0,.06)" } }
+      },
+      animation: { duration: 600 }
+    }
+  });
+}
+
+window.addEventListener("resize", () => {
+  clearTimeout(_resizeTO);
+  _resizeTO = setTimeout(() => { if (chart) chart.resize(); }, 140);
 });
 
+/* =========================================================
+   Catálogos
+   ========================================================= */
+async function loadUbicaciones() {
+  const sel = $("#selUbicacion");
+  sel.innerHTML = '<option value="">Selecciona una Ubicación</option>';
+  try {
+    const json = await getAllLocation();
+    const list = json?.data ?? json ?? [];
+    DB_Locations = Array.isArray(list) ? list : [];
+    sel.innerHTML += DB_Locations.map(u => `<option value="${u.id_location}">${u.name_location}</option>`).join("");
+    sel.onchange = () => { asignCtx.ubicacion = sel.value; };
+  } catch (e) {
+    console.error("getAllLocation error:", e);
+  }
+}
 
-// ----------------------------------------------------------------
-// --- LÓGICA CLAVE DE CARGA Y RENDERIZADO DE TARJETAS PENDIENTES ---
-// ----------------------------------------------------------------
+async function loadInspectores() {
+  const grid = $("#gridInspectores"); grid.innerHTML = "";
+  try {
+    const res = await GetAllListMemberCommite();
+    const list = (res?.data ?? res ?? []).filter(x => x.position === "Inspector" && x.status === "Activo");
+    DB_Inspectores = list.map(x => ({ id_member: x.id_member, nit: x.nit, name: x.full_name }));
 
-/**
- * Configura el listener para cargar las tarjetas al abrir el modal del inspector.
- */
-function setupMyInspectionModalListener() {
-    if (!myInspectionBtn) return;
-    
-    myInspectionBtn.addEventListener('click', async (event) => {
-        event.preventDefault(); // Previene la acción por defecto del botón (si la tiene)
-
-        // Asumimos que la sesión ya está cargada y tenemos el NIT del inspector.
-        // Si no tienes el NIT disponible globalmente, deberás hacer la llamada a AuthStatus() aquí.
-        const userNit = allInspectionsData.length > 0 && allInspectionsData[0].encargado ? allInspectionsData[0].encargado : null; 
-        
-        if (!userNit) {
-             const session = await AuthStatus();
-             if (session.ok) {
-                 const nit = session.data.nit;
-                 if (nit) {
-                      await fetchAndRenderPendingCards(nit);
-                 } else {
-                     Swal.fire('Error', 'No se pudo obtener el NIT del usuario para cargar las inspecciones.', 'error');
-                 }
-             }
-        } else {
-             await fetchAndRenderPendingCards(userNit);
-        }
+    DB_Inspectores.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "col-6 col-sm-4 col-md-3 col-lg-2";
+      card.innerHTML = `
+        <div class="card-inspector" data-id="${p.id_member}">
+          <div class="icon"><i class="bi bi-person-badge"></i></div>
+          <div class="small text-muted">${p.nit || "-"}</div>
+          <div class="fw-semibold">${p.name}</div>
+        </div>`;
+      const el = $(".card-inspector", card);
+      el.onclick = () => {
+        if (!CAN_MANAGE) return;
+        $$(".card-inspector").forEach(x => x.classList.remove("active"));
+        el.classList.add("active");
+        asignCtx.inspector = p.id_member;
+      };
+      grid.appendChild(card);
     });
-    
-    // AÑADIDO: Listener para los botones de las tarjetas dentro del modal.
-    document.getElementById('MyInspectionModal').addEventListener('click', (event) => {
-        const targetBtn = event.target.closest('.perform-detail-btn');
-        if (!targetBtn) return;
-        
-        const assignmentData = {
-            idAssing: targetBtn.dataset.idassing,
-            tipoImplemento: targetBtn.dataset.type,
-            idImplement: targetBtn.dataset.idimplement || null,
-            codigoInspeccion: targetBtn.dataset.codigoinspeccion,
-            // Estos campos son necesarios para openPerformInspectionModal, se asume que los obtuviste previamente o necesitas una nueva llamada.
-            // Para simplicidad, usaremos el mismo código de inspección. En producción, el objeto debe ser completo.
-            nombreUbicacion: "Ubicación Desconocida", // DEBES REEMPLAZAR ESTO con la lógica para obtener la ubicación de la tarjeta.
-        };
-        
-        // La llamada original en la tabla tiene un JSON.parse(row.dataset.assignmentData) completo.
-        // Si solo tienes estos datos, tendrás que hacer un fetch para obtener el objeto completo si los forms lo requieren.
-        // Por ahora, usamos lo que tenemos en el data-set de la tarjeta:
-        openPerformInspectionModal(assignmentData);
-        myInspectionModal.hide(); // Ocultar el modal de lista
-    });
+  } catch (e) {
+    console.error("GetAllListMemberCommite error:", e);
+  }
 }
 
-/**
- * Obtiene los datos pendientes y llama a la función de renderizado de tarjetas.
- * @param {string} userNit - El NIT del inspector.
- */
-async function fetchAndRenderPendingCards(userNit) {
-    try {
-        const response = await getAssignPendingInspection(userNit);
-        const pendingData = response.data;
-        
-        console.log("Realizar Inspecciones (PENDIENTES):", pendingData.length);
-        console.log("Detalles de las inspecciones pendientes:", pendingData);
+/* =========================================================
+   Tabla + paginación
+   ========================================================= */
+async function fetchPage() {
+  try {
+    let pg;
 
-        renderPendingInspectionCards(pendingData);
-        myInspectionModal.show();
-    } catch (error) {
-        console.error("Error al cargar las inspecciones pendientes:", error);
-        Swal.fire('Error', 'No se pudieron cargar sus inspecciones pendientes.', 'error');
-    }
-}
-
-
-/**
- * Renderiza las tarjetas de inspección pendientes en el modal de 'Mis Inspecciones'.
- * @param {Array<Object>} pendingAssignments - La lista completa de asignaciones pendientes.
- */
-function renderPendingInspectionCards(pendingAssignments) {
-    // 1. Limpiar contenedores antes de empezar
-    const extinguisherContainer = document.getElementById('extinguisher-cards');
-    const detectorContainer = document.getElementById('detector-cards');
-    const generalContainer = document.getElementById('general-cards');
-
-    if (!extinguisherContainer || !detectorContainer || !generalContainer) {
-        console.error("ERROR: No se encontraron los contenedores de tarjetas en el modal.");
-        return; 
-    }
-
-    extinguisherContainer.innerHTML = '';
-    detectorContainer.innerHTML = '';
-    generalContainer.innerHTML = '';
-
-    // 2. Filtrar por tipo de implemento (Coincide con tu log)
-    const extinguishers = pendingAssignments.filter(a => a.tipoImplemento === 'EXTINTOR');
-    const detectors = pendingAssignments.filter(a => a.tipoImplemento === 'DETECTOR DE HUMO');
-    // Si no tiene implemento, o el tipo es 'GENERAL' (o similar), va a la sección general.
-    const generals = pendingAssignments.filter(a => !a.idImplement || a.tipoImplemento === 'GENERAL' || a.tipoImplemento === 'LOCACIÓN'); 
-    
-    // Opcional: Ocultar secciones si no hay datos
-    document.getElementById('extinguisher-section').style.display = extinguishers.length > 0 ? 'block' : 'none';
-    document.getElementById('detector-section').style.display = detectors.length > 0 ? 'block' : 'none';
-    document.getElementById('general-section').style.display = generals.length > 0 ? 'block' : 'none';
-
-
-    // 3. Renderizar cada grupo
-    appendCards(extinguisherContainer, extinguishers);
-    appendCards(detectorContainer, detectors);
-    appendCards(generalContainer, generals);
-}
-
-/**
- * Función auxiliar para generar y añadir las tarjetas al contenedor.
- * @param {HTMLElement} container - El elemento DOM donde se añadirán las tarjetas.
- * @param {Array<Object>} items - La lista filtrada de asignaciones.
- */
-function appendCards(container, items) {
-    if (items.length === 0) {
-        container.innerHTML = `<div class="alert alert-info p-2 mt-2" role="alert">
-                                   No hay inspecciones pendientes en esta categoría.
-                               </div>`;
-        return;
-    }
-
-    items.forEach(item => {
-        const fechaFormatted = item.fecha ? new Date(item.fecha).toLocaleDateString('es-ES') : 'N/A';
-        
-        // Determinar qué código mostrar (Implemento para EXT/DET, o Inspección para General/Locación)
-        const codeDisplay = item.idImplement 
-            ? `<span class="fw-bold">${item.idImplement}</span>` 
-            : `<span class="fw-bold">${item.codigoInspeccion}</span>`;
-            
-        const implementName = item.tipoImplemento || 'LOCACIÓN/GENERAL';
-
-        const cardHtml = `
-            <div class="inspection-card shadow-sm p-3 mb-3 bg-light rounded" 
-                 data-idassing="${item.idAssing}" 
-                 data-type="${implementName}"
-                 data-idimplement="${item.idImplement || ''}"
-                 data-codigoinspeccion="${item.codigoInspeccion}">
-                
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="mb-1 text-primary">${implementName}</h6>
-                        <p class="mb-0 small text-muted">Ubicación: ${item.nombreUbicacion}</p>
-                        <p class="mb-0 small text-muted">${item.idImplement ? 'Implemento' : 'Inspección'}: ${codeDisplay}</p>
-                        <p class="mb-0 small text-danger">Fecha: ${fechaFormatted}</p>
-                    </div>
-                    <div>
-                        <button class="btn btn-sm btn-success perform-detail-btn" 
-                                data-idassing="${item.idAssing}"
-                                data-type="${implementName}"
-                                data-idimplement="${item.idImplement || ''}"
-                                data-codigoinspeccion="${item.codigoInspeccion}">
-                            Realizar
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
-        container.innerHTML += cardHtml;
-    });
-}
-
-// ----------------------------------------------------------------
-// --- EVENT LISTENER PRINCIPAL PARA ACCIONES DE LA TABLA ---
-// ----------------------------------------------------------------
-document.getElementById('inspectionTableBody').addEventListener('click', (event) => {
-    const targetBtn = event.target.closest('button');
-    if (!targetBtn) return;
-
-    // LÓGICA DEL INSPECTOR: Botón "Realizar" (clase perform-btn, usa data-idassing)
-    if (targetBtn.classList.contains('perform-btn')) {
-        const row = targetBtn.closest('tr');
-        if (row && row.dataset.assignmentData) {
-             const assignmentData = JSON.parse(row.dataset.assignmentData);
-             openPerformInspectionModal(assignmentData);
-        }
-        return; // Detener la ejecución para evitar que caiga en la lógica Admin
-    }
-
-    // LÓGICA DEL ADMINISTRADOR: Botones "Editar" y "Eliminar" (usan data-id)
-    const inspectionId = targetBtn.dataset.id;
-    if (!inspectionId) return;
-
-    if (targetBtn.classList.contains('btn-outline-primary')) {
-        // Lógica de edición
-        const inspectionToEdit = allInspectionsData.find(insp => insp.codigo_inspeccion == inspectionId);
-        if (inspectionToEdit) {
-            openUpdateModal(inspectionToEdit);
-        }
-    } else if (targetBtn.classList.contains('btn-outline-danger')) {
-        // Lógica de eliminación (debes implementar la llamada al servicio real)
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: "¡No podrás revertir esto!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                console.log(`Deleting assignment with ID: ${inspectionId}`);
-                // Aquí iría tu llamada a la API para eliminar
-                Swal.fire(
-                    '¡Eliminado!',
-                    'La asignación ha sido eliminada.',
-                    'success'
-                );
-            }
-        });
-    }
-});
-
-
-// ----------------------------------------------------------------
-// --- LÓGICA DE DETALLE Y APERTURA DE FORMULARIOS ---
-// ----------------------------------------------------------------
-
-function openPerformInspectionModal(assignmentData) {
-    console.log("Abriendo modal para realizar inspección:", assignmentData);
-    
-    currentAssignmentData = assignmentData; // Guarda la data de la asignación activa
-
-    const type = assignmentData.tipoImplemento;
-    const implementId = assignmentData.idImplement || 'GENERAL';
-
-    let modalToOpen;
-    let title;
-
-    if (type === 'EXTINTOR') {
-        modalToOpen = extinguisherDetailModal;
-        title = `Extintor: ${implementId} - ${assignmentData.nombreUbicacion}`;
-        renderExtinguisherForm(assignmentData);
-    } else if (type === 'DETECTOR DE HUMO') {
-        modalToOpen = detectorDetailModal;
-        title = `Detector: ${implementId} - ${assignmentData.nombreUbicacion}`;
-        renderDetectorForm(assignmentData);
-    } else if (type === 'GENERAL' || type === 'LOCACIÓN') {
-        modalToOpen = locationDetailModal;
-        title = `Locación: ${assignmentData.nombreUbicacion}`;
-        renderLocationForm(assignmentData);
+    if (IS_INSPECTOR) {
+      // *** Inspector: página filtrada por su idMember ***
+      const pageObj = await INSPECTION.GetInspectionsPageByMember({
+        memberId: AUTH.idMember,          // <-- CORRECTO (antes se usaba id_member)
+        state: state.tab || "ALL",
+        q: state.q || "",
+        page: state.page,
+        size: state.size
+      });
+      pg = pageObj?.data ?? pageObj;
     } else {
-        Swal.fire('Error', `Tipo de implemento no reconocido: ${type}`, 'error');
-        return;
+      // *** Admin / Presidente / Vice / Secretario ***
+      const pageObj = await INSPECTION.GetInspectionsPage({
+        status: state.tab || "ALL",
+        q: state.q || "",
+        page: state.page,
+        size: state.size
+      });
+      pg = pageObj?.data ?? pageObj;
     }
 
-    // Asegúrate de que los modales de detalle tienen un elemento con ID 'extinguisherDetailModalTitle', etc.
-    const modalTitleElement = document.getElementById(modalToOpen._element.id + 'Title');
-    if (modalTitleElement) {
-        modalTitleElement.textContent = `Realizar Inspección (${type}): ${title}`;
+    DB_Inspections = Array.isArray(pg?.content) ? pg.content : [];
+    DB_Pager = {
+      totalPages: pg?.totalPages ?? 1,
+      totalElements: pg?.totalElements ?? DB_Inspections.length,
+      number: pg?.number ?? state.page,
+      size: pg?.size ?? state.size
+    };
+
+    // Seguridad extra por si el BE devuelve más de la cuenta
+    if (IS_INSPECTOR) {
+      DB_Inspections = DB_Inspections.filter(r =>
+        String(r.ID_Member ?? r.memberId ?? r.id_member) === String(AUTH.idMember) // <-- usar AUTH.idMember
+      );
+      DB_Pager.totalElements = DB_Inspections.length;
+      DB_Pager.totalPages = 1;
+      DB_Pager.number = 0;
     }
 
-    modalToOpen.show();
+    await hydrateTiposAndCompleted(DB_Inspections);
+  } catch (e) {
+    console.error("fetchPage error:", e);
+    throw e;
+  }
 }
 
-function renderExtinguisherForm(assignment) {
-    // Asume que tienes un campo oculto en el formulario del extintor con ID 'extinguisher_id_assing'
-    const idAssingInput = document.getElementById('extinguisher_id_assing');
-    if (idAssingInput) {
-        idAssingInput.value = assignment.idAssing;
-    }
-    // Si tienes un campo para el ID del implemento:
-    const idImplementInput = document.getElementById('extinguisher_id_implement');
-    if (idImplementInput) {
-        idImplementInput.value = assignment.idImplement;
-    }
-    document.getElementById('extinguisherDetailForm').reset();
+async function hydrateTiposAndCompleted(rows) {
+  const pending = rows
+    .filter(r => !TiposCache.has(r.ID_Inspection || r.id))
+    .map(async r => {
+      const id = r.ID_Inspection || r.id;
+      try {
+        const arr = await INSPECTION.GetAssignmentsByInspection(id);
+        const list = arr?.data ?? arr ?? [];
+        const tiposSet = new Set(list.map(a => {
+          if (a.ID_TypeImplement === 1) return "GENERAL";
+          if (a.ID_TypeImplement === 2) return "EXTINTOR";
+          if (a.ID_TypeImplement === 3) return "DETECTOR DE HUMO";
+          return "";
+        }).filter(Boolean));
+        TiposCache.set(id, [...tiposSet].join(" - "));
+        AnyCompletedCache.set(id, list.some(a => a.State_Assign === "COMPLETADO"));
+      } catch (e) {
+        console.warn("Assignments fetch fail for", id, e);
+        TiposCache.set(id, "");
+        AnyCompletedCache.set(id, false);
+      }
+    });
+  await Promise.allSettled(pending);
 }
 
-function renderDetectorForm(assignment) {
-    // Asume que tienes un campo oculto en el formulario del detector con ID 'detector_id_assing'
-    const idAssingInput = document.getElementById('detector_id_assing');
-    if (idAssingInput) {
-        idAssingInput.value = assignment.idAssing;
-    }
-    // Si tienes un campo para el ID del implemento:
-    const idImplementInput = document.getElementById('detector_id_implement');
-    if (idImplementInput) {
-        idImplementInput.value = assignment.idImplement;
-    }
-    document.getElementById('detectorDetailForm').reset();
+function renderPager() {
+  const ul = $("#pager"); ul.innerHTML = "";
+  const pages = Math.max(1, DB_Pager.totalPages);
+  const cur = Math.min(DB_Pager.number, pages - 1);
+
+  const mk = (label, i, disabled = false, active = false) => {
+    const li = document.createElement("li");
+    li.className = `page-item ${disabled ? "disabled" : ""} ${active ? "active" : ""}`;
+    li.innerHTML = `<a class="page-link" href="#">${label}</a>`;
+    li.onclick = e => { e.preventDefault(); if (!disabled) { state.page = i; loadAndRenderTable(); } };
+    ul.appendChild(li);
+  };
+
+  mk("«", 0, cur === 0);
+  mk("‹", Math.max(0, cur - 1), cur === 0);
+  for (let i = 0; i < pages; i++) mk(i + 1, i, false, i === cur);
+  mk("›", Math.min(pages - 1, cur + 1), cur === pages - 1);
+  mk("»", pages - 1, cur === pages - 1);
 }
 
-function renderLocationForm(assignment) {
-    // Asume que tienes un campo oculto en el formulario de locación con ID 'location_id_assing'
-    const idAssingInput = document.getElementById('location_id_assing');
-    if (idAssingInput) {
-        idAssingInput.value = assignment.idAssing;
-    }
-    document.getElementById('locationDetailForm').reset();
-}
+function renderTable() {
+  const filtered = state.tipo
+    ? DB_Inspections.filter(r => (TiposCache.get(r.ID_Inspection || r.id) || "").includes(state.tipo))
+    : DB_Inspections;
 
-// ----------------------------------------------------------------
-// --- LÓGICA DE AUTENTICACIÓN Y CARGA DE LA TABLA ---
-// ----------------------------------------------------------------
-async function AuthInspection() {
-    try {
-        const session = await AuthStatus();
-        console.log("Sesión de usuario:", session);
+  const tb = $("#tbodyInspecciones"); tb.innerHTML = "";
+  filtered.forEach(r => {
+    const id   = r.ID_Inspection || r.id;
+    const tipos = TiposCache.get(id) || r.Type_Names || r.tipos || "-";
+    const date = r.Date_Inspection || r.date || r.Date || "";
+    const st   = r.State_Inspection || r.state || "PENDIENTE";
+    const loc  = r.Location_Name || locationNameById(r.ID_Location || r.locationId);
+    const nit  = r.NIT_Encargado || inspectorNitById(r.ID_Member ?? r.memberId);
 
-        assignInspectionBtn.style.display = 'none';
-        myInspectionBtn.style.display = 'none';
+    const anyCompleted     = AnyCompletedCache.get(id) || false;
+    const allowEditDelete  = CAN_MANAGE && !anyCompleted;       // admin: sólo si ninguna asignación está completada
+    const showRunInspector = IS_INSPECTOR;                       // inspector: siempre botón “Realizar”
+    const showEyeAdmin     = CAN_MANAGE && anyCompleted;         // admin: ver detalles sólo si hay COMPLETADO
 
-        if (session.ok) {
-            const userRole = session.data.role;
-            const userCommitteeRole = session.data.committeeRole;
-            // OBTENER NIT para la consulta
-            const userNit = session.data.nit; 
-            let inspections = [];
-
-            if (userRole === "Administrador" || userCommitteeRole === "Presidente") {
-                // Admin/Presidente: Ven todas las asignaciones
-                inspections = await getAllAssignInspection();
-                assignInspectionBtn.style.display = 'block';
-                renderTableHeaders(true);
-            } else if (userRole === "Usuario" && userCommitteeRole === "Inspector") {
-                // INSPECTOR: SOLO VE ASIGNACIONES PENDIENTES USANDO EL ENDPOINT ESPECÍFICO
-                const response = await getAssignPendingInspection(userNit); 
-                inspections = response.data; // La data son los AssignmentSummaryDTO PENDIENTES
-                myInspectionBtn.style.display = 'block';
-                renderTableHeaders(false);
-            } else {
-                renderNoAccessMessage();
-                return;
-            }
-
-            if (inspections && inspections.length > 0) {
-                // allInspectionsData se usa para la lógica de Editar/Eliminar (Admin/Presidente)
-                // Para Inspector, es la lista de pendientes.
-                allInspectionsData = inspections; 
-                renderInspectionsTable(allInspectionsData);
-            } else {
-                tableBody.innerHTML = '<tr><td colspan="6" class="text-center">No hay inspecciones asignadas.</td></tr>';
-            }
-        } else {
-            renderNoAccessMessage();
-        }
-    } catch (error) {
-        console.error("Error en la autenticación o al cargar los datos:", error);
-        renderNoAccessMessage();
-    }
-}
-
-// ----------------------------------------------------------------
-// --- RENDERIZADO DE TABLA ---
-// ----------------------------------------------------------------
-function renderTableHeaders(isAdmin) {
-    let headers = `
-        <th scope="col" class="px-3">#ID</th>
-        <th scope="col" class="px-3">Ubicacion</th>
-        <th scope="col" class="px-3">Tipo de Inspeccion</th>
-        <th scope="col" class="px-3">Estado</th>
-        <th scope="col" class="px-3">Fecha</th>
+    let acciones = '';
+    if (showRunInspector) acciones += `<i class="bi bi-play-btn-fill text-success me-1" title="Realizar"></i>`;
+    if (showEyeAdmin)     acciones += `<i class="bi bi-eye text-primary me-1" title="Ver detalles"></i>`;
+    acciones += `
+      <i class="bi bi-pencil-square me-1 ${allowEditDelete ? '' : 'text-muted disabled'}" title="Editar"></i>
+      <i class="bi bi-trash3 ${allowEditDelete ? 'text-danger' : 'text-muted disabled'}" title="Eliminar"></i>
     `;
-    if (isAdmin) {
-        headers += `<th scope="col" class="px-3">Encargado</th>`;
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${id}</td>
+      <td class="fw-semibold">${tipos}</td>
+      <td>${fmtDate(date)}</td>
+      <td>${nit || "-"}</td>
+      <td>${stateBadge(st)}</td>
+      <td>${loc || "-"}</td>
+      <td class="text-center table-actions">${acciones}</td>
+    `;
+
+    const icons = row.querySelectorAll("i");
+    let idx = 0;
+    if (showRunInspector) {
+      icons[idx++].onclick = () => abrirRealizar(id, false); // inspector puede editar
     }
-    headers += `<th scope="col" class="px-3">Acciones</th>`;
-    tableHeader.innerHTML = headers;
+    if (showEyeAdmin) {
+      icons[idx++].onclick = () => abrirRealizar(id, true);  // admin sólo lectura
+    }
+    if (icons[idx] && allowEditDelete) icons[idx].onclick = () => abrirAsignar(id); // editar
+    idx++;
+    if (icons[idx] && allowEditDelete) icons[idx].onclick = async () => { await eliminarInspeccion(id); }; // eliminar
+
+    tb.appendChild(row);
+  });
+
+  renderPager();
 }
 
-function renderInspectionsTable(inspections) {
-
-    tableBody.innerHTML = '';
-    
-    console.log("Inspecciones:",inspections)
-    // Si el primer elemento tiene 'encargado' o 'encargadoNombre', asumimos que es la vista Admin.
-    const isAdminView = inspections.length > 0 && (inspections[0].hasOwnProperty('encargado') || inspections[0].hasOwnProperty('encargadoNombre'));
-
-    if (inspections.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="6" class="text-center">No hay inspecciones asignadas.</td></tr>';
-        return;
-    }
-
-    inspections.forEach(assignment => {
-        const row = document.createElement('tr');
-        
-        const fechaFormatted = assignment.fecha ? new Date(assignment.fecha).toLocaleDateString('es-ES') : 'N/A';
-        const implementText = assignment.idImplement && assignment.idImplement !== 'N/A' 
-                              ? ` - ${assignment.idImplement}` : '';
-        
-        // Almacenar todos los datos de la asignación en el dataset de la fila
-        row.dataset.assignmentData = JSON.stringify(assignment);
-
-        // Se usan operadores OR (||) para ser flexibles con los DTOs de Admin/Inspector
-        const codigo = assignment.codigoInspeccion || assignment.codigo_inspeccion;
-        const ubicacion = assignment.nombreUbicacion || assignment.nombre_ubicacion;
-        const tipo = assignment.tipoImplemento || assignment.tipo;
-        const estado = assignment.estadoInspeccion || assignment.estado;
-        const encargado = assignment.encargadoNombre || assignment.encargado || 'N/A';
-
-        row.innerHTML = `
-            <td class="px-3">${codigo}</td>
-            <td class="px-3">${ubicacion}</td>
-            <td class="px-3">${tipo}${implementText}</td>
-            <td class="px-3">${estado}</td>
-            <td class="px-3">${fechaFormatted}</td>
-            
-            ${isAdminView ? `<td class="px-3">${formatName(encargado)}</td>` : ''}
-            
-            <td class="px-3">
-                ${(estado) === 'PENDIENTE' ? `
-                <button class="btn btn-sm btn-outline-success perform-btn" data-idassing="${assignment.idAssing}" data-type="${tipo}">
-                    <i class="fas fa-check"></i> Realizar
-                </button>
-                ` : `
-                <span class="badge bg-success">Completado</span>
-                `}
-                
-                ${isAdminView ? `
-                <button class="btn btn-sm btn-outline-primary me-2" data-id="${codigo}">
-                    <i class="fas fa-pencil-alt"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-danger" data-id="${codigo}">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-                ` : ''}
-            </td>
-        `;
-        tableBody.appendChild(row);
-    });
+async function loadAndRenderTable() {
+  try {
+    $("#tbodyInspecciones").innerHTML = `<tr><td colspan="7" class="text-center py-4">Cargando...</td></tr>`;
+    await fetchPage();
+    renderTable();
+  } catch (e) {
+    $("#tbodyInspecciones").innerHTML = `<tr><td colspan="7" class="text-center text-danger py-4">Error al cargar</td></tr>`;
+  }
 }
 
-// ----------------------------------------------------------------
-// --- LÓGICA DE ENVÍO DE FORMULARIOS DE DETALLE ---
-// ----------------------------------------------------------------
+/* =========================================================
+   Asignar / Programar inspección
+   ========================================================= */
+const mdAsignar = new bootstrap.Modal("#modalAsignar");
+const mdSelector = new bootstrap.Modal("#modalSelector");
+const mdRealizar = new bootstrap.Modal("#modalRealizar");
+const mdDetalle  = new bootstrap.Modal("#modalDetalle");
 
-// 1. FORMULARIO DE DETALLE DE EXTINTOR
-document.getElementById('extinguisherDetailForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    
-    // Obtener el valor del campo que contiene ID_Assing
-    const idAssing = document.getElementById('extinguisher_id_assing').value;
-    
-    const payload = {
-        "ID_Assing": parseInt(idAssing),
-        "Extinguisher_InOperation": form.elements.inOperation.value,
-        "Gauge_Status":
-        lue,
-        "Hose_Condition": form.elements.hoseCondition.value,
-        "Accessible_Visible": form.elements.accessibleVisible.value,
-        "Observation": form.elements.observation.value,
+let asignCtx = {
+  editId: null,
+  inspector: null,
+  ubicacion: "",
+  tipoGeneral: false,
+  ExtintoresEnProgreso: [],
+  DetectoresEnProgreso: [],
+  selectorTipo: 2
+};
+
+function resetAsignCtx() {
+  asignCtx = {
+    editId: null,
+    inspector: null,
+    ubicacion: "",
+    tipoGeneral: false,
+    ExtintoresEnProgreso: [],
+    DetectoresEnProgreso: [],
+    selectorTipo: 2
+  };
+}
+
+function loadTiposCards() {
+  const wrap = $("#cardsTipos");
+  wrap.innerHTML = `
+    <div class="col-12 col-sm-6 col-lg-4 d-flex justify-content-center">
+      <div class="card-tipo ext ${asignCtx.ExtintoresEnProgreso.length?'active':''}" id="cardExt">
+        <div class="icon"><i class="bi bi-fire-extinguisher"></i></div>
+        <div class="fw-bold">EXTINTORES</div>
+        <div class="small text-muted">Selecciona implementos</div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-4 d-flex justify-content-center">
+      <div class="card-tipo detector ${asignCtx.DetectoresEnProgreso.length?'active':''}" id="cardDet">
+        <div class="icon"><i class="bi bi-alarm"></i></div>
+        <div class="fw-bold">DETECTORES DE HUMO</div>
+        <div class="small text-muted">Selecciona implementos</div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-4 d-flex justify-content-center">
+      <div class="card-tipo general ${asignCtx.tipoGeneral?'active':''}" id="cardGen">
+        <div class="icon"><i class="bi bi-building"></i></div>
+        <div class="fw-bold">GENERAL</div>
+        <div class="small text-muted">Inspección del área</div>
+      </div>
+    </div>
+  `;
+
+  $("#cardExt").onclick = () => CAN_MANAGE && abrirSelector(2);
+  $("#cardDet").onclick = () => CAN_MANAGE && abrirSelector(3);
+  $("#cardGen").onclick = () => {
+    if (!CAN_MANAGE) return;
+    asignCtx.tipoGeneral = !asignCtx.tipoGeneral;
+    $("#cardGen").classList.toggle("active", asignCtx.tipoGeneral);
+  };
+}
+
+async function renderSelectorList(tipo, ubic) {
+  const list = $("#selectorList"); list.innerHTML = "";
+  let src = [];
+
+  if (tipo === 2) {
+    if (!ExtByLocCache.has(ubic)) {
+      const resp = await getExtinguishersByLocation(ubic);
+      ExtByLocCache.set(ubic, (resp?.data ?? resp ?? []).map(x => ({ code: x.id_extinguisher, id_location: x.id_location })));
+    }
+    src = ExtByLocCache.get(ubic);
+  } else {
+    if (!DetByLocCache.has(ubic)) {
+      const resp = await getSmokeDetectorByLocation(ubic);
+      DetByLocCache.set(ubic, (resp?.data ?? resp ?? []).map(x => ({ code: x.id_smoke_detector, id_location: x.id_location })));
+    }
+    src = DetByLocCache.get(ubic);
+  }
+
+  src.forEach(it => {
+    const code = it.code;
+    const selected = (tipo === 2)
+      ? asignCtx.ExtintoresEnProgreso.includes(code)
+      : asignCtx.DetectoresEnProgreso.includes(code);
+
+    const div = document.createElement("div");
+    div.className = `selector-item ${selected ? 'active' : ''}`;
+    div.dataset.code = code;
+    div.innerHTML = `
+      <span class="code">${code}</span>
+      <i class="bi ${selected ? 'bi-check-circle-fill text-success' : 'bi-plus-circle'}"></i>
+    `;
+    div.onclick = () => {
+      const arr = (tipo === 2) ? asignCtx.ExtintoresEnProgreso : asignCtx.DetectoresEnProgreso;
+      const i = arr.indexOf(code);
+      if (i >= 0) arr.splice(i, 1); else arr.push(code);
+      renderSelectorList(tipo, ubic);
     };
-    
-    console.log("Payload Extintor a enviar:", payload);
+    list.appendChild(div);
+  });
 
-    try {
-        const response = await RegisterDetailExtinguisher(payload);
-        Swal.fire('¡Éxito!', 'Detalle de Extintor registrado.', 'success');
-        extinguisherDetailModal.hide();
-        AuthInspection(); // Recargar la tabla para ver el cambio de estado
-    } catch (error) {
-        console.error("Error al registrar detalle de extintor:", error);
-        Swal.fire('Error', `No se pudo guardar el detalle: ${error.message || 'Error desconocido'}`, 'error');
-    }
-});
-
-
-// 2. FORMULARIO DE DETALLE DE DETECTOR DE HUMO
-document.getElementById('detectorDetailForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const idAssing = document.getElementById('detector_id_assing').value;
-
-    const payload = {
-        "ID_Assing": parseInt(idAssing),
-        "Detector_InOperation": form.elements.detectorInOperation.value,
-        "Battery_Status": form.elements.batteryStatus.value,
-        "LED_Indicator": form.elements.ledIndicator.value,
-        "Damaged_Marterial": form.elements.damagedMaterial.value,
-        "Functional_Test_Date": form.elements.functionalTestDate.value, 
-        "Is_Clean": form.elements.isClean.value,
-        "Correct_Location": form.elements.correctLocation.value,
-        "Expiration_Date": form.elements.expirationDate.value, 
-        "Observation": form.elements.observation.value,
-    };
-    
-    console.log("Payload Detector a enviar:", payload);
-
-    try {
-        const response = await RegisterDetailSmokeDetector(payload);
-        Swal.fire('¡Éxito!', 'Detalle de Detector registrado.', 'success');
-        detectorDetailModal.hide();
-        AuthInspection(); // Recargar la tabla
-    } catch (error) {
-        console.error("Error al registrar detalle de detector:", error);
-        Swal.fire('Error', `No se pudo guardar el detalle: ${error.message || 'Error desconocido'}`, 'error');
-    }
-});
-
-
-// 3. FORMULARIO DE DETALLE DE LOCACIÓN / GENERAL
-document.getElementById('locationDetailForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const idAssing = document.getElementById('location_id_assing').value;
-
-    const payload = {
-        "ID_Assing": parseInt(idAssing),
-        "Visible_Signage": form.elements.visibleSignage.value,
-        "Correct_Routes": form.elements.correctRoutes.value,
-        "Free_EmergencyExits": form.elements.freeEmergencyExits.value,
-        "Cleanfacilities": form.elements.cleanfacilities.value,
-        "Lighting_Adequate": form.elements.lightingAdequate.value,
-        "Electrical_Hazards": form.elements.electricalHazards.value,
-        "Floor_Condition": form.elements.floorCondition.value,
-        "Proper_Storage": form.elements.properStorage.value,
-        "Emergency_Equipment_Accessible": form.elements.emergencyEquipmentAccessible.value,
-        "Observation": form.elements.observation.value,
-    };
-    
-    console.log("Payload Locación a enviar:", payload);
-
-    try {
-        const response = await RegisterDetailLocation(payload);
-        Swal.fire('¡Éxito!', 'Detalle de Locación registrado.', 'success');
-        locationDetailModal.hide();
-        AuthInspection(); // Recargar la tabla
-    } catch (error) {
-        console.error("Error al registrar detalle de locación:", error);
-        Swal.fire('Error', `No se pudo guardar el detalle: ${error.message || 'Error desconocido'}`, 'error');
-    }
-});
-
-// ----------------------------------------------------------------
-// --- Funciones de soporte y Event Listeners de Asignación ---
-// ----------------------------------------------------------------
-
-function formatName(name) {
-    if (!name) return '';
-    const parts = name.split(' ');
-    if (parts.length > 2) {
-        return `${parts[0]} ${parts[1][0]}.`;
-    }
-    return name;
-}
-
-function renderNoAccessMessage() {
-    document.getElementById('Data').innerHTML = `<div class="alert alert-warning mt-4" role="alert">
-        No tienes permisos para ver esta sección.
-    </div>`;
-}
-
-async function fetchEmployeesAndRender() {
-    try {
-        const employees = await GetAllListMemberCommite();
-        const filteredEmployees = employees.filter(emp =>
-            emp.position === "Inspector" && emp.status === "Activo"
-        );
-        renderEmployees(filteredEmployees);
-    } catch (error) {
-        console.error("Error al obtener los empleados:", error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Error al cargar la lista de empleados. Por favor, intenta de nuevo.'
-        });
-    }
-}
-
-async function fetchLocationsAndRender() {
-    try {
-        const locationsData = await getAllLocation();
-        if (!locationsData || locationsData.length === 0) {
-            console.log("Ubicaciones no cargadas");
-            return;
-        }
-        renderLocations(locationsData);
-    } catch (error) {
-        console.error("Error al obtener las ubicaciones:", error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Error al cargar la lista de ubicaciones. Por favor, intenta de nuevo.'
-        });
-    }
-}
-
-function renderEmployees(employeeData) {
-    employeeListContainer.innerHTML = '';
-    employeeData.forEach(emp => {
-        const card = document.createElement('div');
-        card.className = 'employee-card';
-        card.dataset.id = emp.id_member;
-        card.innerHTML = `
-            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Foto de ${emp.full_name}">
-            <div class="employee-name">${emp.full_name}</div>
-            <div class="employee-id">${emp.id_member}</div>
-        `;
-        card.addEventListener('click', () => selectEmployee(emp));
-        employeeListContainer.appendChild(card);
+  $("#selectorSearch").oninput = (e) => {
+    const q = e.target.value.toLowerCase();
+    $$("#selectorList .selector-item").forEach(el => {
+      el.classList.toggle("d-none", !el.dataset.code.toLowerCase().includes(q));
     });
+  };
 }
 
-function selectEmployee(employee) {
-    selectedEmployee = employee;
-    const allCards = document.querySelectorAll('.employee-card');
-    allCards.forEach(card => card.classList.remove('selected'));
-    const selectedCard = document.querySelector(`.employee-card[data-id="${employee.id_member}"]`);
-    if (selectedCard) {
-        selectedCard.classList.add('selected');
-    }
+async function abrirSelector(tipo) {
+  const ubic = $("#selUbicacion").value;
+  if (!ubic) {
+    Swal.fire({ icon: "warning", title: "Selecciona una ubicación primero" });
+    return;
+  }
+  asignCtx.selectorTipo = tipo;
+  $("#selectorTitle").textContent = (tipo === 2 ? "EXTINTORES - " : "DETECTORES - ") + (locationNameById(ubic));
+  $("#selectorSearch").value = "";
+  await renderSelectorList(tipo, ubic);
+  mdSelector.show();
 }
+$("#btnSelectorOk").onclick = () => {
+  $("#cardExt").classList.toggle("active", asignCtx.ExtintoresEnProgreso.length > 0);
+  $("#cardDet").classList.toggle("active", asignCtx.DetectoresEnProgreso.length > 0);
+  mdSelector.hide();
+};
 
-function renderLocations(locationData) {
-    ubicacionSelect.innerHTML = '<option value="">Selecciona una ubicación</option>';
-    locationData.forEach(loc => {
-        const option = document.createElement('option');
-        option.value = loc.id_location;
-        option.textContent = loc.name_location;
-        ubicacionSelect.appendChild(option);
-    });
-}
+async function abrirAsignar(idInspection = null) {
+  if (!CAN_MANAGE) return;
 
-async function renderImplementsModal(type) {
-    modalList.innerHTML = '';
-    const selectedLocation = ubicacionSelect.value;
-    if (!selectedLocation) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Atención',
-            text: 'Por favor, selecciona una ubicación primero.'
-        });
-        return;
-    }
+  resetAsignCtx();
 
-    let implementsInLocation = [];
+  // (1) Asegurar catálogos cargados antes de precargar valores
+  await loadInspectores();
+  await loadUbicaciones();
+
+  // (2) Pintar tarjetas de tipos
+  loadTiposCards();
+
+  // (3) Defaults para “nuevo”
+  $("#inpCodigo").value = idInspection ? String(idInspection) : nextInspectionId(); // evitar "undefined"
+  $("#inpFecha").value  = today();
+
+  // (4) Modo edición
+  if (idInspection) {
     try {
-        if (type === 'EXTINTOR') {
-            implementsInLocation = (await getExtinguishersByLocation(selectedLocation)).data;
-        } else if (type === 'DETECTOR DE HUMO') {
-            implementsInLocation = (await getSmokeDetectorByLocation(selectedLocation)).data;
-        }
-    } catch (error) {
-        console.error(`Error al obtener los implementos de tipo ${type}:`, error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Error al cargar los implementos. Por favor, intenta de nuevo.'
-        });
-        return;
+      const resp = await INSPECTION.GetInspectionById(idInspection);
+      const it   = resp?.data ?? resp;
+      if (!it) return;
+
+      asignCtx.editId = idInspection;
+
+      // *** Estos campos antes mostraban "undefined": usar ?? "" para inputs ***
+      $("#inpCodigo").value    = (it.ID_Inspection ?? it.id ?? "") || String(idInspection);
+      $("#inpFecha").value     = (it.Date_Inspection ?? it.date ?? "") || today();
+      $("#selUbicacion").value = (it.ID_Location ?? it.locationId ?? "") || ""; // requiere coincidir con el value del <option>
+      asignCtx.ubicacion       = $("#selUbicacion").value;
+
+      // Marcar inspector activo en las cards (sólo entre los "Inspector")
+      asignCtx.inspector = it.ID_Member ?? it.memberId ?? null;
+      $$(".card-inspector").forEach(c => {
+        if (Number(c.dataset.id) === Number(asignCtx.inspector)) c.classList.add("active");
+      });
+
+      // Cargar asignaciones para marcar tarjetas/selecciones
+      const assigns = it.assignments ?? await INSPECTION.GetAssignmentsByInspection(idInspection);
+      const list    = assigns?.data ?? assigns ?? [];
+
+      asignCtx.ExtintoresEnProgreso = list.filter(a => a.ID_TypeImplement === 2).map(a => a.ID_Implement);
+      asignCtx.DetectoresEnProgreso = list.filter(a => a.ID_TypeImplement === 3).map(a => a.ID_Implement);
+      asignCtx.tipoGeneral          = list.some(a => a.ID_TypeImplement === 1);
+
+      $("#cardExt").classList.toggle("active", asignCtx.ExtintoresEnProgreso.length > 0);
+      $("#cardDet").classList.toggle("active", asignCtx.DetectoresEnProgreso.length > 0);
+      $("#cardGen").classList.toggle("active", asignCtx.tipoGeneral);
+    } catch (e) {
+      console.error(e);
+      Swal.fire({ icon: "error", title: "No se pudo cargar la inspección" });
+      return;
     }
+  }
 
-    currentModalType = type;
-    document.getElementById('implementsModalLabel').textContent = `Seleccionar ${type}s`;
+  mdAsignar.show();
+}
 
-    if (implementsInLocation.length === 0) {
-        modalList.innerHTML = `<p class="text-center text-muted">No se encontraron ${type}s en esta ubicación.</p>`;
-        saveBtn.disabled = true;
-        return;
+async function programarAsignacion() {
+  if (!CAN_MANAGE) return;
+
+  const codigo    = $("#inpCodigo").value;
+  const fecha     = $("#inpFecha").value;
+  const ubic      = $("#selUbicacion").value;
+  const inspector = asignCtx.inspector;
+
+  if (!inspector) { Swal.fire({ icon: "warning", title: "Selecciona un inspector" }); return; }
+  if (!ubic)      { Swal.fire({ icon: "warning", title: "Selecciona una ubicación" }); return; }
+  const haySeleccion = asignCtx.tipoGeneral || asignCtx.ExtintoresEnProgreso.length || asignCtx.DetectoresEnProgreso.length;
+  if (!haySeleccion) { Swal.fire({ icon: "warning", title: "Selecciona al menos un tipo de inspección" }); return; }
+
+  const insp = {
+    ID_Inspection: codigo,
+    Date_Inspection: fecha,
+    ID_Member: inspector,
+    ID_Location: ubic,
+    State_Inspection: "PENDIENTE"
+  };
+
+  const assigns = [];
+  if (asignCtx.tipoGeneral) {
+    assigns.push({ ID_Inspection: codigo, ID_Implement: ubic, ID_TypeImplement: 1, State_Assign: "PENDIENTE" });
+  }
+  asignCtx.ExtintoresEnProgreso.forEach(code => {
+    assigns.push({ ID_Inspection: codigo, ID_Implement: code, ID_TypeImplement: 2, State_Assign: "PENDIENTE" });
+  });
+  asignCtx.DetectoresEnProgreso.forEach(code => {
+    assigns.push({ ID_Inspection: codigo, ID_Implement: code, ID_TypeImplement: 3, State_Assign: "PENDIENTE" });
+  });
+
+  const payload = { inspection: insp, assignments: assigns };
+
+  try {
+    if (!asignCtx.editId) {
+      await INSPECTION.CreateAssignInspection(payload);
+      Swal.fire({ icon: "success", title: "Inspección programada" });
     } else {
-        saveBtn.disabled = false;
+      await INSPECTION.UpdateAssignInspection(codigo, payload);
+      Swal.fire({ icon: "success", title: "Inspección actualizada" });
     }
+    mdAsignar.hide();
+    TiposCache.delete(codigo);
+    AnyCompletedCache.delete(codigo);
+    await buildChart();
+    await loadAndRenderTable();
+  } catch (e) {
+    console.error(e);
+    Swal.fire({ icon: "error", title: "No se pudo guardar la inspección", text: e.message || "" });
+  }
+}
+$("#btnProgramar").onclick = programarAsignacion;
+$("#btnAsignar").onclick = () => CAN_MANAGE && abrirAsignar();
 
-    const currentSelectedIds = selectedImplements[type] ? selectedImplements[type].map(item => item.ID_Implement) : [];
-
-
-    implementsInLocation.forEach(imp => {
-        const item = document.createElement('div');
-        item.className = 'implement-item';
-        let idKey;
-        if (type === 'EXTINTOR') {
-            idKey = 'id_extinguisher';
-        } else if (type === 'DETECTOR DE HUMO') {
-            idKey = 'id_smoke_detector';
-        }
-        item.textContent = `${imp[idKey]}`;
-        item.dataset.id = imp[idKey];
-
-        if (currentSelectedIds.includes(imp[idKey])) {
-            item.classList.add('selected');
-        }
-
-        item.addEventListener('click', () => {
-            item.classList.toggle('selected');
-        });
-        modalList.appendChild(item);
-    });
-
-    modal.show();
+/* =========================================================
+   Eliminar Inspección
+   ========================================================= */
+async function eliminarInspeccion(id) {
+  if (!CAN_MANAGE) return;
+  const res = await Swal.fire({ icon: "question", title: "¿Eliminar inspección?", showCancelButton: true, confirmButtonText: "Eliminar", confirmButtonColor: "#d33" });
+  if (!res.isConfirmed) return;
+  try {
+    await INSPECTION.DeleteInspection(id);
+    Swal.fire({ icon: "success", title: "Eliminado" });
+    TiposCache.delete(id);
+    AnyCompletedCache.delete(id);
+    await buildChart();
+    await loadAndRenderTable();
+  } catch (e) {
+    console.error(e);
+    Swal.fire({ icon: "error", title: "No se pudo eliminar", text: e.message || "" });
+  }
 }
 
-document.querySelectorAll('.checkbox-item label').forEach(label => {
-    label.addEventListener('click', (event) => {
-        const checkbox = document.getElementById(label.getAttribute('for'));
-        const box = label.closest('.checkbox-item').querySelector('.box');
+/* =========================================================
+   Realizar / Ver Detalles
+   ========================================================= */
+async function abrirRealizar(idInspection, readOnly = false) {
+  try {
+    const get = await INSPECTION.GetInspectionById(idInspection);
+    const insp = get?.data ?? get;
+    if (!insp) return;
 
-        if (checkbox.value === 'GENERAL') {
-            event.preventDefault();
-            checkbox.checked = !checkbox.checked;
-            if (checkbox.checked) {
-                box.classList.add('selected-type');
-            } else {
-                box.classList.remove('selected-type');
-            }
-        } else {
-            event.preventDefault();
-            currentModalCheckbox = checkbox;
-            renderImplementsModal(checkbox.value);
-        }
-    });
-});
+    $("#realizarTitle").textContent   = `REALIZAR INSPECCIONES - ${idInspection}`;
+    $("#realizarUbicacion").textContent = `UBICACIÓN - ${insp.Location_Name}`;
 
-saveBtn.addEventListener('click', () => {
-    const selectedItems = document.querySelectorAll('.implement-item.selected');
-    const selectedIds = Array.from(selectedItems).map(item => item.dataset.id);
+    const assignsResp = insp.assignments ?? (await INSPECTION.GetAssignmentsByInspection(idInspection));
+    const list = (assignsResp?.data ?? assignsResp ?? []);
 
-    const currentAssignments = selectedImplements[currentModalType] || [];
-    const newAssignments = selectedIds.map(id => {
-        const existingAssignment = currentAssignments.find(a => a.ID_Implement === id);
-        return existingAssignment || { ID_Assing: null, ID_Implement: id };
-    });
+    const ext = list.filter(a => a.ID_TypeImplement === 2);
+    const det = list.filter(a => a.ID_TypeImplement === 3);
+    const gen = list.filter(a => a.ID_TypeImplement === 1);
 
-    selectedImplements[currentModalType] = newAssignments;
+    $("#secExtintores").classList.toggle("d-none", ext.length === 0);
+    $("#secDetectores").classList.toggle("d-none", det.length === 0);
+    $("#secGeneral").classList.toggle("d-none", gen.length === 0);
 
-    const box = currentModalCheckbox.closest('.checkbox-item').querySelector('.box');
+    const mkCard = (a, cont) => {
+      const c = document.createElement("div");
+      c.className = "col-12 col-sm-6 col-lg-4";
+      const done = a.State_Assign === "COMPLETADO";
+      const canRun = CAN_DO_DETAILS && !readOnly;           // inspector puede escribir
+      const adminViewAllowed = readOnly && done;            // admin SOLO puede abrir si está COMPLETADO
+      const enabled = canRun || adminViewAllowed;
 
-    if (selectedIds.length === 0) {
-        currentModalCheckbox.checked = false;
-        box.classList.remove('selected-type');
-    } else {
-        currentModalCheckbox.checked = true;
-        box.classList.add('selected-type');
-    }
-
-    modal.hide();
-});
-
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    if (!selectedEmployee) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Atención',
-            text: 'Por favor, selecciona un empleado encargado.'
-        });
-        return;
-    }
-
-    const isUpdate = !!currentInspectionId;
-
-    if (!isUpdate) {
-        // Lógica de creación (la que ya tenías)
-        const mainData = {
-            ID_Inspection: codigoInput.value,
-            Date_Inspection: document.getElementById('fecha').value,
-            ID_Member: selectedEmployee.id_member,
-            ID_Location: ubicacionSelect.value,
-        };
-
-        const assignments = [];
-        let validationFailed = false;
-        checkboxes.forEach(checkbox => {
-            if (checkbox.checked) {
-                const type = checkbox.value;
-                const implementData = selectedImplements[type] || [];
-
-                if (type !== 'GENERAL' && implementData.length === 0) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Atención',
-                        text: `Por favor, selecciona al menos un implemento para la inspección de tipo "${type}".`
-                    });
-                    validationFailed = true;
-                    return;
-                }
-                assignments.push({
-                    ID_TypeImplement: type,
-                    selected_implements: implementData.map(a => a.ID_Implement)
-                });
-            }
-        });
-
-        if (validationFailed) {
-            return;
-        }
-
-        if (assignments.length === 0) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Atención',
-                text: 'Por favor, selecciona al menos un tipo de inspección.'
-            });
-            return;
-        }
-
-        const finalPayload = {
-            ...mainData,
-            assignments
-        };
-
-        console.log('Datos a enviar al backend (Creación):', finalPayload);
-
-        try {
-            const response = await AssignInspection(finalPayload);
-            console.log('Respuesta del backend:', response);
-            Swal.fire({
-                icon: 'success',
-                title: '¡Éxito!',
-                text: '¡Datos guardados exitosamente!',
-                showConfirmButton: false,
-                timer: 2000
-            });
-            form.reset();
-            AuthInspection();
-        } catch (error) {
-            console.error("Error al enviar los datos:", error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Hubo un error al guardar los datos. Revisa la consola para más detalles.'
-            });
-        }
-
-    } else {
-        // Lógica de actualización
-        await handleUpdateSubmission();
-    }
-});
-
-
-async function openUpdateModal(inspection) {
-    console.log("Abriendo modal para actualizar:", inspection);
-
-    currentInspectionId = inspection.codigo_inspeccion;
-
-    assignInspectionModal.show();
-
-    const modalTitleElement = document.getElementById('modalTitle');
-    if (modalTitleElement) {
-        modalTitleElement.textContent = `Actualizar Inspección ${inspection.codigo_inspeccion}`;
-    }
-
-    codigoInput.value = inspection.codigo_inspeccion;
-    codigoInput.disabled = true;
-
-    document.getElementById('fecha').value = new Date(inspection.fecha).toISOString().split('T')[0];
-
-    try {
-        const detailedInspection = await getAssignsImplementAndTypeByInspection(inspection.codigo_inspeccion);
-        console.log("Datos de asignaciones detalladas para actualizar:", detailedInspection);
-
-        document.getElementById('ubicacion').value = detailedInspection.ID_Location;
-
-        const memberId = detailedInspection.ID_Member;
-        const employeeCards = document.querySelectorAll('.employee-card');
-        employeeCards.forEach(card => card.classList.remove('selected'));
-        const employeeCardToSelect = document.querySelector(`.employee-card[data-id="${memberId}"]`);
-        if (employeeCardToSelect) {
-            employeeCardToSelect.classList.add('selected');
-            selectedEmployee = { id_member: memberId };
-        }
-
-        checkboxes.forEach(cb => {
-            cb.checked = false;
-            cb.closest('.checkbox-item').querySelector('.box').classList.remove('selected-type');
-        });
-        selectedImplements = {};
-
-        if (detailedInspection && detailedInspection.assignments) {
-            detailedInspection.assignments.forEach(assignment => {
-                const type = assignment.ID_TypeImplement;
-                // Asumiendo que solo hay un implemento por asignación en la vista de detalle
-                const implementId = assignment.selected_implements[0]; 
-
-                if (!selectedImplements[type]) {
-                    selectedImplements[type] = [];
-                }
-
-                selectedImplements[type].push({
-                    ID_Assing: assignment.ID_Assing,
-                    ID_Implement: implementId
-                });
-
-                const checkboxToSelect = document.querySelector(`input[name="type_implement"][value="${type}"]`);
-                if (checkboxToSelect) {
-                    checkboxToSelect.checked = true;
-                    checkboxToSelect.closest('.checkbox-item').querySelector('.box').classList.add('selected-type');
-                }
-            });
-        }
-    } catch (error) {
-        console.error("Error al cargar los detalles de la inspección para actualización:", error);
-        Swal.fire('Error', 'No se pudieron cargar los detalles de la inspección.', 'error');
-    }
-}
-
-async function handleUpdateSubmission() {
-    if (!selectedEmployee) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Atención',
-            text: 'Por favor, selecciona un empleado encargado.'
-        });
-        return;
-    }
-
-    const mainData = {
-        ID_Inspection: codigoInput.value,
-        Date_Inspection: document.getElementById('fecha').value,
-        ID_Member: selectedEmployee.id_member,
-        ID_Location: ubicacionSelect.value,
+      c.innerHTML = `
+        <div class="p-3 border rounded-3 h-100">
+          <div class="small text-muted">Cod-Impl: ${a.ID_Implement}</div>
+          <div class="small">Estado: ${stateBadge(a.State_Assign)}</div>
+          <div class="mt-2 d-flex gap-2">
+            <button class="btn btn-sm ${enabled ? (canRun ? (done ? 'btn-outline-primary' : 'btn-teal') : 'btn-outline-secondary') : 'btn-outline-secondary disabled'} flex-grow-1">
+              ${canRun ? (done ? 'Ver/editar' : 'Empezar') : 'Ver detalle'}
+            </button>
+          </div>
+        </div>`;
+      const [btnRun] = c.querySelectorAll("button");
+      if (enabled) btnRun.onclick = () => abrirDetalle(a, !canRun); // si admin -> readonly
+      cont.appendChild(c);
     };
-    
-    // ... falta la lógica completa de actualización (UpdateAssignInspection)
-    // El código original estaba truncado aquí. Mantengo solo la parte que envuelve la lógica de actualización.
-    // **Asegúrate de completar tu función `handleUpdateSubmission` con el payload y la llamada a `UpdateAssignInspection`.**
+
+    const contExt = $("#cardsExtintores"); contExt.innerHTML = "";
+    ext.forEach(a => mkCard(a, contExt));
+    const contDet = $("#cardsDetectores"); contDet.innerHTML = "";
+    det.forEach(a => mkCard(a, contDet));
+    const contGen = $("#cardsGenerales"); contGen.innerHTML = "";
+    gen.forEach(a => mkCard(a, contGen));
+
+    mdRealizar.show();
+  } catch (e) {
+    console.error(e);
+    Swal.fire({ icon: "error", title: "No se pudo abrir la inspección" });
+  }
 }
+
+let detalleCtx = { assign: null, tipo: 0, readOnly: false };
+
+function abrirDetalle(assign, readOnly = false) {
+  detalleCtx = { assign, tipo: assign.ID_TypeImplement, readOnly };
+
+  const title =
+    (assign.ID_TypeImplement === 2) ? `Extintor - ${assign.ID_Implement}` :
+    (assign.ID_TypeImplement === 3) ? `Detector - ${assign.ID_Implement}` :
+    `General - ${locationNameById(assign.ID_Implement)}`;
+  $("#detalleTitle").textContent = title;
+
+  let html = "";
+  if (assign.ID_TypeImplement === 2) {
+    html = `
+      <div class="row g-3">
+        <div class="col-md-4"><label class="form-label">En Operación</label><select id="ex_inop" class="form-select"><option value="TRUE">Sí</option><option value="FALSE">No</option></select></div>
+        <div class="col-md-4"><label class="form-label">Manómetro</label><select id="ex_gauge" class="form-select"><option>OK</option><option>BAJA</option><option>ALTA</option></select></div>
+        <div class="col-md-4"><label class="form-label">Sello de Seguridad</label><select id="ex_seal" class="form-select"><option value="TRUE">Sí</option><option value="FALSE">No</option></select></div>
+        <div class="col-md-4"><label class="form-label">Manguera</label><select id="ex_hose" class="form-select"><option>OK</option><option>DAÑADA</option><option>AUSENTE</option></select></div>
+        <div class="col-md-4"><label class="form-label">Accesible/Visible</label><select id="ex_acc" class="form-select"><option value="TRUE">Sí</option><option value="FALSE">No</option></select></div>
+        <div class="col-12"><label class="form-label">Observación</label><textarea id="ex_obs" class="form-control" rows="3"></textarea></div>
+      </div>`;
+  } else if (assign.ID_TypeImplement === 3) {
+    html = `
+      <div class="row g-3">
+        <div class="col-md-4"><label class="form-label">En Operación</label><select id="dt_inop" class="form-select"><option value="TRUE">Sí</option><option value="FALSE">No</option></select></div>
+        <div class="col-md-4"><label class="form-label">Batería</label><select id="dt_bat" class="form-select"><option>OK</option><option>BAJA</option><option>REEMPLAZAR</option></select></div>
+        <div class="col-md-4"><label class="form-label">LED</label><select id="dt_led" class="form-select"><option>OK</option><option>APAGADO</option></select></div>
+        <div class="col-md-4"><label class="form-label">Material Dañado</label><select id="dt_dmg" class="form-select"><option value="FALSE">No</option><option value="TRUE">Sí</option></select></div>
+        <div class="col-md-4"><label class="form-label">Prueba Funcional</label><input id="dt_func" type="date" class="form-control" /></div>
+        <div class="col-md-4"><label class="form-label">Limpio</label><select id="dt_clean" class="form-select"><option value="TRUE">Sí</option><option value="FALSE">No</option></select></div>
+        <div class="col-md-4"><label class="form-label">Ubicación Correcta</label><select id="dt_loc" class="form-select"><option value="TRUE">Sí</option><option value="FALSE">No</option></select></div>
+        <div class="col-md-4"><label class="form-label">Fecha de Vencimiento</label><input id="dt_exp" type="date" class="form-control" /></div>
+        <div class="col-12"><label class="form-label">Observación</label><textarea id="dt_obs" class="form-control" rows="3"></textarea></div>
+      </div>`;
+  } else {
+    html = `
+      <div class="row g-3">
+        ${[
+          ["Visible_Signage", "Señalización visible"],
+          ["Correct_Routes", "Rutas correctas"],
+          ["Free_EmergencyExits", "Salidas de emergencia libres"],
+          ["Cleanfacilities", "Instalaciones limpias"],
+          ["Lighting_Adequate", "Iluminación adecuada"],
+          ["Electrical_Hazards", "Sin peligros eléctricos"],
+          ["Floor_Condition", "Piso en buen estado"],
+          ["Proper_Storage", "Almacenamiento correcto"],
+          ["Emergency_Equipment_Accessible", "Eq. emergencia accesible"]
+        ].map(([id, label]) => `
+          <div class="col-md-6">
+            <label class="form-label">${label}</label>
+            <select id="g_${id}" class="form-select"><option value="TRUE">Sí</option><option value="FALSE">No</option></select>
+          </div>`).join("")}
+        <div class="col-12"><label class="form-label">Observación</label><textarea id="g_Observation" class="form-control" rows="3"></textarea></div>
+      </div>`;
+  }
+
+  $("#detalleBody").innerHTML = html;
+
+  if (readOnly) {
+    $$("#detalleBody select, #detalleBody input, #detalleBody textarea").forEach(el => el.disabled = true);
+    $("#btnGuardarDetalle").classList.add("d-none");
+  } else {
+    $("#btnGuardarDetalle").classList.remove("d-none");
+    $("#btnGuardarDetalle").onclick = guardarDetalle;
+  }
+
+  mdDetalle.show();
+}
+
+async function guardarDetalle() {
+  const { assign, tipo } = detalleCtx;
+  try {
+    if (tipo === 2) {
+      const data = {
+        ID_Assing: assign.ID_Assing,
+        Extinguisher_InOperation: $("#ex_inop").value,
+        Gauge_Status: $("#ex_gauge").value,
+        Safety_Seal: $("#ex_seal").value,
+        Hose_Condition: $("#ex_hose").value,
+        Accessible_Visible: $("#ex_acc").value,
+        Observation: $("#ex_obs").value
+      };
+      await INSPECTION.CompleteDetailExtinguisher(data);
+    } else if (tipo === 3) {
+      const data = {
+        ID_Assing: assign.ID_Assing,
+        Detector_InOperation: $("#dt_inop").value,
+        Battery_Status: $("#dt_bat").value,
+        LED_Indicator: $("#dt_led").value,
+        Damaged_Marterial: $("#dt_dmg").value,
+        Functional_Test_Date: $("#dt_func").value,
+        Is_Clean: $("#dt_clean").value,
+        Correct_Location: $("#dt_loc").value,
+        Expiration_Date: $("#dt_exp").value || null,
+        Observation: $("#dt_obs").value
+      };
+      await INSPECTION.CompleteDetailDetector(data);
+    } else {
+      const data = {
+        ID_Assing: assign.ID_Assing,
+        Visible_Signage: $("#g_Visible_Signage").value,
+        Correct_Routes: $("#g_Correct_Routes").value,
+        Free_EmergencyExits: $("#g_Free_EmergencyExits").value,
+        Cleanfacilities: $("#g_Cleanfacilities").value,
+        Lighting_Adequate: $("#g_Lighting_Adequate").value,
+        Electrical_Hazards: $("#g_Electrical_Hazards").value,
+        Floor_Condition: $("#g_Floor_Condition").value,
+        Proper_Storage: $("#g_Proper_Storage").value,
+        Emergency_Equipment_Accessible: $("#g_Emergency_Equipment_Accessible").value,
+        Observation: $("#g_Observation").value
+      };
+      await INSPECTION.CompleteDetailLocation(data);
+    }
+
+    mdDetalle.hide();
+    mdRealizar.hide();
+    Swal.fire({ icon: "success", title: "Detalle guardado" });
+
+    AnyCompletedCache.delete(assign.ID_Inspection);
+    await buildChart();
+    await loadAndRenderTable();
+  } catch (e) {
+    console.error(e);
+    Swal.fire({ icon: "error", title: "No se pudo guardar el detalle", text: e.message || "" });
+  }
+}
+
+/* =========================================================
+   Filtros
+   ========================================================= */
+function initFilters() {
+  $$(".pill-tabs .btn").forEach(b => {
+    b.onclick = () => {
+      $$(".pill-tabs .btn").forEach(x => x.classList.remove("active"));
+      b.classList.add("active");
+      state.tab = b.dataset.state || "ALL";
+      state.page = 0;
+      loadAndRenderTable();
+    };
+  });
+
+  const sel = $("#filtroTipo");
+  sel.innerHTML = `<option value="">Tipo de Inspección</option>` +
+    TB_Type_Implements.map(t => `<option value="${t.name}">${t.name}</option>`).join("");
+  sel.onchange = () => { state.tipo = sel.value; renderTable(); };
+
+  $("#filtroTexto").oninput = (e) => {
+    state.q = e.target.value;
+    state.page = 0;
+    loadAndRenderTable();
+  };
+}
+
+/* =========================================================
+   INIT con Auth y permisos
+   ========================================================= */
+async function initAuthAndPerms() {
+  try {
+    const a = await AuthStatus();
+    const data = a?.data ?? a ?? {};
+
+    AUTH.role       = data.role ?? data.Role ?? data.userRole ?? null;
+    AUTH.commiteRole= data.commiteRole ?? data.committeRole ?? data.committeeRole ?? null;
+    // *** idMember correcto (antes se usaba id_member) ***
+    AUTH.idMember   = data.idMember ?? data.memberId ?? data.ID_Member ?? data.id_member ?? null;
+
+    const isAdmin = AUTH.role === "Administrador";
+    const isUser  = AUTH.role === "Usuario";
+    const isHigh  = isUser && ["Presidente", "Vicepresidente", "Secretario"].includes(AUTH.commiteRole);
+
+    IS_INSPECTOR  = isUser && AUTH.commiteRole === "Inspector";
+    CAN_MANAGE    = isAdmin || isHigh;
+    CAN_DO_DETAILS= IS_INSPECTOR;
+
+    if (!(CAN_MANAGE || CAN_DO_DETAILS)) {
+      window.location.href = "index.html";
+      return false;
+    }
+
+    $("#btnAsignar").classList.toggle("d-none", !CAN_MANAGE);
+    return true;
+  } catch (e) {
+    console.error("AuthStatus error:", e);
+    window.location.href = "index.html";
+    return false;
+  }
+}
+
+/* =========================================================
+   DOMContentLoaded
+   ========================================================= */
+document.addEventListener("DOMContentLoaded", async () => {
+  const ok = await initAuthAndPerms();
+  if (!ok) return;
+
+  await buildChart();
+  initFilters();
+  await loadAndRenderTable();
+
+  $("#btnAsignar").addEventListener("click", () => {
+    if (!CAN_MANAGE) return;
+    $("#inpCodigo").value = nextInspectionId();
+  });
+});
