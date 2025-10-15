@@ -20,9 +20,9 @@
     <!-- Encabezado -->
     <div class="header-box position-relative">
       <div class="circle-img">
-        <img src="img/Captura de pantalla 2025-05-24 230248.png" alt="Foto de perfil">
+        <img src="" alt="Foto de perfil" id="imgUser">
       </div>
-      <h2 class="nombre">Ivan Eliseo Hernández Mauricio</h2>
+      <h2 class="nombre" id="NameUser">Cargando...</h2>
     </div>
 
     <!-- Contenedor blanco con todo -->
@@ -33,74 +33,28 @@
       <div class="row">
         <div class="col-md-6 mb-3">
           <label>Correo Electrónico</label>
-          <input type="text" class="form-control" value="ivanhernandez@gmail.com" readonly>
+          <input type="text" class="form-control" value="Cargando..." id="EmailUser" readonly>
         </div>
         <div class="col-md-6 mb-3">
           <label>Fecha de nacimiento</label>
-          <input type="text" class="form-control" value="20-05-2000" readonly>
+          <input type="text" class="form-control"  value="Cargando..." id="DateUser" readonly>
         </div>
         <div class="col-md-6 mb-3">
           <label>NIT</label>
-          <input type="text" class="form-control" value="20240874-24" readonly>
+          <input type="text" class="form-control"  value="Cargando..." id="NitUser" readonly>
         </div>
         <div class="col-md-6 mb-3">
-          <label>N-Teléfonico</label>
-          <input type="text" class="form-control" value="7080-5041" readonly>
+          <label>Rol</label>
+          <input type="text" class="form-control"   value="Cargando..." id="RolUser" readonly>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label>Committe Rol</label>
+          <input type="text" class="form-control"   value="Cargando..." id="committeRol" readonly>
         </div>
       </div>
-
-      <!-- Mis logros -->
-      <h4 class="titulo-seccion mt-4">Mis Logros</h4>
-      <div class="row text-center logros">
-        <div class="col-md-3 col-6 logro">
-          <div class="icono-logro"><img src="img/noun-sanction-7859476.png" alt=""></div>
-          <p>+10<br><strong>Reportes</strong></p>
-        </div>
-        <div class="col-md-3 col-6 logro">
-          <div class="icono-logro"><img src="img/inspecciones.png" alt=""></div>
-          <p>+05<br><strong>Inspecciones</strong></p>
-        </div>
-        <div class="col-md-3 col-6 logro">
-          <div class="icono-logro"><img src="img/noun-calendar-7911997.png" alt=""></div>
-          <p>+100<br><strong>Simulacros</strong></p>
-        </div>
-        <div class="col-md-3 col-6 logro">
-          <div class="icono-logro"><img src="img/capacitaciones" alt=""></div>
-          <p>+50<br><strong>Capacitaciones</strong></p>
-        </div>
-      </div>
-    </div>
-
   </div>
-<footer class="custom-footer mt-5">
-  <div class="container py-4 border-top">
-    <div class="row text-center text-md-start">
-      <!-- Contacto -->
-      <div class="col-md-4 mb-3 border-end">
-        <h6 class="footer-title">Contact Us</h6>
-        <p class="mb-1">+503 7224-5613</p>
-        <p>ssso@empresa.com</p>
-      </div>
 
-      <!-- Área legal -->
-      <div class="col-md-4 mb-3 border-end">
-        <h6 class="footer-title">Legal Area</h6>
-        <a href="#" class="footer-link d-block">Terms of Use</a>
-        <a href="#" class="footer-link d-block">Privacy Policy</a>
-      </div>
-
-      <!-- Redes sociales -->
-      <div class="col-md-4 mb-3">
-        <h6 class="footer-title">Redes Sociales</h6>
-        <div class="d-flex justify-content-center justify-content-md-start">
-          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" class="social-icon me-3"></a>
-          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram" class="social-icon me-3"></a>
-          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube" class="social-icon"></a>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer>
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="Js/Controller/MyPerfilController.js"></script>
 </body>
 </html>

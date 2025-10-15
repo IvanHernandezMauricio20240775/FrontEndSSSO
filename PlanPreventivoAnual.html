@@ -299,7 +299,7 @@
 
     <main class="main-content animate__animated animate__fadeIn animate__delay-10ms">
 
-        <section>
+       <section>
             <div class="topbar d-flex justify-content-between align-items-center px-3 py-1  flex-wrap">
 
                 <div class="d-md-none">
@@ -308,23 +308,25 @@
                     </button>
                 </div>
 
-
                 <!-- Sección derecha: iconos + nombre + foto -->
                 <div class="d-flex align-items-center gap-3 order-md-1 ms-auto">
 
-
+                    <!-- Iconos más cerca -->
+                    <a href="MisSanciones.html" class="text-dark">
+                        <img src="img/Sanciones-icon.png" alt="Sanciones" width="22">
+                    </a>
                     <a href="notification.html" class="text-dark">
                         <img src="img/Notificacionn-icon.png" alt="Notificación" width="22">
                     </a>
 
                     <div class="dropdown d-flex align-items-center gap-2">
                         <div class="text-end d-none d-sm-block">
-                            <div class="fw-bold text-dark small">IVÁN ELISEO</div>
-                            <div class="text-muted small">HERNÁNDEZ MAURICIO</div>
+                            <div class="fw-bold text-dark small" id="FirstNameUser">CARGANDO...</div>
+                            <div class="text-muted small" id="SecondNameUser">CARGANDO...</div>
                         </div>
                         <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="img/Captura de pantalla 2025-05-24 230248.png" alt="User" width="40" height="40"
-                                class="rounded-circle border border-success border-2">
+                            <img src="" alt="User" width="40" height="40"
+                                class="rounded-circle border border-success border-2" id="UserImage">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end mt-2">
                             <li><a class="dropdown-item" href="perfil.html"><i class="bi bi-person me-2"></i> Perfil</a>
@@ -493,6 +495,7 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <!--Script-->
+      <script type="module" src="Js/Controller/ControllerTopBar.js"></script>
     <script type="module" src="Js/Controller/DashBoardController.js"></script>
     <script src="Js/SideBarScript.js"></script>
     <!--Script de Boostrap5-->

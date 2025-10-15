@@ -76,6 +76,21 @@ export async function getALlEmployees() {
     }
 }
 
+export async function getALlEmployeesAndUserByEmail(Email) {
+    try {
+        const response = await fetch(`${Endpoint_URL}/GetEmployeeByEmail/${Email}`,{
+            credentials: "include"
+        });
+        if (!response.ok) {
+            throw new Error('Error al obtener el Empleado por Email.');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Error en getALlEmployeesAndUserByEmail:", error);
+        throw error;
+    }
+}
+
 export async function GetALlRolForUser() {
     try {
         const response = await fetch(`${Endpoint_URL}/GetAllRol`,{
