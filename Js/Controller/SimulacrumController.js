@@ -4,11 +4,11 @@ import { AuthStatus } from "../Service/AuthService.js";
 /* =================== Estado global (API) =================== */
 let TYPES = [];       // [{ ID_TypeSimulacrum, Name_TypeSimulacrum }]
 let SIMULACROS = [];  // normalizados
-let RBAC = { canView:false, canManage:false, canReport:false };
+let RBAC = { canView: false, canManage: false, canReport: false };
 let CURRENT_USER = { idMember: null, role: "", committeeRole: "" };
 
 /* =================== Helpers UI =================== */
-const $  = (sel) => document.querySelector(sel);
+const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
 
 const teal = "#169b87";
@@ -45,7 +45,7 @@ function countdownStr(fecha, hora) {
   const d = Math.floor(diff / (1000 * 60 * 60 * 24));
   const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
   const m = Math.floor((diff / (1000 * 60)) % 60);
-  const base = `${String(d).padStart(2,"0")}d ${String(h).padStart(2,"0")}h ${String(m).padStart(2,"0")}m`;
+  const base = `${String(d).padStart(2, "0")}d ${String(h).padStart(2, "0")}h ${String(m).padStart(2, "0")}m`;
   return sign > 0 ? `Inicia en ${base}` : `Venció hace ${base}`;
 }
 
@@ -63,12 +63,12 @@ async function initRBAC() {
     let canManage = false, canReport = false, canView = true;
     if (role === "ADMINISTRADOR") { canManage = true; canReport = true; }
     else if (role === "USUARIO") {
-      if (["PRESIDENTE","VICEPRESIDENTE","SECRETARIO"].includes(committeeRole)) { canManage = true; canReport = true; }
+      if (["PRESIDENTE", "VICEPRESIDENTE", "SECRETARIO"].includes(committeeRole)) { canManage = true; canReport = true; }
       else if (committeeRole === "MIEMBRO") { canReport = true; }
     }
     RBAC = { canManage, canReport, canView };
   } catch {
-    RBAC = { canView:true, canManage:false, canReport:false };
+    RBAC = { canView: true, canManage: false, canReport: false };
   }
 }
 
@@ -111,7 +111,7 @@ function typeName(id) {
 function applyFilters(list) {
   return list.filter((s) => {
     const matchStatus = currentStatus === "ALL" ? true : s.Simulacrum_Status === currentStatus;
-    const matchType   = currentType === "ALL"   ? true : String(s.ID_TypeSimulacrum) === String(currentType);
+    const matchType = currentType === "ALL" ? true : String(s.ID_TypeSimulacrum) === String(currentType);
     const q = currentQuery.trim().toLowerCase();
     const matchQ = !q ? true :
       s.ID_Simulacrum.toLowerCase().includes(q) ||
@@ -131,7 +131,7 @@ function uiStatus(s) {
 function render() {
   const data = applyFilters(SIMULACROS);
   const results = $("#results");
-  const noRes   = $("#noResults");
+  const noRes = $("#noResults");
   results.innerHTML = "";
   noRes.classList.toggle("d-none", data.length > 0);
 
@@ -204,13 +204,12 @@ function cardSimulacro(s) {
           <div class="border rounded p-2 small" style="max-height:140px; overflow:auto;">${s.Description_Simulacrum || "—"}</div>
 
           <div class="mt-3">
-            ${
-              canCreateReport
-                ? `<button class="btn btn-teal w-100" data-action="open-report" data-id="${s.ID_Simulacrum}">
+            ${canCreateReport
+      ? `<button class="btn btn-teal w-100" data-action="open-report" data-id="${s.ID_Simulacrum}">
                      <i class="bi bi-clipboard2-plus me-2"></i> Marcar completado (reporte)
                    </button>`
-                : `<button class="btn btn-outline-secondary w-100" data-action="flip">Cerrar</button>`
-            }
+      : `<button class="btn btn-outline-secondary w-100" data-action="flip">Cerrar</button>`
+    }
           </div>
         </div>
       </div>
@@ -284,7 +283,7 @@ function renderTimeline(list) {
       <div id="tl-${s.ID_Simulacrum}" class="mt-2 d-none">
         <div class="small-muted mb-1">Instrucciones</div>
         <div class="border rounded p-2 small">${s.Description_Simulacrum || "—"}</div>
-        ${ canCreateReport ? `<button class="btn btn-teal btn-sm mt-2" data-action="open-report" data-id="${s.ID_Simulacrum}">Marcar completado (reporte)</button>` : "" }
+        ${canCreateReport ? `<button class="btn btn-teal btn-sm mt-2" data-action="open-report" data-id="${s.ID_Simulacrum}">Marcar completado (reporte)</button>` : ""}
       </div>
     `;
     item.addEventListener("click", (e) => {
@@ -323,7 +322,7 @@ function generateId() {
   const nums = SIMULACROS
     .map(s => parseInt(String(s.ID_Simulacrum).replace(/\D/g, "")) || 0)
     .filter(n => n > 0)
-    .sort((a,b) => a-b);
+    .sort((a, b) => a - b);
 
   let next = 1;
   for (const n of nums) {
@@ -375,7 +374,7 @@ function openProgramar(id) {
 }
 
 async function eliminar(id) {
-  const ok = await swalAsk({ title:"Eliminar", text:`¿Eliminar ${id}?`, confirmText:"Eliminar" });
+  const ok = await swalAsk({ title: "Eliminar", text: `¿Eliminar ${id}?`, confirmText: "Eliminar" });
   if (!ok.isConfirmed) return;
 
   try {
@@ -430,7 +429,7 @@ function isValidTimeHHmm(v) {
   return /^([01]\d|2[0-3]):([0-5]\d)$/.test(v);
 }
 function isTodayOrFuture(dateStr) {
-  const today = new Date(); today.setHours(0,0,0,0);
+  const today = new Date(); today.setHours(0, 0, 0, 0);
   const d = new Date(dateStr + "T00:00:00");
   return d >= today;
 }
@@ -439,8 +438,8 @@ function parseDurationToSeconds(hhmmss) {
   if (!m) return null;
   const [_, hh, mm, ss] = m;
   const h = Number(hh), m2 = Number(mm), s = Number(ss);
-  if (h>23 || m2>59 || s>59) return null;
-  return h*3600 + m2*60 + s;
+  if (h > 23 || m2 > 59 || s > 59) return null;
+  return h * 3600 + m2 * 60 + s;
 }
 
 /* =================== Filtros, búsqueda, vista =================== */
@@ -491,9 +490,63 @@ function initFilters() {
   });
 }
 
+function bindSimTimeMask(){
+  const inp = $("#simTime");
+  if (!inp) return;
+
+  inp.addEventListener("input", (e) => {
+    // algunos navegadores usan picker; si ya viene "HH:mm" lo dejamos
+    if (/^\d{0,2}:?\d{0,2}$/.test(e.target.value)) {
+      const digits = e.target.value.replace(/\D/g, "").slice(0, 4); // HHmm
+      let out = digits;
+      if (digits.length >= 3) out = digits.slice(0,2) + ":" + digits.slice(2,4);
+      e.target.value = out;
+    }
+  });
+
+  inp.addEventListener("blur", () => {
+    const [hhRaw="", mmRaw=""] = String(inp.value || "").split(":");
+    if (hhRaw === "" && mmRaw === "") return; // vacío, se valida aparte
+
+    let hh = Math.min(23, Math.max(0, parseInt(hhRaw || "0", 10) || 0));
+    let mm = Math.min(59, Math.max(0, parseInt(mmRaw || "0", 10) || 0));
+    inp.value = String(hh).padStart(2,"0") + ":" + String(mm).padStart(2,"0");
+  });
+}
+
+// HH:mm:ss para #repDuration (auto-: y validación custom)
+function bindDurationMask(){
+  const inp = $("#repDuration");
+  if (!inp) return;
+
+  // evitamos pattern HTML para que no choque con navegadores
+  inp.removeAttribute("pattern");
+  inp.setAttribute("maxlength", "8");
+  inp.setAttribute("inputmode", "numeric");
+
+  inp.addEventListener("input", (e) => {
+    let v = e.target.value.replace(/[^\d]/g, "").slice(0, 6); // HHmmss
+    if (v.length >= 5) v = v.slice(0,2) + ":" + v.slice(2,4) + ":" + v.slice(4,6);
+    else if (v.length >= 3) v = v.slice(0,2) + ":" + v.slice(2,4) + (v.length>4 ? ":"+v.slice(4,6) : "");
+    e.target.value = v.slice(0,8);
+    e.target.setCustomValidity("");
+  });
+
+  inp.addEventListener("blur", (e) => {
+    const secs = parseDurationToSeconds(e.target.value);
+    if (secs == null || secs < 40) {
+      e.target.setCustomValidity("Formato HH:mm:ss (mínimo 00:00:40).");
+    } else {
+      e.target.setCustomValidity("");
+    }
+  });
+}
+
 /* =================== Inicio =================== */
 document.addEventListener("DOMContentLoaded", async () => {
   // Vista previa imagen
+
+
   const imgInput = $("#imgInput");
   if (imgInput) {
     imgInput.addEventListener("change", (e) => {
@@ -509,6 +562,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
+  bindSimTimeMask();
+  bindDurationMask();
+
   try {
     await initRBAC();
     await loadTypes();
@@ -518,6 +574,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch (e) {
     swalErr("Error al cargar datos iniciales");
   }
+
 
   // Submit Programar/Editar
   $("#formProgramar")?.addEventListener("submit", async (e) => {
