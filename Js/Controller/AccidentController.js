@@ -94,6 +94,39 @@ function swalToast(text, icon = "success") {
   }
 }
 
+// ================ LOADER (para cargas iniciales de API) ==============
+function getAccRoot() {
+  return document.getElementById("accidents-root")
+      || document.querySelector(".main-content")
+      || document.body;
+}
+function showLoading(msg = "Cargando…") {
+  const host = getAccRoot();
+  if (!host) return;
+  let el = document.getElementById("acc-loader");
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "acc-loader";
+    el.style.cssText = `
+      position:fixed; inset:0; background:rgba(255,255,255,.75);
+      display:flex; align-items:center; justify-content:center; z-index:2000;
+      backdrop-filter:saturate(120%) blur(2px);
+    `;
+    el.innerHTML = `
+      <div class="text-center">
+        <div class="spinner-border text-success" role="status" style="width:3rem;height:3rem;"></div>
+        <div class="mt-3 fw-semibold" style="color:#169b87">${msg}</div>
+      </div>`;
+    host.appendChild(el);
+  } else {
+    el.style.display = "flex";
+  }
+}
+function hideLoading() {
+  const el = document.getElementById("acc-loader");
+  if (el) el.style.display = "none";
+}
+
 // ======================= ESTADO Y CATÁLOGOS ========================
 let BODY_PARTS = [];               // [{id_part, ui_key, name, laterality_type}]
 let UIKEY_TO_PART = new Map();     // ui_key -> { id_part, name, laterality }
@@ -436,6 +469,9 @@ const f = {
   countSel: document.getElementById('countSel'),
 };
 
+// === NUEVO: limitar descripción a 1000 caracteres (HTML) ===
+if (f.descripcion) f.descripcion.setAttribute('maxlength', '1000');
+
 function pad2(n) { return String(n).padStart(2, '0'); }
 function nowDate() { const d = new Date(); return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`; }
 function nowTime() { const d = new Date(); return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`; }
@@ -528,6 +564,14 @@ function init3D() {
   toastMax = new bootstrap.Toast(document.getElementById('toastMax'));
 
   buildMannequin(currentGender); animate();
+
+  // Fallback por si quedó en 0x0
+  requestAnimationFrame(() => {
+    const wrap2 = document.getElementById('viewer-wrap');
+    if (wrap2 && renderer && (renderer.domElement.width === 0 || renderer.domElement.height === 0)) {
+      onResize();
+    }
+  });
 }
 function dispose3D() {
   if (!renderer) return;
@@ -705,6 +749,14 @@ function resetFormUI() {
   currentTone   = "medio";
 }
 
+// ===== helper: esperar a que el modal esté visible (para init3D) =====
+function waitModalShown(modalEl) {
+  return new Promise(resolve => {
+    const once = () => { modalEl.removeEventListener('shown.bs.modal', once); resolve(); };
+    modalEl.addEventListener('shown.bs.modal', once, { once: true });
+  });
+}
+
 // ==================== ABRIR FORM (NEW / EDIT) ======================
 async function openForm(mode = 'new', idDetail = null) {
   editingId = (mode === 'edit') ? idDetail : null;
@@ -713,9 +765,18 @@ async function openForm(mode = 'new', idDetail = null) {
   // reset limpio SIEMPRE
   resetFormUI();
 
-  // Inicial auto + empleados + 3D
+  // Inicial auto + empleados
   initFormGenerales();
-  dispose3D(); init3D();
+
+  // Mostrar modal primero y esperar a que esté visible para inicializar 3D
+  const elModal = document.getElementById('modalForm');
+  modalForm.show();
+  await waitModalShown(elModal);
+
+  // 3D: ahora sí (ya hay ancho/alto)
+  dispose3D();
+  init3D();
+  setTimeout(() => { onResize(); }, 50); // forzar resize por animación Bootstrap
 
   if (editingId) {
     const detRes = await ACCIDENTS.getAccidentDetail(editingId);
@@ -750,8 +811,6 @@ async function openForm(mode = 'new', idDetail = null) {
     selectedIds.clear();
     selUi.forEach(k => toggleSelect(k));
   }
-
-  modalForm.show();
 }
 
 document.getElementById('modalForm')?.addEventListener('hidden.bs.modal', () => {
@@ -761,6 +820,15 @@ document.getElementById('modalForm')?.addEventListener('hidden.bs.modal', () => 
 });
 
 // ========================= VALIDACIONES ============================
+// NUEVO: helpers de fecha/validación extendida
+function onlyDate(str) {
+  // Espera "YYYY-MM-DD"; devuelve Date en medianoche local
+  if (!str) return null;
+  const [y, m, d] = str.split("-").map(Number);
+  if (!y || !m || !d) return null;
+  return new Date(y, m - 1, d);
+}
+
 function validateBeforeSubmit() {
   // HTML5 required + selección de empleado + al menos 1 parte:
   const uiSelected = [...selectedIds];
@@ -777,6 +845,29 @@ function validateBeforeSubmit() {
     swalError("Selecciona al menos una parte afectada en el maniquí.");
     return false;
   }
+
+  // Descripción <= 1000
+  const desc = (f.descripcion.value || "").trim();
+  if (desc.length > 1000) {
+    swalError("La descripción no puede exceder los 1000 caracteres.");
+    f.descripcion.focus();
+    return false;
+  }
+
+  // Fecha de accidente: NO futura (permitido hoy o pasadas)
+  const dAcc = onlyDate(f.fechaAcc.value);
+  const today = onlyDate(nowDate());
+  if (!dAcc) {
+    swalError("Indica una fecha de accidente válida.");
+    f.fechaAcc.focus();
+    return false;
+  }
+  if (dAcc.getTime() > today.getTime()) {
+    swalError("No puedes registrar un accidente con fecha futura.");
+    f.fechaAcc.focus();
+    return false;
+  }
+
   return true;
 }
 
@@ -876,32 +967,40 @@ async function deleteAccident(idAccident) {
 
 // ========================== INICIALIZACIÓN =========================
 async function initAccidentsUI() {
-  await ensureAuthAndPermissions();
-  if (!CAN_USE_MODULE) return;
+  showLoading("Cargando información…");
+  try {
+    await ensureAuthAndPermissions();
+    if (!CAN_USE_MODULE) { hideLoading(); return; }
 
-  // Catálogos
-  const catRes = await ACCIDENTS.GetCategoriesAccident();
-  CATEGORIES = catRes?.data ?? [];
-  fillCategoriesSelects();
+    // Catálogos
+    const catRes = await ACCIDENTS.GetCategoriesAccident();
+    CATEGORIES = catRes?.data ?? [];
+    fillCategoriesSelects();
 
-  const bpRes = await ACCIDENTS.GetBodyParts();
-  mapBodyParts(bpRes?.data ?? []);
+    const bpRes = await ACCIDENTS.GetBodyParts();
+    mapBodyParts(bpRes?.data ?? []);
 
-  // Empleados activos
-  const empRes = await getALlEmployees();
-  EMPLOYEES = (empRes ?? []).filter(e => String(e.state_employee).toUpperCase() === "TRUE")
-    .map(e => ({
-      nit: e.nit_employee,
-      name: `${e.first_name ?? ""} ${e.last_name ?? ""}`.trim() || e.nit_employee,
-      avatar: "👤",
-      role: e.id_department || ""
-    }));
+    // Empleados activos
+    const empRes = await getALlEmployees();
+    EMPLOYEES = (empRes ?? []).filter(e => String(e.state_employee).toUpperCase() === "TRUE")
+      .map(e => ({
+        nit: e.nit_employee,
+        name: `${e.first_name ?? ""} ${e.last_name ?? ""}`.trim() || e.nit_employee,
+        avatar: "👤",
+        role: e.id_department || ""
+      }));
 
-  // Listado inicial (cachear todo y filtrar en cliente)
-  await fetchAllAccidentsToCache();
-  currentFilter = getSelectedFilterValues();
-  applyClientFilters();
-  renderCurrentPage();
+    // Listado inicial (cachear todo y filtrar en cliente)
+    await fetchAllAccidentsToCache();
+    currentFilter = getSelectedFilterValues();
+    applyClientFilters();
+    renderCurrentPage();
+  } catch (e) {
+    console.error(e);
+    swalError("No se pudo cargar el módulo de accidentes.");
+  } finally {
+    hideLoading();
+  }
 }
 
 // arranque

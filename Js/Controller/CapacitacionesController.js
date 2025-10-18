@@ -1,310 +1,386 @@
-import {
-    GetAllTraining,
-    ProgramNewTraining,
-    UpdatedTraining,
-    DeleteTraining
-} from "../Service/CapacitacionesService.js";
-
-// Tu servicio para obtener las brigadas
-import {
-    getAllBrigades
-} from "../Service/BrigadeService.js";
+// Controller/CapacitacionesController.js
+import { GetAllTraining, ProgramNewTraining, UpdatedTraining, DeleteTraining } from "../Service/CapacitacionesService.js";
+import { getAllBrigades } from "../Service/BrigadeService.js";
+import { AuthStatus } from "../Service/AuthService.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
+  // ====== DOM refs ======
+  const mainTimeline = document.getElementById("main-timeline");
+  const formCapacitacion = document.getElementById("form-capacitacion");
+  const modalCapacitacion = new bootstrap.Modal(document.getElementById("modal-capacitacion"));
+  const btnProgramTraining = document.getElementById("BtnProgramTraining");
+  const btnSubmitForm = document.getElementById("submit-btn");
+  const brigadaOptionsContainer = document.querySelector(".brigada-options");
+  const asignarTodasSwitch = document.getElementById("asignar-todas");
+  const pendientesCount = document.getElementById("pendientes-count");
+  const completadasCount = document.getElementById("completadas-count");
+  const searchInput = document.getElementById("search-input");
+  const btnPendientes = document.getElementById("btn-pendientes");
+  const btnCompletadas = document.getElementById("btn-completadas");
 
-    const mainTimeline = document.getElementById("main-timeline");
-    const formCapacitacion = document.getElementById("form-capacitacion");
-    const modalCapacitacion = new bootstrap.Modal(document.getElementById("modal-capacitacion"));
-    const btnProgramTraining = document.getElementById("BtnProgramTraining");
-    const btnSubmitForm = document.getElementById("submit-btn");
-    const brigadaOptionsContainer = document.querySelector(".brigada-options");
-    const asignarTodasSwitch = document.getElementById("asignar-todas");
-    const pendientesCount = document.getElementById("pendientes-count");
-    const completadasCount = document.getElementById("completadas-count");
-    const searchInput = document.getElementById("search-input");
-    const btnPendientes = document.getElementById("btn-pendientes");
-    const btnCompletadas = document.getElementById("btn-completadas");
+  const inputID = document.getElementById("ID_Training");
+  const inputNombre = document.getElementById("nombre-capacitacion");
+  const inputFecha = document.getElementById("fecha-ejecucion");
+  const inputHora = document.getElementById("hora-capacitacion");
+  const inputDescripcion = document.getElementById("descripcion-capacitacion");
+  const inputStatus = document.getElementById("estado-capacitacion"); // select/text PENDIENTE|COMPLETADA
 
-    const inputID = document.getElementById("ID_Training");
-    const inputNombre = document.getElementById("nombre-capacitacion");
-    const inputFecha = document.getElementById("fecha-ejecucion");
-    const inputHora = document.getElementById("hora-capacitacion");
-    const inputDescripcion = document.getElementById("descripcion-capacitacion");
-    
-    // NUEVA LÍNEA: Obtener el input/select para el estado de la capacitación
-    // DEBES ASEGURARTE DE AGREGAR UN ELEMENTO CON ESTE ID EN TU HTML
-    const inputStatus = document.getElementById("estado-capacitacion");
+  // ====== Estado ======
+  let allTrainings = [];
+  let allBrigades = [];
+  let currentFilter = "PENDIENTE";
+  let canManage = false;
+  let countdownTimer = null;
 
-    let allTrainings = [];
-    let allBrigades = [];
-    let currentFilter = "PENDIENTE"; // Usamos 'PENDIENTE' para la lógica JS
+  // ====== Utils ======
+  const debounce = (fn, ms = 250) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
 
-    // Función para manejar errores de forma centralizada
-    function handleResponseError(error, customMessage) {
-        console.error(error);
-        const errorMessage = error.message || "Ocurrió un error inesperado.";
-        Swal.fire({
-            icon: 'error',
-            title: '¡Error!',
-            text: `${customMessage || 'Hubo un problema con la operación.'} Detalles: ${errorMessage}`,
-        });
+  function handleResponseError(error, customMessage) {
+    console.error(error);
+    const errorMessage = error?.message || "Ocurrió un error inesperado.";
+    Swal.fire({ icon: "error", title: "¡Error!", text: `${customMessage || "Hubo un problema con la operación."} Detalles: ${errorMessage}`, confirmButtonColor: "#169b87" });
+  }
+
+  const normalize = (s) => (s || "").toString().toLowerCase().trim();
+  const pad3 = (n) => String(n).padStart(3, "0");
+  const extractNumFromId = (id) => { const m = /^CPT-(\d{1,})$/i.exec(id || ""); return m ? parseInt(m[1], 10) : null; };
+  const getNextTrainingId = (arr) => `CPT-${pad3(arr.map(t => extractNumFromId(t?.id_training)).filter(Number.isInteger).reduce((a,b)=>Math.max(a,b),0) + 1)}`;
+
+  // Combina fecha y hora (local)
+  const getStartDate = (training) => {
+    const date = (training?.date_training || "").trim();        // YYYY-MM-DD
+    const time = (training?.time_training || "00:00").trim();   // HH:mm
+    const iso = `${date}T${time.length === 5 ? time : time.slice(0,5)}`;
+    const d = new Date(iso);
+    return isNaN(d.getTime()) ? null : d;
+  };
+
+  const formatCountdown = (msDiff) => {
+    const abs = Math.abs(msDiff);
+    const sec = Math.floor(abs / 1000) % 60;
+    const min = Math.floor(abs / (1000 * 60)) % 60;
+    const hr  = Math.floor(abs / (1000 * 60 * 60)) % 24;
+    const day = Math.floor(abs / (1000 * 60 * 60 * 24));
+    return { day, hh: String(hr).padStart(2,"0"), mm: String(min).padStart(2,"0"), ss: String(sec).padStart(2,"0"), future: msDiff > 0 };
+  };
+
+  const countdownLabel = (startDate) => {
+    if (!startDate) return "";
+    const now = new Date();
+    const diff = startDate.getTime() - now.getTime();
+    const { day, hh, mm, ss, future } = formatCountdown(diff);
+    return future ? `Faltan ${day} día${day!==1?"s":""} ${hh}:${mm}:${ss}` : `Inició hace ${day} día${day!==1?"s":""} ${hh}:${mm}:${ss}`;
+  };
+
+  function startCountdownTicker() {
+    if (countdownTimer) clearInterval(countdownTimer);
+    countdownTimer = setInterval(() => {
+      document.querySelectorAll("[data-countdown-id]").forEach(el => {
+        const id = el.getAttribute("data-countdown-id");
+        const tr = allTrainings.find(t => t.id_training === id);
+        const start = getStartDate(tr);
+        el.textContent = start ? countdownLabel(start) : "";
+      });
+    }, 1000);
+  }
+
+  // Muestra/oculta el campo de estado según modo
+  function toggleStatusVisibility(mode /* 'insert' | 'update' */) {
+    if (!inputStatus) return;
+    const wrapper = inputStatus.closest(".form-group, .mb-3, .col-12, .form-floating, .input-group") || inputStatus;
+    // En crear (insert) se oculta; en update se muestra
+    wrapper.classList.toggle("d-none", mode === "insert");
+  }
+
+  // ====== Auth & permisos (LEYENDO DESDE .data) ======
+  async function enforceAuth() {
+    try {
+      const meResp = await AuthStatus();
+      const me = meResp?.data ?? meResp; // <-- soporta .data o plano
+
+      const role = (me?.role || "").toString().toUpperCase();
+      const rawCommittee = me?.committeRole ?? me?.committeeRole ?? null;
+      const committeeArray = Array.isArray(rawCommittee) ? rawCommittee : [rawCommittee].filter(Boolean);
+      const committeeUpper = committeeArray.map(x => (x || "").toString().toUpperCase());
+
+      const elevatedCommittee = ["PRESIDENTE", "SECRETARIO", "VICEPRESIDENTE"];
+      const isElevatedCommittee = committeeUpper.some(c => elevatedCommittee.includes(c));
+
+      canManage = (role === "ADMINISTRADOR") || (role === "USUARIO" && isElevatedCommittee);
+
+      if (btnProgramTraining) {
+        if (canManage) { btnProgramTraining.classList.remove("d-none"); btnProgramTraining.disabled = false; }
+        else { btnProgramTraining.classList.add("d-none"); btnProgramTraining.disabled = true; }
+      }
+    } catch {
+      canManage = false;
+      if (btnProgramTraining) { btnProgramTraining.classList.add("d-none"); btnProgramTraining.disabled = true; }
+      console.warn("AuthStatus falló; modo solo lectura.");
     }
+  }
 
-    // Cargar datos iniciales (brigadas y capacitaciones)
-    async function loadData() {
-        try {
-            // Cargar brigadas primero para renderizar los checkboxes
-            allBrigades = await getAllBrigades();
-            console.log(allBrigades)
-            renderBrigadeOptions(allBrigades);
-            allTrainings = await GetAllTraining();
-            console.log(allTrainings)
-            renderTrainings(allTrainings);
-            updateMetrics();
-        } catch (error) {
-            handleResponseError(error, "No se pudieron cargar los datos iniciales.");
-        }
+  // ====== Data ======
+  async function loadData() {
+    try {
+      allBrigades = await getAllBrigades();
+      renderBrigadeOptions(allBrigades);
+      allTrainings = await GetAllTraining();
+      renderTrainings(allTrainings);
+      updateMetrics();
+      startCountdownTicker();
+    } catch (error) {
+      handleResponseError(error, "No se pudieron cargar los datos iniciales.");
     }
+  }
 
-    // Renderizar opciones de brigadas en el modal
-    function renderBrigadeOptions(brigades) {
-        brigadaOptionsContainer.innerHTML = "";
-        brigades.forEach(brigade => {
-            const card = `
-                <div class="brigada-card">
-                    <span>${brigade.name_Brigade}</span>
-                    <img src="${brigade.img_Brigade || 'img/default.png'}" alt="${brigade.name_Brigade}" class="brigada-icon" />
-                    <input class="form-check-input" type="checkbox" name="brigada" value="${brigade.ID_brigade}" />
-                </div>
-            `;
-            brigadaOptionsContainer.innerHTML += card;
-        });
-    }
+  function renderBrigadeOptions(brigades) {
+    brigadaOptionsContainer.innerHTML = "";
+    brigades.forEach(brigade => {
+      brigadaOptionsContainer.insertAdjacentHTML("beforeend", `
+        <div class="brigada-card d-flex align-items-center gap-2">
+          <img src="${brigade.img_Brigade || 'img/default.png'}" alt="${brigade.name_Brigade}" class="brigada-icon" />
+          <span class="flex-grow-1">${brigade.name_Brigade}</span>
+          <input class="form-check-input ms-auto" type="checkbox" name="brigada" value="${brigade.ID_brigade}" />
+        </div>
+      `);
+    });
+  }
 
-    // Lógica para el switch de "asignar a todas"
-    asignarTodasSwitch.addEventListener('change', (e) => {
-        const checkboxes = brigadaOptionsContainer.querySelectorAll('input[type="checkbox"]');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = e.target.checked;
-        });
+  asignarTodasSwitch?.addEventListener("change", (e) => {
+    brigadaOptionsContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = e.target.checked);
+  });
+
+  function renderTrainings(trainings) {
+    mainTimeline.innerHTML = "";
+
+    const term = normalize(searchInput?.value);
+    const filtered = trainings.filter(training => {
+      const matchesStatus = training?.Status_Training === currentFilter;
+
+      const nameMatch = normalize(training?.name_training).includes(term);
+      const idMatch   = normalize(training?.id_training).includes(term);
+
+      const brigNames = (training?.list_brigades_id || [])
+        .map(id => allBrigades.find(b => b.ID_brigade === id)?.name_Brigade || "")
+        .join(" | ")
+        .toLowerCase();
+      const brigMatch = brigNames.includes(term);
+
+      return matchesStatus && (term === "" || nameMatch || idMatch || brigMatch);
     });
 
-    // Función para mostrar las capacitaciones en el DOM
-    function renderTrainings(trainings) {
-        mainTimeline.innerHTML = "";
-        const filteredTrainings = trainings.filter(training => {
-            // ASUMO QUE LA PROPIEDAD SE LLAMA Status_Training, tal como la definiste en la tabla.
-            const matchesStatus = training.Status_Training === currentFilter;
-            const matchesSearch = searchInput.value.toLowerCase().trim() === "" ||
-                training.name_training.toLowerCase().includes(searchInput.value.toLowerCase().trim()) ||
-                training.id_training.toLowerCase().includes(searchInput.value.toLowerCase().trim());
-            return matchesStatus && matchesSearch;
-        });
-
-        if (filteredTrainings.length === 0) {
-            mainTimeline.innerHTML = '<p class="text-center text-muted">No hay capacitaciones para mostrar.</p>';
-            return;
-        }
-
-        filteredTrainings.forEach(training => {
-            const brigadesNames = training.list_brigades_id.map(id => {
-                const brigade = allBrigades.find(b => b.ID_brigade === id);
-                return brigade ? brigade.name_Brigade : "Brigada Desconocida";
-            }).join(', ');
-
-            const trainingCard = `
-                <div class="entry">
-                    <div class="content">
-                        <h3>${training.name_training}</h3>
-                        <p>${training.description}</p>
-                        <p class="fecha">📅 Fecha: ${training.date_training}</p>
-                        <p class="Time"> Hora: ${training.time_training}</p>
-                        <p>🧑‍⚕️ Brigadas participantes: ${brigadesNames}</p>
-                        <div class="actions">
-                            <button class="btn btn-sm btn-outline-info edit-btn" data-id="${training.id_training}">
-                                Editar
-                            </button>
-                            <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${training.id_training}">
-                                Eliminar
-                            </button>
-                            <span class="badge ${training.Status_Training === 'COMPLETADA' ? 'bg-success' : 'bg-warning text-dark'}">${training.Status_Training}</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            mainTimeline.innerHTML += trainingCard;
-        });
+    if (!filtered.length) {
+      mainTimeline.innerHTML = `<p class="text-center text-muted">No hay capacitaciones para mostrar.</p>`;
+      return;
     }
 
-    // Actualizar contadores de capacitaciones
-    function updateMetrics() {
-        const pendientes = allTrainings.filter(t => t.Status_Training === 'PENDIENTE').length;
-        const completadas = allTrainings.filter(t => t.Status_Training === 'COMPLETADA').length;
-        pendientesCount.textContent = pendientes;
-        completadasCount.textContent = completadas;
+    filtered.forEach(training => {
+      const brigadesNames = (training.list_brigades_id || [])
+        .map(id => allBrigades.find(b => b.ID_brigade === id)?.name_Brigade || "Brigada Desconocida")
+        .join(", ");
+
+      const start = getStartDate(training);
+      const countdownText = start ? countdownLabel(start) : "";
+
+      const actionsHtml = canManage ? `
+        <button class="btn btn-sm btn-outline-info edit-btn" data-id="${training.id_training}">Editar</button>
+        <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${training.id_training}">Eliminar</button>
+      ` : "";
+
+      const badgeClass = training.Status_Training === "COMPLETADA" ? "bg-success" : "bg-warning text-dark";
+
+      mainTimeline.insertAdjacentHTML("beforeend", `
+        <div class="entry">
+          <div class="content">
+            <h3 class="mb-1">${training.name_training}</h3>
+            <p class="mb-2">${training.description || ""}</p>
+            <div class="d-flex flex-wrap gap-3 small text-muted mb-2">
+              <span class="fecha">📅 Fecha: ${training.date_training}</span>
+              <span class="Time">🕒 Hora: ${training.time_training}</span>
+              <span>🧑‍⚕️ Brigadas: ${brigadesNames}</span>
+            </div>
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="actions d-flex gap-2">
+                ${actionsHtml}
+                <span class="badge ${badgeClass} align-self-center">${training.Status_Training}</span>
+              </div>
+              <small class="text-muted" data-countdown-id="${training.id_training}">${countdownText}</small>
+            </div>
+          </div>
+        </div>
+      `);
+    });
+  }
+
+  function updateMetrics() {
+    const pendientes = allTrainings.filter(t => t.Status_Training === "PENDIENTE").length;
+    const completadas = allTrainings.filter(t => t.Status_Training === "COMPLETADA").length;
+    if (pendientesCount) pendientesCount.textContent = pendientes;
+    if (completadasCount) completadasCount.textContent = completadas;
+  }
+
+  // ====== Filtros y búsqueda ======
+  btnPendientes?.addEventListener("click", () => {
+    currentFilter = "PENDIENTE";
+    btnPendientes.classList.add("active");
+    btnCompletadas?.classList.remove("active");
+    renderTrainings(allTrainings);
+  });
+
+  btnCompletadas?.addEventListener("click", () => {
+    currentFilter = "COMPLETADA";
+    btnCompletadas.classList.add("active");
+    btnPendientes?.classList.remove("active");
+    renderTrainings(allTrainings);
+  });
+
+  searchInput?.addEventListener("input", debounce(() => renderTrainings(allTrainings), 200));
+
+  // ====== Programar (crear) ======
+  btnProgramTraining?.addEventListener("click", () => {
+    if (!canManage) {
+      return Swal.fire({ icon: "warning", title: "Sin permisos", text: "No cuentas con permisos para programar capacitaciones.", confirmButtonColor: "#169b87" });
+    }
+    formCapacitacion.reset();
+    btnSubmitForm.textContent = "Programar Capacitación";
+    btnSubmitForm.dataset.mode = "insert";
+
+    const nextId = getNextTrainingId(allTrainings);
+    inputID.value = nextId;
+    inputID.disabled = true;
+
+    // Estado por defecto y oculto en crear
+    if (inputStatus) inputStatus.value = "PENDIENTE";
+    toggleStatusVisibility("insert");
+
+    asignarTodasSwitch && (asignarTodasSwitch.checked = false);
+    brigadaOptionsContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => (cb.checked = false));
+
+    modalCapacitacion.show();
+  });
+
+  // ====== Submit (insert/update) ======
+  formCapacitacion?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!canManage) {
+      return Swal.fire({ icon: "warning", title: "Sin permisos", text: "No cuentas con permisos para realizar esta acción.", confirmButtonColor: "#169b87" });
     }
 
-    // Event listeners para filtros y búsqueda
-    btnPendientes.addEventListener('click', () => {
-        currentFilter = 'PENDIENTE';
-        btnPendientes.classList.add('active');
-        btnCompletadas.classList.remove('active');
-        renderTrainings(allTrainings);
-    });
+    if (!formCapacitacion.checkValidity()) {
+      formCapacitacion.classList.add("was-validated");
+      return;
+    }
 
-    btnCompletadas.addEventListener('click', () => {
-        currentFilter = 'COMPLETADA';
-        btnCompletadas.classList.add('active');
-        btnPendientes.classList.remove('active');
-        renderTrainings(allTrainings);
-    });
+    const mode = btnSubmitForm.dataset.mode;
+    const selectedBrigades = Array
+      .from(document.querySelectorAll('input[name="brigada"]:checked'))
+      .map(cb => cb.value);
 
-    searchInput.addEventListener('input', () => {
-        renderTrainings(allTrainings);
-    });
+    if (selectedBrigades.length === 0) {
+      return Swal.fire({ icon: "warning", title: "Atención", text: "Debes seleccionar al menos una brigada para la capacitación.", confirmButtonColor: "#169b87" });
+    }
 
-    // Event listener para el botón "Programar"
-    btnProgramTraining.addEventListener("click", () => {
+    // *** Validación de FECHA/HORA pasada SOLO EN CREAR ***
+    if (mode === "insert") {
+      const dateStr = (inputFecha.value || "").trim();   // YYYY-MM-DD
+      const timeStr = (inputHora.value || "").trim();    // HH:mm
+      const start = getStartDate({ date_training: dateStr, time_training: timeStr });
+      const now = new Date();
+      if (!start || isNaN(start.getTime())) {
+        return Swal.fire({ icon: "warning", title: "Fecha/Hora inválida", text: "Revisa la fecha y la hora de la capacitación.", confirmButtonColor: "#169b87" });
+      }
+      if (start.getTime() <= now.getTime()) {
+        return Swal.fire({ icon: "warning", title: "Fecha pasada", text: "No puedes programar una capacitación en una fecha u hora pasada.", confirmButtonColor: "#169b87" });
+      }
+    }
+
+    const trainingData = {
+      id_training: inputID.value,
+      name_training: inputNombre.value,
+      date_training: inputFecha.value,
+      time_training: inputHora.value,
+      img_training: "https://ejemplo.com/imagen.png", // placeholder
+      description: inputDescripcion.value,
+      // En crear siempre PENDIENTE; en update usa el valor del select
+      Status_Training: mode === "update" ? (inputStatus?.value || "PENDIENTE") : "PENDIENTE",
+      list_brigades_id: selectedBrigades,
+    };
+
+    try {
+      if (mode === "insert") {
+        await ProgramNewTraining(trainingData);
+        Swal.fire({ icon: "success", title: "¡Éxito!", text: "Capacitación programada correctamente.", confirmButtonColor: "#169b87" });
+      } else {
+        await UpdatedTraining(trainingData.id_training, trainingData);
+        Swal.fire({ icon: "success", title: "¡Éxito!", text: "Capacitación actualizada correctamente.", confirmButtonColor: "#169b87" });
+      }
+      modalCapacitacion.hide();
+      formCapacitacion.classList.remove("was-validated");
+      await loadData();
+    } catch (error) {
+      handleResponseError(error, "No se pudo completar la operación.");
+    }
+  });
+
+  // ====== Acciones en tarjetas ======
+  mainTimeline?.addEventListener("click", async (e) => {
+    // Editar
+    if (e.target.classList.contains("edit-btn")) {
+      if (!canManage) {
+        return Swal.fire({ icon: "warning", title: "Sin permisos", text: "No cuentas con permisos para editar esta capacitación.", confirmButtonColor: "#169b87" });
+      }
+      const trainingId = e.target.dataset.id;
+      const tr = allTrainings.find(t => t.id_training === trainingId);
+      if (tr) {
+        inputID.value = tr.id_training; inputID.disabled = true;
+        inputNombre.value = tr.name_training;
+        inputFecha.value = tr.date_training;
+        inputHora.value = tr.time_training;
+        inputDescripcion.value = tr.description || "";
+
+        if (inputStatus) inputStatus.value = tr.Status_Training;
+        toggleStatusVisibility("update"); // <-- mostrar estado en edición
+
+        const cbs = brigadaOptionsContainer.querySelectorAll('input[name="brigada"]');
+        cbs.forEach(cb => cb.checked = (tr.list_brigades_id || []).includes(cb.value));
+
+        btnSubmitForm.textContent = "Actualizar Capacitación";
+        btnSubmitForm.dataset.mode = "update";
         modalCapacitacion.show();
-        formCapacitacion.reset();
-        btnSubmitForm.textContent = "Programar Capacitación";
-        btnSubmitForm.dataset.mode = "insert";
-        inputID.value = "CPT-";
-        inputID.disabled = false; // Habilitar el input de ID
-        
-        // MODIFICACIÓN: En modo inserción, el estado inicial es PENDIENTE
-        if (inputStatus) inputStatus.value = "PENDIENTE";
+      }
+    }
 
-        asignarTodasSwitch.checked = false; // Resetear el switch
-        const checkboxes = brigadaOptionsContainer.querySelectorAll('input[type="checkbox"]');
-        checkboxes.forEach(cb => cb.checked = false); // Desmarcar todos los checkboxes
-    });
-
-    // Manejo de la inserción de ID con formato "CPT-###"
-    inputID.addEventListener('input', (e) => {
-        const input = e.target;
-        let value = input.value;
-        if (!value.startsWith("CPT-")) {
-            value = "CPT-" + value.replace("CPT-", "");
-        }
-        let numbers = value.replace("CPT-", "").replace(/[^0-9]/g, '');
-        if (numbers.length > 3) {
-            numbers = numbers.substring(0, 3);
-        }
-        input.value = "CPT-" + numbers;
-    });
-
-
-    // Manejo del envío del formulario (Insertar/Actualizar)
-    formCapacitacion.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        if (!formCapacitacion.checkValidity()) {
-            formCapacitacion.classList.add('was-validated');
-            return;
-        }
-
-        const mode = btnSubmitForm.dataset.mode;
-        const selectedBrigades = Array.from(document.querySelectorAll('input[name="brigada"]:checked'))
-            .map(checkbox => checkbox.value);
-
-        if (selectedBrigades.length === 0) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Atención',
-                text: 'Debes seleccionar al menos una brigada para la capacitación.',
-            });
-            return;
-        }
-
-        const trainingData = {
-            id_training: inputID.value,
-            name_training: inputNombre.value,
-            date_training: inputFecha.value,
-            time_training: inputHora.value,
-            img_training: "https://ejemplo.com/imagen.png", // Debes manejar la subida de imágenes
-            description: inputDescripcion.value,
-            // MODIFICACIÓN: Si es UPDATE, toma el valor del campo de estado, si es INSERT usa PENDIENTE
-            Status_Training: mode === 'update' ? inputStatus.value : "PENDIENTE", 
-            list_brigades_id: selectedBrigades,
-        };
-
-        console.log(trainingData);
+    // Eliminar
+    if (e.target.classList.contains("delete-btn")) {
+      if (!canManage) {
+        return Swal.fire({ icon: "warning", title: "Sin permisos", text: "No cuentas con permisos para eliminar esta capacitación.", confirmButtonColor: "#169b87" });
+      }
+      const trainingId = e.target.dataset.id;
+      const result = await Swal.fire({
+        title: "¿Estás seguro?",
+        text: "¡No podrás revertir esto!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar",
+      });
+      if (result.isConfirmed) {
         try {
-            if (mode === 'insert') {
-
-                await ProgramNewTraining(trainingData);
-                Swal.fire('¡Éxito!', 'Capacitación programada correctamente.', 'success');
-                modalCapacitacion.hide();
-            } else if (mode === 'update') {
-                await UpdatedTraining(trainingData.id_training, trainingData);
-                Swal.fire('¡Éxito!', 'Capacitación actualizada correctamente.', 'success');
-            }
-            modalCapacitacion.hide();
-            formCapacitacion.classList.remove('was-validated');
-            await loadData(); // Recargar datos para ver los cambios
+          await DeleteTraining(trainingId);
+          Swal.fire({ icon: "success", title: "¡Eliminado!", text: "La capacitación ha sido eliminada.", confirmButtonColor: "#169b87" });
+          await loadData();
         } catch (error) {
-            handleResponseError(error, "No se pudo completar la operación.");
+          handleResponseError(error, "No se pudo eliminar la capacitación.");
         }
-    });
+      }
+    }
+  });
 
-    // Manejo de botones de Editar y Eliminar
-    mainTimeline.addEventListener('click', async (e) => {
-        if (e.target.classList.contains('edit-btn')) {
-            const trainingId = e.target.dataset.id;
-            const trainingToEdit = allTrainings.find(t => t.id_training === trainingId);
-            if (trainingToEdit) {
-                // Llenar el formulario con los datos de la capacitación
-                inputID.value = trainingToEdit.id_training;
-                inputID.disabled = true; // Deshabilitar ID en modo edición
-                inputNombre.value = trainingToEdit.name_training;
-                inputFecha.value = trainingToEdit.date_training;
-                inputHora.value = trainingToEdit.time_training;
-                inputDescripcion.value = trainingToEdit.description;
-                
-                // NUEVA LÍNEA: Llenar el campo de estado
-                if (inputStatus) inputStatus.value = trainingToEdit.Status_Training;
-
-                // Marcar las brigadas asociadas
-                const checkboxes = brigadaOptionsContainer.querySelectorAll('input[name="brigada"]');
-                checkboxes.forEach(cb => {
-                    cb.checked = trainingToEdit.list_brigades_id.includes(cb.value);
-                });
-
-                // Actualizar el botón y abrir el modal
-                btnSubmitForm.textContent = "Actualizar Capacitación";
-                btnSubmitForm.dataset.mode = "update";
-                modalCapacitacion.show();
-            }
-        }
-
-        if (e.target.classList.contains('delete-btn')) {
-            const trainingId = e.target.dataset.id;
-            const result = await Swal.fire({
-                title: '¿Estás seguro?',
-                text: "¡No podrás revertir esto!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, eliminar',
-                cancelButtonText: 'Cancelar'
-            });
-
-            if (result.isConfirmed) {
-                try {
-                    await DeleteTraining(trainingId);
-                    Swal.fire('¡Eliminado!', 'La capacitación ha sido eliminada.', 'success');
-                    await loadData(); // Recargar la lista después de eliminar
-                } catch (error) {
-                    handleResponseError(error, "No se pudo eliminar la capacitación.");
-                }
-            }
-        }
-    });
-
-    // Cargar los datos al iniciar la página
-    loadData();
-
+  // ====== Boot ======
+  await enforceAuth();
+  await loadData();
 });

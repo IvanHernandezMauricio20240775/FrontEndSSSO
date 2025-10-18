@@ -16,6 +16,22 @@ const TB_Type_Implements = [
   { id: 3, name: "DETECTOR DE HUMO" }
 ];
 
+// ==== NUEVO: helpers de fecha (validar hoy o futuro) ====
+function onlyDate(ymd) {
+  if (!ymd) return null;
+  const [y, m, d] = ymd.split("-").map(Number);
+  if (!y || !m || !d) return null;
+  return new Date(y, m - 1, d); // medianoche local
+}
+function isTodayOrFuture(ymd) {
+  const dSel = onlyDate(ymd);
+  const dNow = onlyDate(today());
+  if (!dSel || !dNow) return false;
+  dSel.setHours(0, 0, 0, 0);
+  dNow.setHours(0, 0, 0, 0);
+  return dSel.getTime() >= dNow.getTime();
+}
+
 // ==== auth / permisos
 let AUTH = { role: null, commiteRole: null, idMember: null };
 let CAN_MANAGE = false;     // programar/editar/eliminar (Admin/Presidente/Vice/Secretario)
@@ -197,9 +213,8 @@ async function fetchPage() {
     let pg;
 
     if (IS_INSPECTOR) {
-      // *** Inspector: página filtrada por su idMember ***
       const pageObj = await INSPECTION.GetInspectionsPageByMember({
-        memberId: AUTH.idMember,          // <-- CORRECTO (antes se usaba id_member)
+        memberId: AUTH.idMember,
         state: state.tab || "ALL",
         q: state.q || "",
         page: state.page,
@@ -207,7 +222,6 @@ async function fetchPage() {
       });
       pg = pageObj?.data ?? pageObj;
     } else {
-      // *** Admin / Presidente / Vice / Secretario ***
       const pageObj = await INSPECTION.GetInspectionsPage({
         status: state.tab || "ALL",
         q: state.q || "",
@@ -225,10 +239,9 @@ async function fetchPage() {
       size: pg?.size ?? state.size
     };
 
-    // Seguridad extra por si el BE devuelve más de la cuenta
     if (IS_INSPECTOR) {
       DB_Inspections = DB_Inspections.filter(r =>
-        String(r.ID_Member ?? r.memberId ?? r.id_member) === String(AUTH.idMember) // <-- usar AUTH.idMember
+        String(r.ID_Member ?? r.memberId ?? r.id_member) === String(AUTH.idMember)
       );
       DB_Pager.totalElements = DB_Inspections.length;
       DB_Pager.totalPages = 1;
@@ -302,9 +315,9 @@ function renderTable() {
     const nit  = r.NIT_Encargado || inspectorNitById(r.ID_Member ?? r.memberId);
 
     const anyCompleted     = AnyCompletedCache.get(id) || false;
-    const allowEditDelete  = CAN_MANAGE && !anyCompleted;       // admin: sólo si ninguna asignación está completada
-    const showRunInspector = IS_INSPECTOR;                       // inspector: siempre botón “Realizar”
-    const showEyeAdmin     = CAN_MANAGE && anyCompleted;         // admin: ver detalles sólo si hay COMPLETADO
+    const allowEditDelete  = CAN_MANAGE && !anyCompleted;
+    const showRunInspector = IS_INSPECTOR;
+    const showEyeAdmin     = CAN_MANAGE && anyCompleted;
 
     let acciones = '';
     if (showRunInspector) acciones += `<i class="bi bi-play-btn-fill text-success me-1" title="Realizar"></i>`;
@@ -328,14 +341,14 @@ function renderTable() {
     const icons = row.querySelectorAll("i");
     let idx = 0;
     if (showRunInspector) {
-      icons[idx++].onclick = () => abrirRealizar(id, false); // inspector puede editar
+      icons[idx++].onclick = () => abrirRealizar(id, false);
     }
     if (showEyeAdmin) {
-      icons[idx++].onclick = () => abrirRealizar(id, true);  // admin sólo lectura
+      icons[idx++].onclick = () => abrirRealizar(id, true);
     }
-    if (icons[idx] && allowEditDelete) icons[idx].onclick = () => abrirAsignar(id); // editar
+    if (icons[idx] && allowEditDelete) icons[idx].onclick = () => abrirAsignar(id);
     idx++;
-    if (icons[idx] && allowEditDelete) icons[idx].onclick = async () => { await eliminarInspeccion(id); }; // eliminar
+    if (icons[idx] && allowEditDelete) icons[idx].onclick = async () => { await eliminarInspeccion(id); };
 
     tb.appendChild(row);
   });
@@ -489,18 +502,16 @@ async function abrirAsignar(idInspection = null) {
 
   resetAsignCtx();
 
-  // (1) Asegurar catálogos cargados antes de precargar valores
   await loadInspectores();
   await loadUbicaciones();
-
-  // (2) Pintar tarjetas de tipos
   loadTiposCards();
 
-  // (3) Defaults para “nuevo”
-  $("#inpCodigo").value = idInspection ? String(idInspection) : nextInspectionId(); // evitar "undefined"
+  $("#inpCodigo").value = idInspection ? String(idInspection) : nextInspectionId();
   $("#inpFecha").value  = today();
 
-  // (4) Modo edición
+  // ===== NUEVO: bloquear fechas pasadas en el input =====
+  $("#inpFecha").setAttribute("min", today());
+
   if (idInspection) {
     try {
       const resp = await INSPECTION.GetInspectionById(idInspection);
@@ -509,19 +520,19 @@ async function abrirAsignar(idInspection = null) {
 
       asignCtx.editId = idInspection;
 
-      // *** Estos campos antes mostraban "undefined": usar ?? "" para inputs ***
       $("#inpCodigo").value    = (it.ID_Inspection ?? it.id ?? "") || String(idInspection);
       $("#inpFecha").value     = (it.Date_Inspection ?? it.date ?? "") || today();
-      $("#selUbicacion").value = (it.ID_Location ?? it.locationId ?? "") || ""; // requiere coincidir con el value del <option>
+      $("#selUbicacion").value = (it.ID_Location ?? it.locationId ?? "") || "";
       asignCtx.ubicacion       = $("#selUbicacion").value;
 
-      // Marcar inspector activo en las cards (sólo entre los "Inspector")
+      // Reafirmar min por si vino muy rápido el valor
+      $("#inpFecha").setAttribute("min", today());
+
       asignCtx.inspector = it.ID_Member ?? it.memberId ?? null;
       $$(".card-inspector").forEach(c => {
         if (Number(c.dataset.id) === Number(asignCtx.inspector)) c.classList.add("active");
       });
 
-      // Cargar asignaciones para marcar tarjetas/selecciones
       const assigns = it.assignments ?? await INSPECTION.GetAssignmentsByInspection(idInspection);
       const list    = assigns?.data ?? assigns ?? [];
 
@@ -549,6 +560,12 @@ async function programarAsignacion() {
   const fecha     = $("#inpFecha").value;
   const ubic      = $("#selUbicacion").value;
   const inspector = asignCtx.inspector;
+
+  // ===== NUEVO: validación dura de fecha (hoy o futura) =====
+  if (!isTodayOrFuture(fecha)) {
+    Swal.fire({ icon: "warning", title: "Fecha inválida", text: "La fecha debe ser hoy o una fecha futura." });
+    return;
+  }
 
   if (!inspector) { Swal.fire({ icon: "warning", title: "Selecciona un inspector" }); return; }
   if (!ubic)      { Swal.fire({ icon: "warning", title: "Selecciona una ubicación" }); return; }
@@ -644,8 +661,8 @@ async function abrirRealizar(idInspection, readOnly = false) {
       const c = document.createElement("div");
       c.className = "col-12 col-sm-6 col-lg-4";
       const done = a.State_Assign === "COMPLETADO";
-      const canRun = CAN_DO_DETAILS && !readOnly;           // inspector puede escribir
-      const adminViewAllowed = readOnly && done;            // admin SOLO puede abrir si está COMPLETADO
+      const canRun = CAN_DO_DETAILS && !readOnly;
+      const adminViewAllowed = readOnly && done;
       const enabled = canRun || adminViewAllowed;
 
       c.innerHTML = `
@@ -659,7 +676,7 @@ async function abrirRealizar(idInspection, readOnly = false) {
           </div>
         </div>`;
       const [btnRun] = c.querySelectorAll("button");
-      if (enabled) btnRun.onclick = () => abrirDetalle(a, !canRun); // si admin -> readonly
+      if (enabled) btnRun.onclick = () => abrirDetalle(a, !canRun);
       cont.appendChild(c);
     };
 
@@ -841,7 +858,6 @@ async function initAuthAndPerms() {
 
     AUTH.role       = data.role ?? data.Role ?? data.userRole ?? null;
     AUTH.commiteRole= data.commiteRole ?? data.committeRole ?? data.committeeRole ?? null;
-    // *** idMember correcto (antes se usaba id_member) ***
     AUTH.idMember   = data.idMember ?? data.memberId ?? data.ID_Member ?? data.id_member ?? null;
 
     const isAdmin = AUTH.role === "Administrador";
